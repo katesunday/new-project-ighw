@@ -1,0 +1,19 @@
+.blue {
+    padding: 7px 15px;
+    margin: 3px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.testSpanError {
+    color: red;
+}
