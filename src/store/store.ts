@@ -9,6 +9,7 @@ import {testReducers} from "../reducers/TestReducers";
 import {errorReducers} from "../reducers/errorReducers";
 import {appReducer} from '../reducers/appReducer';
 
+
 const rootReducer = combineReducers({
     app: appReducer,
     login: loginReducers,
@@ -19,9 +20,5 @@ const rootReducer = combineReducers({
     test: testReducers,
     errorPage:errorReducers
 })
-
  export type AppRootStateType = ReturnType<typeof rootReducer>
  export const store = legacy_createStore(rootReducer,applyMiddleware(thunk))
-
-//@ts-ignore
-window.store = store
