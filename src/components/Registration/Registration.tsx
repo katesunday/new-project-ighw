@@ -1,4 +1,4 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {createNewUser} from '../../reducers/registrationReducers';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch} from '../../utils/hooks';
 import {LinearProgress} from '@mui/material';
 import {AppRootStateType} from '../../store/store';
 import {AppStatusType} from '../../reducers/appReducer';

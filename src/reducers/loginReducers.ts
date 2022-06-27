@@ -8,7 +8,7 @@ const initialState = {
 }
 export type InitialStateType = typeof initialState
 
-type LoginActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType
+export type LoginActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType
 
 export const loginReducers = (state: InitialStateType = initialState ,action:LoginActionsType)=>{
     switch (action.type){
@@ -32,5 +32,4 @@ export const loginTC = (data:LoginParamsType)=>
             .catch((err)=>{
                 dispatch(setAppError(err.response.data.error))
             })
-
 }

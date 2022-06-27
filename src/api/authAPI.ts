@@ -1,5 +1,6 @@
 import {PayloadType} from "../reducers/registrationReducers";
 import axios , {AxiosResponse} from "axios";
+import {MeLogoutResponse, MeResponseType} from "../reducers/profileReducers";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/' ,
@@ -54,5 +55,14 @@ export const authAPI = {
     },
     createNewUser(payload: PayloadType) {
         return instance.post<AxiosResponse<RegistrationResponseType>>('auth/register', {...payload})
-    }
+    },
+    logout() {
+        return instance.delete <AxiosResponse<MeLogoutResponse>>('auth/me')
+    },
+    changeNameAvatar(name: string) {
+        return instance.put<AxiosResponse<MeResponseType>>('auth/me', {name})
+    },
+    me() {
+        return instance.post<AxiosResponse>('auth/me')
+    },
 }

@@ -4,11 +4,11 @@ import {Routes , Route} from 'react-router-dom';
 import './App.css';
 import Login from "./components/Login";
 import Registration from "./components/Registration/Registration";
-import Profile from "./components/Profile";
 import ErrorPage from "./components/ErrorPage";
 import RestorePassword from "./components/RestorePassword";
 import SetNewPassword from "./components/SetNewPassword";
 import TestComponents from "./components/TestComponents";
+import {Profile} from "./components/Profile/Profile";
 
 function App() {
     return (
