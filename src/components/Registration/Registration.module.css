@@ -1,0 +1,10 @@
+.box {
+    padding: 25px 50px;
+    background-image: linear-gradient(45deg, #ecd4d4 30%, #15ae15);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px black;
+}
+
+
+
+
