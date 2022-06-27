@@ -22,3 +22,6 @@ const rootReducer = combineReducers({
 })
  export type AppRootStateType = ReturnType<typeof rootReducer>
  export const store = legacy_createStore(rootReducer,applyMiddleware(thunk))
+
+//@ts-ignore
+window.store = store

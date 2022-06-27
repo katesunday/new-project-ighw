@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
-import {registrationAPI} from '../api/registrationAPI';
-import {AppActionsType, setAppStatus} from './appReducer';
+import {AppActionsType , setAppError , setAppStatus} from './appReducer';
+import {authAPI , RegistrationResponseType} from "../api/authAPI";
 
 type InitialStateType = {
     error: string | null
@@ -31,17 +31,13 @@ type SetRegistrationErrorAT = ReturnType<typeof setRegistrationError>
 
 export const createNewUser = (payload: PayloadType) => (dispatch: Dispatch<RegistrationActionsType | AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))
-        registrationAPI.createNewUser(payload)
-            .then(data => {
-                if(!data.error) {
+        authAPI.createNewUser(payload)
+            .then((data) => {
                     dispatch(setAppStatus('succeeded'))
-                } else {
-                    dispatch(setRegistrationError(data.error))
-                    dispatch(setAppStatus('failed'))
-                }
             })
-            .catch(err => {
-                dispatch(setRegistrationError(err.response.data.error))
+            .catch((err) => {
+                console.log(err)
+                dispatch(setAppError(err.response.data.error))
                 dispatch(setAppStatus('failed'))
             })
             .finally(() => dispatch(setAppStatus('empty')))

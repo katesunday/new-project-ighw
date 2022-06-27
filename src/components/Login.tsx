@@ -13,10 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useFormik} from "formik";
 import {loginTC} from "../reducers/loginReducers";
-import {useAppDispatch , useAppSelector} from "../store/store";
 import { Navigate } from 'react-router-dom';
 import {IconButton , InputAdornment} from "@mui/material";
 import {Visibility , VisibilityOff} from "@mui/icons-material";
+import {useAppDispatch , useAppSelector} from "../hooks";
+import {ErrorSnackbar} from "../common/ErrorSnackbar/ErrorSnackBar";
 
 
 
@@ -49,10 +50,7 @@ const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'Password required';
-            } else if (values.password.length <= 6) {
-                errors.password = 'Minimum 6 symbols required';
             }
-
             return errors;
         } ,
         onSubmit: values => {
@@ -150,6 +148,7 @@ const Login = () => {
                         </Container>
             </form>
         </Grid>
+            <ErrorSnackbar/>
         </div>
     );
 };

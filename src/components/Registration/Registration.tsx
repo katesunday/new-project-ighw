@@ -17,6 +17,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import s from './Registration.module.css'
+import {Navigate} from "react-router-dom";
 
 type FormikErrorsType = {
     email?: string
@@ -69,6 +70,9 @@ const Registration = () => {
         setPassVisibility(!passVisibility)
     }
 
+    if (status ==='succeeded') {
+        return <Navigate to='/login'/>
+    }
     return (
         <div>
             {status === 'inProgress' && <LinearProgress/>}

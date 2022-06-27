@@ -3,7 +3,7 @@ import Snackbar, {SnackbarCloseReason} from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import {AppRootStateType} from '../../store/store';
-import {setRegistrationError} from '../../reducers/registrationReducers';
+import {setAppError} from "../../reducers/appReducer";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props, ref) {
@@ -11,15 +11,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export function ErrorSnackbar() {
-    const error = useSelector<AppRootStateType, string | null>(state => state.registration.error)
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
 
     const dispatch = useDispatch();
 
     const handleClose = (event?: Event | SyntheticEvent<any, Event>, reason?: SnackbarCloseReason) => {
-        if (reason === 'clickaway') {
+
+        if (reason ===  'clickaway') {
             return;
         }
-        dispatch(setRegistrationError(null))
+        dispatch(setAppError(null))
     };
 
     return (

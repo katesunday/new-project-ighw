@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
-import {loginApi , LoginParamsType} from "../API/loginApi";
+import {AppActionsType , setAppError} from "./appReducer";
+import {authAPI , LoginParamsType} from "../api/authAPI";
 
 
 const initialState = {
@@ -7,7 +8,7 @@ const initialState = {
 }
 export type InitialStateType = typeof initialState
 
-type LoginActionsType = ReturnType<typeof setIsLoggedInAC>
+type LoginActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType
 
 export const loginReducers = (state: InitialStateType = initialState ,action:LoginActionsType)=>{
     switch (action.type){
@@ -23,13 +24,13 @@ export const setIsLoggedInAC = (value: boolean) => (
 
 export const loginTC = (data:LoginParamsType)=>
     (dispatch:Dispatch<LoginActionsType>)=>{
-        loginApi.login(data)
+        authAPI.login(data)
             .then((res)=>{
                 console.log(res)
                 dispatch(setIsLoggedInAC(true))
             })
             .catch((err)=>{
-                console.log(err)
+                dispatch(setAppError(err.response.data.error))
             })
 
 }
