@@ -15,7 +15,7 @@ import {LinearProgress} from '@mui/material';
 
 function App() {
     const dispatch = useAppDispatch()
-    const {appInitializing, isLoggedIn} = useAppSelector(state => state.app)
+    const appInitializing = useAppSelector(state => state.app.appInitializing)
 
     useEffect(() => {
         dispatch(meRequest())
