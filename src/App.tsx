@@ -20,7 +20,7 @@ function App() {
                     <li><NavLink to='/profile'>Profile</NavLink></li>
                     <li><NavLink to='/error'>ErrorPage</NavLink></li>
                     <li><NavLink to='/restorePassword'>Restore password</NavLink></li>
-                    <li><NavLink to='/enterNewPassword'>Enter new password</NavLink></li>
+                    <li><NavLink to='/set-new-password'>Enter new password</NavLink></li>
                     <li><NavLink to='/test'>Testing</NavLink></li>
                 </ol>
 
@@ -33,7 +33,7 @@ function App() {
                 <Route path='/profile' element={<Profile/>}/>
                 <Route path='/error' element={<ErrorPage/>}/>
                 <Route path='/restorePassword' element={<RestorePassword/>}/>
-                <Route path='/enterNewPassword' element={<SetNewPassword/>}/>
+                <Route path='/set-new-password/:token' element={<SetNewPassword/>}/>
                 <Route path='/test' element={<TestComponents/>}/>
             </Routes>
         </div>

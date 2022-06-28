@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styles from "./profile.module.css";
 import {Button, TextField} from "@mui/material";
-import {AuthDataType, changeProfileDataTC, logoutTC} from "../../reducers/profileReducers";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
+import {AuthDataType , changeProfileDataTC , logoutTC} from "../../reducers/profileReducers";
 
 
 export const Profile = () => {

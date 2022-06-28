@@ -1,8 +1,8 @@
 import {AxiosError} from 'axios';
 import {AppActionsType, setAppError, setAppStatus} from "./appReducer";
 import {Dispatch} from "redux";
-import {authAPI} from "../api/authAPI";
-import ninja from "./../assets/images/ninja-image.jpeg"
+import {authAPI , ResponseSuccessType} from "../api/authAPI";
+import ninja from "./../assets/images/ninja.png"
 import {LoginActionsType, setIsLoggedInAC} from "./loginReducers";
 
 
@@ -17,13 +17,13 @@ let initialState: AuthDataType = {
     isAdmin: false,
     verified: false,
     rememberMe: false,
-    error: '',
+    // error: '',
 }
 
 export const profileReducers = (state: AuthDataType = initialState, action: ProfileActionTypes): AuthDataType => {
     switch (action.type) {
         case 'PROFILE/SET-PROFILE-DATA':
-            return {...state, ...action.data}
+            return {...state, email:action.data.email,name:action.data.name}
         case 'PROFILE/CHANGE-PROFILE-DATA':
             return {...state, ...action.data}
         default:
@@ -32,8 +32,7 @@ export const profileReducers = (state: AuthDataType = initialState, action: Prof
 }
 
 // actions
-export const setProfileData = (data: AuthDataType) => {
-    debugger
+export const setProfileData = (data: ResponseSuccessType) => {
     return {type: 'PROFILE/SET-PROFILE-DATA', data} as const
     }
 export const changeProfileData = (data: AuthDataType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
@@ -80,14 +79,13 @@ export type AuthDataType = {
     name: string;
     avatar?: string;
     publicCardPacksCount: number;
-
     created?: string;
     updated?: string;
     isAdmin: boolean;
     verified: boolean;
     rememberMe: boolean;
-
-    error?: string;
+    //
+    // error?: string;
 }
 
 export type MeResponseType = {
