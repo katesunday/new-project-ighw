@@ -12,9 +12,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <HashRouter>
-        <React.StrictMode>
           <Provider store={store} ><App /></Provider>
-        </React.StrictMode>
     </HashRouter>
 
 );

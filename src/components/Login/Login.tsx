@@ -59,9 +59,8 @@ const Login = () => {
         },
     })
 
-    if (isLoggedIn) {
-        return <Navigate to='/profile'/>
-    }
+    if(isLoggedIn) return <Navigate to='/profile'/>
+
     return (
         <div>
             {appStatus === 'inProgress' && <LinearProgress/>}

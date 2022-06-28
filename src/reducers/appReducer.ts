@@ -24,10 +24,8 @@ export const appReducer = (state: AppStateType = initialState, action: AppAction
         case 'APP/SET_REQUEST_STATUS':
             return {...state, appStatus: action.status}
 
-
         case 'APP/SET_ERROR':
             return {...state, error: action.error}
-
 
         case 'APP/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
@@ -66,12 +64,13 @@ export const meRequest = () => (dispatch: Dispatch<AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))
     authAPI.me()
         .then(res => {
+            debugger
             dispatch(setIsLoggedIn(true))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {
+            debugger
             dispatch(setAppStatus('failed'))
-            dispatch(setAppError(err.response.data.error))
             dispatch(setIsLoggedIn(false))
         })
         .finally(() => dispatch(setAppIsInitialize(true)))

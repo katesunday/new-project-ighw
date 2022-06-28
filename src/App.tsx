@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Navigate, NavLink} from 'react-router-dom';
 import {Routes, Route} from 'react-router-dom';
 import './App.css';
@@ -19,7 +19,7 @@ function App() {
 
     useEffect(() => {
         dispatch(meRequest())
-    }, [dispatch, appInitializing, isLoggedIn])
+    }, [dispatch])
 
 
     return (
@@ -37,7 +37,7 @@ function App() {
 
                 <div>
                     {appInitializing ? <Routes>
-                        <Route path='/' element={<Login/>}/>
+                        <Route path='/' element={<Profile/>}/>
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/registration' element={<Registration/>}/>
                         <Route path='/profile' element={<Profile/>}/>

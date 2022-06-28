@@ -7,6 +7,7 @@ import {Navigate} from "react-router-dom";
 
 
 export const Profile = () => {
+
     const {name, email, avatar} = useAppSelector<UserType>(state => state.profile)
     const {isLoggedIn, appStatus} = useAppSelector(state => state.app)
     console.log(isLoggedIn, appStatus)
@@ -15,9 +16,11 @@ export const Profile = () => {
     useEffect(() => {
         if(isLoggedIn) dispatch(getCurrentUser())
         console.log('effect')
-    }, [name, email, avatar, dispatch])
+        setLocalName(name)
+    }, [name, dispatch])
 
     const [localName, setLocalName] = useState<string>(name)
+    console.log('localName', localName)
     const validateName = localName === '' || localName === name
     const changeNickNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setLocalName(e.currentTarget.value)
@@ -31,7 +34,9 @@ export const Profile = () => {
         dispatch(logout())
     }
 
-    if (!isLoggedIn) return <Navigate to="/login"/>
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
 
     return <div className={styles.container}>
         {appStatus === 'inProgress' && <LinearProgress/>}

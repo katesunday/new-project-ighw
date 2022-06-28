@@ -67,7 +67,7 @@ export const authAPI = {
         return instance.post<UserType>('auth/me', {})
     } ,
     restorePW(email: string , from = 'Cards project dev group' , message = messageForRestorePW) {
-        return instance.post('auth/forgot',{email,from,message})
+        return instance.post('auth/forgot',{email, from, message})
     },
     setNewPW(password:string,resetPasswordToken:string){
         return instance.post('auth/set-new-password',{password,resetPasswordToken})
