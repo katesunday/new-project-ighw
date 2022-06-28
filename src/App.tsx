@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavLink} from 'react-router-dom';
-import {Routes , Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import './App.css';
 import Login from "./components/Login";
 import Registration from "./components/Registration/Registration";
@@ -9,8 +9,20 @@ import RestorePassword from "./components/RestorePassword";
 import SetNewPassword from "./components/SetNewPassword";
 import TestComponents from "./components/TestComponents";
 import {Profile} from "./components/Profile/Profile";
+import {useAppDispatch, useAppSelector} from "./utils/hooks";
+import {initializeAppTC} from "./reducers/appReducer";
+import {setIsLoggedInAC} from "./reducers/loginReducers";
 
 function App() {
+
+    const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
+    const isloginin = useAppSelector(state => state.app)
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [dispatch])
+
     return (
         <div className="App">
             <div>
@@ -26,16 +38,19 @@ function App() {
 
 
             </div>
-            <Routes>
-                <Route path='/' element={<Login/>}/>
-                <Route path='/login' element={<Login/>}/>
-                <Route path='/registration' element={<Registration/>}/>
-                <Route path='/profile' element={<Profile/>}/>
-                <Route path='/error' element={<ErrorPage/>}/>
-                <Route path='/restorePassword' element={<RestorePassword/>}/>
-                <Route path='/enterNewPassword' element={<SetNewPassword/>}/>
-                <Route path='/test' element={<TestComponents/>}/>
-            </Routes>
+            {isInitialized ?
+                <Routes>
+                    <Route path='/' element={<Login/>}/>
+                    <Route path='/login' element={<Login/>}/>
+                    <Route path='/registration' element={<Registration/>}/>
+                    <Route path='/profile' element={<Profile/>}/>
+                    <Route path='/error' element={<ErrorPage/>}/>
+                    <Route path='/restorePassword' element={<RestorePassword/>}/>
+                    <Route path='/enterNewPassword' element={<SetNewPassword/>}/>
+                    <Route path='/test' element={<TestComponents/>}/>
+                </Routes>
+                : ''
+            }
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import {PayloadType} from "../reducers/registrationReducers";
 import axios , {AxiosResponse} from "axios";
-import {MeLogoutResponse, MeResponseType} from "../reducers/profileReducers";
+import {AuthDataType, MeLogoutResponse, MeResponseType} from "../reducers/profileReducers";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/' ,
@@ -59,10 +59,10 @@ export const authAPI = {
     logout() {
         return instance.delete <AxiosResponse<MeLogoutResponse>>('auth/me')
     },
-    changeNameAvatar(name: string) {
-        return instance.put<AxiosResponse<MeResponseType>>('auth/me', {name})
+    changeNameAvatar(name: string, avatar: string) {
+        return instance.put<MeResponseType>('auth/me', {name , avatar})
     },
     me() {
-        return instance.post<AxiosResponse>('auth/me')
+        return instance.post<AuthDataType>('auth/me')
     },
 }

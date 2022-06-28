@@ -8,6 +8,7 @@ import {Navigate} from "react-router-dom";
 
 export const Profile = () => {
     const {name, email, avatar} = useAppSelector<AuthDataType>(state => state.profile)
+    console.log('Profile', [name, email])
     const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
     const dispatch = useAppDispatch()
 
@@ -16,13 +17,13 @@ export const Profile = () => {
     const saveButtonDisable = !nickNameValue || name === nickNameValue
 
     const changeProfileData = () => {
-        dispatch(changeProfileDataTC(nickNameValue))
+        dispatch(changeProfileDataTC(nickNameValue , 'https://cdn1.iconfinder.com/data/icons/ninja-things-1/720/ninja-background-1024.png'))
     }
     const logoutHandler = () => {
         dispatch(logoutTC())
     }
 
-    if (!isLoggedIn) return <Navigate to="/login"/>
+    if (!isLoggedIn) return <Navigate to={'/login'}/>
 
 
     return <div className={styles.container}>

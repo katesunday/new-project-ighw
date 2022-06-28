@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {AppActionsType , setAppError , setAppStatus} from './appReducer';
-import {authAPI , RegistrationResponseType} from "../api/authAPI";
+import {authAPI} from "../api/authAPI";
 
 type InitialStateType = {
     error: string | null

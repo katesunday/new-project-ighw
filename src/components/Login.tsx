@@ -29,7 +29,7 @@ type FormikErrorType = {
 
 const Login = () => {
     const dispatch = useAppDispatch()
-     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
     const [passVisibility, setPassVisibility] = useState(false)
     const changeVisibility = () => {
       setPassVisibility(!passVisibility)

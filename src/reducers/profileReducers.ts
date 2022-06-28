@@ -1,8 +1,7 @@
 import {AxiosError} from 'axios';
 import {AppActionsType, setAppError, setAppStatus} from "./appReducer";
 import {Dispatch} from "redux";
-import {authAPI} from "../api/authAPI";
-import ninja from "./../assets/images/ninja-image.jpeg"
+import {authAPI, LoginParamsType} from "../api/authAPI";
 import {LoginActionsType, setIsLoggedInAC} from "./loginReducers";
 
 
@@ -10,7 +9,7 @@ let initialState: AuthDataType = {
     _id: '',
     email: '',
     name: '',
-    avatar: `${ninja}`,
+    avatar: '',
     publicCardPacksCount: 0,
     created: '',
     updated: '',
@@ -23,6 +22,7 @@ let initialState: AuthDataType = {
 export const profileReducers = (state: AuthDataType = initialState, action: ProfileActionTypes): AuthDataType => {
     switch (action.type) {
         case 'PROFILE/SET-PROFILE-DATA':
+            console.log('in reducer', action.data)
             return {...state, ...action.data}
         case 'PROFILE/CHANGE-PROFILE-DATA':
             return {...state, ...action.data}
@@ -32,19 +32,18 @@ export const profileReducers = (state: AuthDataType = initialState, action: Prof
 }
 
 // actions
-export const setProfileData = (data: AuthDataType) => {
-    debugger
-    return {type: 'PROFILE/SET-PROFILE-DATA', data} as const
-    }
+
+export const setProfileData = (data: AuthDataType) => ({type: 'PROFILE/SET-PROFILE-DATA', data} as const)
 export const changeProfileData = (data: AuthDataType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
 
 // thunks
 
-export const logoutTC = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType | LoginActionsType> ) => {
+export const logoutTC = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType | LoginActionsType>) => {
     dispatch(setAppStatus("inProgress"))
     authAPI.logout()
         .then(res => {
-            if (res.data.data.info) {
+            console.log("res", res)
+            if (res.status === 200) {
                 dispatch(setAppStatus("succeeded"))
                 dispatch(setIsLoggedInAC(false))
             }
@@ -55,12 +54,12 @@ export const logoutTC = () => (dispatch: Dispatch<ProfileActionTypes | AppAction
         })
 
 }
-export const changeProfileDataTC = (name: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+export const changeProfileDataTC = (name: string , avatar: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
     dispatch(setAppStatus("inProgress"))
-    authAPI.changeNameAvatar(name)
+    authAPI.changeNameAvatar(name, avatar)
         .then(res => {
             dispatch(setAppStatus("succeeded"))
-            dispatch(changeProfileData(res.data.data.updatedUser))
+            dispatch(changeProfileData(res.data.updatedUser))
         })
         .catch((err: AxiosError) => {
             dispatch(setAppStatus("failed"))
