@@ -31,7 +31,7 @@ function App() {
                     <li><NavLink to='/profile'>Profile</NavLink></li>
                     <li><NavLink to='/error'>ErrorPage</NavLink></li>
                     <li><NavLink to='/restorePassword'>Restore password</NavLink></li>
-                    <li><NavLink to='/enterNewPassword'>Enter new password</NavLink></li>
+                    <li><NavLink to='/set-new-password'>Enter new password</NavLink></li>
                     <li><NavLink to='/test'>Testing</NavLink></li>
                 </ol>
 
