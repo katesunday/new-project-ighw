@@ -18,7 +18,6 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {login} from '../../reducers/appReducer';
-import styles from './../Profile/profile.module.css';
 
 type FormikErrorType = {
     email?: string
