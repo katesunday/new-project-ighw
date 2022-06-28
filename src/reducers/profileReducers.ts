@@ -1,12 +1,43 @@
 import {AxiosError} from 'axios';
-import {AppActionsType, setAppError, setAppStatus} from "./appReducer";
-import {Dispatch} from "redux";
-import {authAPI} from "../api/authAPI";
-import ninja from "./../assets/images/ninja-image.jpeg"
-import {LoginActionsType, setIsLoggedInAC} from "./loginReducers";
+import {AppActionsType, setAppError, setAppStatus, setIsLoggedIn} from './appReducer';
+import {Dispatch} from 'redux';
+import {authAPI} from '../api/authAPI';
+import {profileAPI} from '../api/profileAPI';
+import ninja from './../assets/images/ninja.jpg'
 
 
-let initialState: AuthDataType = {
+export type UserType = {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
+    created?: string;
+    updated?: string;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+}
+
+type ProfilePayloadType = {
+    name: string
+    avatar: string
+    email: string
+}
+
+export type ChangeProfileType = {
+    updatedUser: UserType
+    error?: string
+}
+
+export type LogoutResponse = {
+    info: string
+    error: string
+}
+
+export type ProfileActionTypes = SetProfileDataAT | ChangeProfileDataAT
+
+const initialState: UserType = {
     _id: '',
     email: '',
     name: '',
@@ -17,13 +48,19 @@ let initialState: AuthDataType = {
     isAdmin: false,
     verified: false,
     rememberMe: false,
-    error: '',
 }
 
-export const profileReducers = (state: AuthDataType = initialState, action: ProfileActionTypes): AuthDataType => {
+export const profileReducers = (state: UserType = initialState, action: ProfileActionTypes): UserType => {
     switch (action.type) {
         case 'PROFILE/SET-PROFILE-DATA':
-            return {...state, ...action.data}
+            const {name, avatar, email} = action.payload
+            return {
+                ...state,
+                name: name,
+                avatar: avatar,
+                email: email
+            }
+
         case 'PROFILE/CHANGE-PROFILE-DATA':
             return {...state, ...action.data}
         default:
@@ -32,69 +69,69 @@ export const profileReducers = (state: AuthDataType = initialState, action: Prof
 }
 
 // actions
-export const setProfileData = (data: AuthDataType) => {
-    debugger
-    return {type: 'PROFILE/SET-PROFILE-DATA', data} as const
-    }
-export const changeProfileData = (data: AuthDataType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
+export const setProfileData = (payload: ProfilePayloadType) => ({type: 'PROFILE/SET-PROFILE-DATA', payload} as const)
+type SetProfileDataAT = ReturnType<typeof setProfileData>
 
+export const changeProfileData = (data: UserType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
+type ChangeProfileDataAT = ReturnType<typeof changeProfileData>
 // thunks
 
-export const logoutTC = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType | LoginActionsType> ) => {
-    dispatch(setAppStatus("inProgress"))
+export const logout = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+    dispatch(setAppStatus('inProgress'))
     authAPI.logout()
         .then(res => {
-            if (res.data.data.info) {
-                dispatch(setAppStatus("succeeded"))
-                dispatch(setIsLoggedInAC(false))
+            if (res.data.info) {
+                dispatch(setAppStatus('succeeded'))
+                dispatch(setIsLoggedIn(false))
             }
         })
         .catch((err: AxiosError) => {
-            dispatch(setAppStatus("failed"))
+            dispatch(setAppStatus('failed'))
             dispatch(setAppError(err.message))
         })
 
 }
-export const changeProfileDataTC = (name: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
-    dispatch(setAppStatus("inProgress"))
-    authAPI.changeNameAvatar(name)
+export const getCurrentUser = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+    dispatch(setAppStatus('inProgress'))
+    profileAPI.getCurrentUserInfo()
         .then(res => {
-            dispatch(setAppStatus("succeeded"))
-            dispatch(changeProfileData(res.data.data.updatedUser))
+            const currentUser = res.data
+            console.log(currentUser)
+            if (!currentUser.avatar) currentUser.avatar = `${ninja}`
+            dispatch(setProfileData({
+                name: currentUser.name,
+                email: currentUser.email,
+                avatar: currentUser.avatar
+            }))
+            dispatch(setAppStatus('succeeded'))
         })
-        .catch((err: AxiosError) => {
-            dispatch(setAppStatus("failed"))
-            dispatch(setAppError(err.message))
+        .catch(err => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setAppError(err.error))
         })
-
 }
 
-// types
-export type ProfileActionTypes =
-    | ReturnType<typeof setProfileData>
-    | ReturnType<typeof changeProfileData>
-
-export type AuthDataType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number;
-
-    created?: string;
-    updated?: string;
-    isAdmin: boolean;
-    verified: boolean;
-    rememberMe: boolean;
-
-    error?: string;
+export const changeName = (newName: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+    dispatch(setAppStatus('inProgress'))
+    profileAPI.updateCurrentUser(newName)
+        .then(res => {
+            const updatedUser = res.data.updatedUser
+            if (!updatedUser.avatar) updatedUser.avatar = `${ninja}`
+            dispatch(setProfileData({
+                name: updatedUser.name,
+                email: updatedUser.email,
+                avatar: updatedUser.avatar
+            }))
+            dispatch(setAppStatus('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setAppError(err.error))
+        })
 }
 
-export type MeResponseType = {
-    updatedUser: AuthDataType
-    error?: string
-}
-export type MeLogoutResponse = {
-    info: string
-    error: string
-}
+
+
+
+
+

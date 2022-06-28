@@ -1,31 +1,40 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import styles from "./profile.module.css";
-import {Button, TextField} from "@mui/material";
-import {AuthDataType, changeProfileDataTC, logoutTC} from "../../reducers/profileReducers";
+import {Button, LinearProgress, TextField} from '@mui/material';
+import {changeName, getCurrentUser, logout, UserType} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
 
 
 export const Profile = () => {
-    const {name, email, avatar} = useAppSelector<AuthDataType>(state => state.profile)
-    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+    const {name, email, avatar} = useAppSelector<UserType>(state => state.profile)
+    const {isLoggedIn, appStatus} = useAppSelector(state => state.app)
+    console.log(isLoggedIn, appStatus)
     const dispatch = useAppDispatch()
 
-    const [nickNameValue, setNickNameValue] = useState<string>(name)
+    useEffect(() => {
+        if(isLoggedIn) dispatch(getCurrentUser())
+        console.log('effect')
+    }, [name, email, avatar, dispatch])
 
-    const saveButtonDisable = !nickNameValue || name === nickNameValue
-
-    const changeProfileData = () => {
-        dispatch(changeProfileDataTC(nickNameValue))
+    const [localName, setLocalName] = useState<string>(name)
+    const validateName = localName === '' || localName === name
+    const changeNickNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setLocalName(e.currentTarget.value)
     }
+
+    const changeProfileName = () => {
+        dispatch(changeName(localName))
+    }
+
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        dispatch(logout())
     }
 
     if (!isLoggedIn) return <Navigate to="/login"/>
 
-
     return <div className={styles.container}>
+        {appStatus === 'inProgress' && <LinearProgress/>}
         <div className={styles.block}>
 
             <h2 className={styles.textH2}>Personal Information</h2>
@@ -33,7 +42,7 @@ export const Profile = () => {
             <div className={styles.image}>
                 <img className={styles.imageBlock} src={avatar} alt={'avatar'}/>
                 <Button
-                    style={{ borderRadius : '20px', minWidth : '150px'}}
+                    style={{ borderRadius : '20px', minWidth : '150px', margin: '20px 20px 0 0'}}
                     className={styles.logout}
                     variant="contained"
                     color="error"
@@ -47,26 +56,25 @@ export const Profile = () => {
                     variant={'standard'}
                     margin={'normal'}
                     className={styles.inputBlock}
-                    value={nickNameValue}
+                    value={localName}
                     label='Name'
-                    onChange={(e) => setNickNameValue(e.currentTarget.value)}
+                    onChange={changeNickNameHandler}
                 />
-                <TextField
+                 <TextField
                     variant={'standard'}
                     margin={'normal'}
                     className={styles.inputBlock}
                     value={email}
                     label='Email'
-                    disabled
                 />
             </div>
 
             <div>
                 <Button
-                        style={{ borderRadius : '20px', minWidth : '150px'}}
+                        style={{ borderRadius : '20px', minWidth : '150px', marginTop: '20px'}}
                         className={styles.button}
-                        disabled={saveButtonDisable}
-                        onClick={changeProfileData}
+                        disabled={validateName}
+                        onClick={changeProfileName}
                         variant="contained"
                         color="primary">
                         Save

@@ -18,6 +18,8 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import s from './Registration.module.css'
 import {Navigate} from "react-router-dom";
+import styles from '../Profile/profile.module.css';
+import Typography from '@mui/material/Typography';
 
 type FormikErrorsType = {
     email?: string
@@ -27,7 +29,7 @@ type FormikErrorsType = {
 
 const Registration = () => {
     const dispatch = useAppDispatch()
-    const status = useSelector<AppRootStateType, AppStatusType>((state) => state.app.appStatus)
+    const appStatus = useSelector<AppRootStateType, AppStatusType>((state) => state.app.appStatus)
 
 
     const formik = useFormik({
@@ -70,24 +72,25 @@ const Registration = () => {
         setPassVisibility(!passVisibility)
     }
 
-    if (status ==='succeeded') {
+    if (appStatus ==='succeeded') {
         return <Navigate to='/login'/>
     }
     return (
         <div>
-            {status === 'inProgress' && <LinearProgress/>}
+            {appStatus === 'inProgress' && <LinearProgress/>}
             <Grid container justifyContent={'center'}>
-                <Grid item justifyContent={'center'} className={s.box}>
+                <Grid item justifyContent={'center'} >
                     <form onSubmit={formik.handleSubmit}>
                         <FormControl>
                             <FormLabel style={{
                                 textAlign: 'center',
                                 fontSize: '32px',
                                 fontWeight: 'bolder',
-                                color: 'white',
                                 margin: '0'
                             }}>
-                                <p>Registration</p>
+                                <Typography component="h1" variant="h5">
+                                    Registration
+                                </Typography>
                             </FormLabel>
                             <FormGroup>
                                 <TextField label='E-mail'
