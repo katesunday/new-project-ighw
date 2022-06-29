@@ -18,6 +18,7 @@ import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {login} from '../../reducers/appReducer';
+import Paper from '@mui/material/Paper';
 
 type FormikErrorType = {
     email?: string
@@ -27,7 +28,7 @@ type FormikErrorType = {
 
 const Login = () => {
     const dispatch = useAppDispatch()
-    const {isLoggedIn, appStatus} = useAppSelector(state => state.app)
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const [passVisibility, setPassVisibility] = useState(false)
     const changeVisibility = () => {
         setPassVisibility(!passVisibility)
@@ -61,19 +62,18 @@ const Login = () => {
     if(isLoggedIn) return <Navigate to='/profile'/>
 
     return (
-        <div>
-            {appStatus === 'inProgress' && <LinearProgress/>}
-            <Grid item justifyContent={'center'}>
+        <Grid item justifyContent={'center'}>
+
                 <form onSubmit={formik.handleSubmit}>
                     <Container style={{border: '1px solid white',
                         background: '#f5f6f7',
-                        padding: '20px',
-                        borderRadius: '20px',
-                        marginTop: '5px'}} component="main" maxWidth="xs">
+                        width: '500px',
+                        height: '450px',
+                        padding: '30px',
+                        borderRadius: '20px'}} component="main" maxWidth="xs">
                         <CssBaseline/>
                         <Box
                             sx={{
-                                marginTop: 8,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
@@ -136,25 +136,23 @@ const Login = () => {
                             >
                                 Sign In
                             </Button>
-                            {appStatus === 'inProgress' && <LinearProgress style={{width: '-webkit-fill-available'}}/>}
                             <Grid container>
                                 <Grid item xs>
-                                    <NavLink to='/restorePassword'> <Link variant="body2">
-                                        Forgot password?
-                                    </Link></NavLink>
+                                     <NavLink to='/restorePassword'>
+                                        <span>Forgot password?</span>
+                                     </NavLink>
                                 </Grid>
-                                <Grid item>
-                                    <NavLink to='/registration'> <Link  variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link></NavLink>
+                                <Grid item style={{textAlign: 'center'}}>
+                                    <NavLink to='/registration'>
+                                        <span>Don't have an account?<br/> Sign Up</span>
+                                    </NavLink>
                                 </Grid>
                             </Grid>
                         </Box>
                     </Container >
                 </form>
-            </Grid>
             <ErrorSnackbar/>
-        </div>
+        </Grid>
     );
 };
 

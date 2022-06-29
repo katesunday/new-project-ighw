@@ -1,0 +1,136 @@
+.headerHolder {
+    position: fixed;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 85%;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 70px 0;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+    height: 40%;
+}
+
+.navigation {
+    width: 70px;
+    height: 100%;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(192 245 214);
+    box-shadow: -5px -5px 20px rgb(70 175 126);
+}
+
+.navigation a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.icon {
+    position: absolute;
+}
+
+.tip {
+    position: relative;
+    left: -85px;
+    top: -17px;
+    opacity: 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bolder;
+    background-color: #FF651C;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border-bottom-right-radius: 0;
+    transition:  all 0.5s ease;
+}
+
+.tip::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -19px;
+    border: 10px solid transparent;
+    border-left-color: #FF651C;
+    border-bottom-color: #FF651C;
+}
+
+.icon:hover + .tip {
+    opacity: 1;
+}
+
+@media screen and (max-width: 800px) {
+    a {
+        padding: 3px
+    }
+    .headerHolder {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        height: 8%;
+        background-color: transparent;
+        width: 100%;
+        padding: 0;
+    }
+
+    .nav {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .navigation {
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        align-items: center;
+        background-color: rgb(33 37 41);
+        border-top: 1px solid black;
+    }
+
+    .tip {
+        left: -5%;
+        top: -55px;
+        font-size: 12px;
+        padding: 5px 10px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .tip::after {
+        border: 10px solid transparent;
+        border-top-color: #FF651C;
+        bottom: -50%;
+        right: 20%;
+    }
+
+    a {
+        width: 40px;
+        height: 40px;
+    }
+}

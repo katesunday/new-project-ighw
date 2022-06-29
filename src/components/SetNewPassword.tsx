@@ -55,7 +55,7 @@ const SetNewPassword = () => {
         } ,
     })
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const toLogin = () =>{
         let path = `/login`;
         navigate(path,{ replace: true });

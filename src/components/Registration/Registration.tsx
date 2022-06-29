@@ -31,8 +31,6 @@ type FormikErrorsType = {
 const Registration = () => {
     const dispatch = useAppDispatch()
     const appStatus = useSelector<AppRootStateType, AppStatusType>((state) => state.app.appStatus)
-
-
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -78,18 +76,17 @@ const Registration = () => {
     }
     return (
         <div>
-            {appStatus === 'inProgress' && <LinearProgress/>}
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
                     <Container style={{border: '1px solid white',
                         background: '#f5f6f7',
                         padding: '20px',
-                        borderRadius: '20px',
-                        marginTop: '5px'}} component="main" maxWidth="xs">
+                        width: '500px',
+                        height: '530px',
+                        borderRadius: '20px'}} component="main" maxWidth="xs">
                         <CssBaseline/>
                         <Box
                             sx={{
-                                marginTop: 8,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
@@ -155,11 +152,10 @@ const Registration = () => {
                                     disabled={!!(formik.errors.email || formik.errors.pass || formik.errors.repeatPass)}>
                                 Register
                             </Button>
-                            {appStatus === 'inProgress' && <LinearProgress style={{width: '-webkit-fill-available'}}/>}
                             <Grid item>
-                                <NavLink to='/login'> <Link href="#" variant="body2">
-                                    {"Back to login"}
-                                </Link></NavLink>
+                                <NavLink to='/login'>
+                                    Back to login
+                                </NavLink>
 
                             </Grid>
                         </Box>

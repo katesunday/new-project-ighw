@@ -81,7 +81,7 @@ export const logout = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsT
     authAPI.logout()
         .then(res => {
             if (res.data.info) {
-                dispatch(setAppStatus('succeeded'))
+                dispatch(setAppStatus('empty'))
                 dispatch(setIsLoggedIn(false))
             }
         })

@@ -46,13 +46,11 @@ export const Profile = () => {
             padding: '20px',
             borderRadius: '20px',
             marginTop: '5px'}} component="main" maxWidth="xs">
-            <div>
-
+            <div className={styles.box}>
                 <h2 className={styles.textH2}>Personal Information</h2>
 
                 <div className={styles.image}>
                     <img className={styles.imageBlock} src={avatar} alt={'avatar'}/>
-
                 </div>
 
                 <div className={styles.inputContainer}>
@@ -75,7 +73,6 @@ export const Profile = () => {
 
                 <div className={styles.bottomBtns}>
                     <Button
-                        style={{ borderRadius : '20px', minWidth : '150px', marginTop: '20px'}}
                         className={styles.button}
                         disabled={validateName}
                         onClick={changeProfileName}
@@ -84,8 +81,7 @@ export const Profile = () => {
                         Save
                     </Button>
                     <Button
-                        style={{ borderRadius : '20px', minWidth : '150px', margin: '20px 20px 0 0'}}
-                        className={styles.logout}
+                        className={styles.button}
                         variant="contained"
                         color="error"
                         onClick={logoutHandler}
