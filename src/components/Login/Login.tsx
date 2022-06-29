@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useFormik} from 'formik';
-import {Navigate} from 'react-router-dom';
+import {Navigate , NavLink} from 'react-router-dom';
 import {IconButton, InputAdornment, LinearProgress} from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
@@ -128,19 +128,21 @@ const Login = () => {
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                                disabled={!!(formik.errors.email || formik.errors.password)}
                             >
                                 Sign In
                             </Button>
+                            {appStatus === 'inProgress' && <LinearProgress style={{width: '-webkit-fill-available'}}/>}
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <NavLink to='/restorePassword'> <Link variant="body2">
                                         Forgot password?
-                                    </Link>
+                                    </Link></NavLink>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {'Don\'t have an account? Sign Up'}
-                                    </Link>
+                                    <NavLink to='/registration'> <Link  variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link></NavLink>
                                 </Grid>
                             </Grid>
                         </Box>

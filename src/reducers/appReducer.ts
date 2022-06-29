@@ -50,13 +50,16 @@ export const setAppIsInitialize = (marker: boolean) => ({type: 'APP/SET_APP_INIT
 type setAppIsInitialize = ReturnType<typeof setAppIsInitialize>
 
 export const login = (data: LoginParamsType) => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(setAppStatus('inProgress'))
     authAPI.login(data)
         .then((res) => {
             console.log(res)
             dispatch(setIsLoggedIn(true))
+            dispatch(setAppStatus('succeeded'))
         })
         .catch((err) => {
             dispatch(setAppError(err.response.data.error))
+            dispatch(setAppStatus('failed'))
         })
 }
 
@@ -64,12 +67,10 @@ export const meRequest = () => (dispatch: Dispatch<AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))
     authAPI.me()
         .then(res => {
-            debugger
             dispatch(setIsLoggedIn(true))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {
-            debugger
             dispatch(setAppStatus('failed'))
             dispatch(setIsLoggedIn(false))
         })
