@@ -2,8 +2,8 @@ import {applyMiddleware , combineReducers  , legacy_createStore} from "redux";
 import thunk from "redux-thunk";
 import {registrationReducers} from "../reducers/registrationReducers";
 import {profileReducers} from "../reducers/profileReducers";
-import {restorePWReducers} from "../reducers/RestorePWReducers";
-import {testReducers} from "../reducers/TestReducers";
+import {restorePWReducers} from "../reducers/restorePWReducers";
+import {testReducers} from "../reducers/testReducers";
 import {appReducer} from '../reducers/appReducer';
 
 

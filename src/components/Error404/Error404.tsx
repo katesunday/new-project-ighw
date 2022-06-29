@@ -1,7 +1,6 @@
 import styles from './error.module.css'
-import errorPage from "./../../assets/images/error_page404.png";
+import errorPage from "../../assets/images/error_page404.png";
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 

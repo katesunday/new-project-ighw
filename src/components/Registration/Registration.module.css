@@ -5,6 +5,14 @@
     box-shadow: 5px 5px 5px black;
 }
 
+.block {
+    border: 1px solid white;
+    padding: 20px;
+    width: 500px;
+    height: 530px;
+    border-radius: 20px;
+}
+
 
 
 

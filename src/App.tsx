@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
 import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
-import RestorePassword from './components/RestorePassword';
-import SetNewPassword from './components/SetNewPassword';
-import TestComponents from './components/TestComponents';
+import RestorePassword from './components/RestorePassword/RestorePassword';
+import SetNewPassword from './components/SetNewPassword/SetNewPassword';
+import TestComponents from './components/TestComponents/TestComponents';
 import {Profile} from './components/Profile/Profile';
 import {useAppDispatch, useAppSelector} from './utils/hooks';
 import {meRequest} from './reducers/appReducer';
 import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
-import {Error404} from './utils/Error404/Error404';
+import {Error404} from './components/Error404/Error404';
 import Container from '@mui/material/Container';
 import Navigation from './components/Navigation/Navigation';
 
@@ -27,9 +27,6 @@ function App(props: AppPropsType) {
     useEffect(() => {
         dispatch(meRequest())
     }, [dispatch])
-
-//background-image: linear-gradient(135deg, antiquewhite 20%, aquamarine);
-    //background-image: linear-gradient(135deg, gray 20%, black );
 
 
     return (

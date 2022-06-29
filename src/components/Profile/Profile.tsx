@@ -1,27 +1,22 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import styles from "./profile.module.css";
-import {Button, LinearProgress, TextField} from '@mui/material';
+import {Button, LinearProgress, Paper, TextField} from '@mui/material';
 import {changeName, getCurrentUser, logout, UserType} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
-import Container from "@mui/material/Container";
-
 
 export const Profile = () => {
 
     const {name, email, avatar} = useAppSelector<UserType>(state => state.profile)
     const {isLoggedIn, appStatus} = useAppSelector(state => state.app)
-    console.log(isLoggedIn, appStatus)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if(isLoggedIn) dispatch(getCurrentUser())
-        console.log('effect')
+        if (isLoggedIn) dispatch(getCurrentUser())
         setLocalName(name)
     }, [name, dispatch])
 
     const [localName, setLocalName] = useState<string>(name)
-    console.log('localName', localName)
     const validateName = localName === '' || localName === name
     const changeNickNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setLocalName(e.currentTarget.value)
@@ -41,33 +36,27 @@ export const Profile = () => {
 
     return <div className={styles.container}>
         {appStatus === 'inProgress' && <LinearProgress/>}
-        <Container style={{border: '1px solid white',
-            background: '#f5f6f7',
-            padding: '20px',
-            borderRadius: '20px',
-            marginTop: '5px'}} component="main" maxWidth="xs">
+        <Paper className={styles.block}>
             <div className={styles.box}>
                 <h2 className={styles.textH2}>Personal Information</h2>
-
                 <div className={styles.image}>
                     <img className={styles.imageBlock} src={avatar} alt={'avatar'}/>
                 </div>
-
                 <div className={styles.inputContainer}>
                     <TextField
+                        label='Name'
                         variant={'standard'}
                         margin={'normal'}
                         className={styles.inputBlock}
                         value={localName}
-                        label='Name'
                         onChange={changeNickNameHandler}
                     />
                     <TextField
+                        label='Email'
                         variant={'standard'}
                         margin={'normal'}
                         className={styles.inputBlock}
                         value={email}
-                        label='Email'
                     />
                 </div>
 
@@ -83,13 +72,12 @@ export const Profile = () => {
                     <Button
                         className={styles.button}
                         variant="contained"
-                        color="error"
+                        color="primary"
                         onClick={logoutHandler}
                     >Logout
                     </Button>
                 </div>
             </div>
-        </Container>
-
+        </Paper>
     </div>
 }

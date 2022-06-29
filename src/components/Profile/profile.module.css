@@ -3,28 +3,13 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-
 }
 
 .block {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 500px;
-    min-width: 400px;
-    background-color: white;
+    border: 1px solid white;
     padding: 20px;
-    box-shadow: 0 0 30px 7px antiquewhite;
-    border-radius: 2%;
-}
-
-.logout {
-    font-weight: 500;
-    padding: 0;
-    border: none;
-    text-transform: lowercase;
+    border-radius: 20px;
+    margin-top: 5px;
 }
 
 .textH2 {
@@ -70,7 +55,6 @@
     justify-content: center;
     align-items: center;
 }
-
 
 .bottomBtns {
     display: flex;

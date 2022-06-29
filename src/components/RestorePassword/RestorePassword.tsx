@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -8,13 +7,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import {ErrorSnackbar} from '../common/ErrorSnackbar/ErrorSnackBar';
+import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useFormik} from 'formik';
-import {restorePWTC, setPWStatusAC} from '../reducers/RestorePWReducers';
-import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {LinearProgress} from '@mui/material';
+import {restorePWTC, setPWStatusAC} from '../../reducers/restorePWReducers';
+import {useAppDispatch, useAppSelector} from '../../utils/hooks';
+import {LinearProgress, Paper} from '@mui/material';
 import {NavLink} from 'react-router-dom';
+import styles from './restorePassword.module.css';
 
 type FormikErrorType = {
     email?: string
@@ -46,7 +45,7 @@ const RestorePassword = () => {
     if (isPWSent === 'sent') {
         return <div>
             <Grid item justifyContent={'center'}>
-                <Container component="main" maxWidth="xs">
+                <Paper className={styles.block}>
                     <Box
                         sx={{
                             marginTop: 8,
@@ -62,9 +61,8 @@ const RestorePassword = () => {
                             Link to restore your password was successfully sent to you email.
                             Please check it.
                         </Typography>
-
                     </Box>
-                </Container>
+                </Paper>
             </Grid>
         </div>
     }
@@ -73,15 +71,7 @@ const RestorePassword = () => {
         <div>
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
-                    <Container style={{
-                        border: '1px solid white',
-                        background: '#f5f6f7',
-                        padding: '20px',
-                        borderRadius: '20px',
-                        width: '500px',
-                        height: '350px',
-                        marginTop: '5px'
-                    }} component="main" maxWidth="xs">
+                    <Paper className={styles.block}>
                         <CssBaseline/>
                         <Box
                             sx={{
@@ -127,7 +117,7 @@ const RestorePassword = () => {
                                 </NavLink>
                             </Grid>
                         </Box>
-                    </Container>
+                    </Paper>
                 </form>
             </Grid>
             <ErrorSnackbar/>

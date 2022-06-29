@@ -6,21 +6,19 @@ import Button from '@mui/material/Button';
 import {createNewUser} from '../../reducers/registrationReducers';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch} from '../../utils/hooks';
-import {LinearProgress} from '@mui/material';
+import {Paper} from '@mui/material';
 import {AppRootStateType} from '../../store/store';
 import {AppStatusType} from '../../reducers/appReducer';
 import {useSelector} from 'react-redux';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import {Navigate , NavLink} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 import Typography from '@mui/material/Typography';
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Link from "@mui/material/Link";
+import styles from './Registration.module.css';
 
 type FormikErrorsType = {
     email?: string
@@ -71,20 +69,14 @@ const Registration = () => {
         setPassVisibility(!passVisibility)
     }
 
-    if (appStatus ==='succeeded') {
+    if (appStatus === 'succeeded') {
         return <Navigate to='/login'/>
     }
     return (
         <div>
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
-                    <Container style={{border: '1px solid white',
-                        background: '#f5f6f7',
-                        padding: '20px',
-                        width: '500px',
-                        height: '530px',
-                        borderRadius: '20px'}} component="main" maxWidth="xs">
-                        <CssBaseline/>
+                    <Paper className={styles.block}>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -159,7 +151,7 @@ const Registration = () => {
 
                             </Grid>
                         </Box>
-                    </Container>
+                    </Paper>
                 </form>
             </Grid>
             <ErrorSnackbar/>
