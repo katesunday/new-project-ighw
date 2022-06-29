@@ -11,7 +11,6 @@ import {useAppDispatch, useAppSelector} from './utils/hooks';
 import {meRequest} from './reducers/appReducer';
 import {createTheme, LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from "./utils/Error404/Error404";
-import Container from "@mui/material/Container";
 
 function App() {
 
@@ -55,7 +54,6 @@ function App() {
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-            <Container>
                 <Paper>
                     <div className="App">
                         <div>
@@ -85,7 +83,6 @@ function App() {
                         </div>
                     </div>
                 </Paper>
-            </Container>
         </ThemeProvider>
     );
 }
