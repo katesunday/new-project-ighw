@@ -81,7 +81,11 @@ const Registration = () => {
             {appStatus === 'inProgress' && <LinearProgress/>}
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
-                    <Container component="main" maxWidth="xs">
+                    <Container style={{border: '1px solid white',
+                        background: '#f5f6f7',
+                        padding: '20px',
+                        borderRadius: '20px',
+                        marginTop: '5px'}} component="main" maxWidth="xs">
                         <CssBaseline/>
                         <Box
                             sx={{

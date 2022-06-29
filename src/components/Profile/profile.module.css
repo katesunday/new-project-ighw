@@ -22,8 +22,7 @@
 
 .logout {
     position: absolute;
-    left: -10px;
-    bottom: 190px;
+    left: 50px;
     font-weight: 500;
     padding: 0;
     border: none;
@@ -63,4 +62,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.bottomBtns{
+    padding-left: 20px;
 }

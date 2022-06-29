@@ -4,6 +4,7 @@ import {Button, LinearProgress, TextField} from '@mui/material';
 import {changeName, getCurrentUser, logout, UserType} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
+import Container from "@mui/material/Container";
 
 
 export const Profile = () => {
@@ -40,42 +41,40 @@ export const Profile = () => {
 
     return <div className={styles.container}>
         {appStatus === 'inProgress' && <LinearProgress/>}
-        <div className={styles.block}>
-
-            <h2 className={styles.textH2}>Personal Information</h2>
-
-            <div className={styles.image}>
-                <img className={styles.imageBlock} src={avatar} alt={'avatar'}/>
-                <Button
-                    style={{ borderRadius : '20px', minWidth : '150px', margin: '20px 20px 0 0'}}
-                    className={styles.logout}
-                    variant="contained"
-                    color="error"
-                    onClick={logoutHandler}
-                >Logout
-                </Button>
-            </div>
-
-            <div className={styles.inputContainer}>
-                <TextField
-                    variant={'standard'}
-                    margin={'normal'}
-                    className={styles.inputBlock}
-                    value={localName}
-                    label='Name'
-                    onChange={changeNickNameHandler}
-                />
-                 <TextField
-                    variant={'standard'}
-                    margin={'normal'}
-                    className={styles.inputBlock}
-                    value={email}
-                    label='Email'
-                />
-            </div>
-
+        <Container style={{border: '1px solid white',
+            background: '#f5f6f7',
+            padding: '20px',
+            borderRadius: '20px',
+            marginTop: '5px'}} component="main" maxWidth="xs">
             <div>
-                <Button
+
+                <h2 className={styles.textH2}>Personal Information</h2>
+
+                <div className={styles.image}>
+                    <img className={styles.imageBlock} src={avatar} alt={'avatar'}/>
+
+                </div>
+
+                <div className={styles.inputContainer}>
+                    <TextField
+                        variant={'standard'}
+                        margin={'normal'}
+                        className={styles.inputBlock}
+                        value={localName}
+                        label='Name'
+                        onChange={changeNickNameHandler}
+                    />
+                    <TextField
+                        variant={'standard'}
+                        margin={'normal'}
+                        className={styles.inputBlock}
+                        value={email}
+                        label='Email'
+                    />
+                </div>
+
+                <div className={styles.bottomBtns}>
+                    <Button
                         style={{ borderRadius : '20px', minWidth : '150px', marginTop: '20px'}}
                         className={styles.button}
                         disabled={validateName}
@@ -83,8 +82,18 @@ export const Profile = () => {
                         variant="contained"
                         color="primary">
                         Save
-                </Button>
+                    </Button>
+                    <Button
+                        style={{ borderRadius : '20px', minWidth : '150px', margin: '20px 20px 0 0'}}
+                        className={styles.logout}
+                        variant="contained"
+                        color="error"
+                        onClick={logoutHandler}
+                    >Logout
+                    </Button>
+                </div>
             </div>
-        </div>
+        </Container>
+
     </div>
 }

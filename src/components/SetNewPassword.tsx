@@ -65,7 +65,11 @@ const SetNewPassword = () => {
     if(isPWSent==='sent'){
         return <div>
             <Grid item justifyContent={'center'}>
-                <Container component="main" maxWidth="xs">
+                <Container style={{border: '1px solid white',
+                    background: '#f5f6f7',
+                    padding: '20px',
+                    borderRadius: '20px',
+                    marginTop: '5px'}}  component="main" maxWidth="xs">
                     <Box
                         sx={{
                             marginTop: 8 ,
