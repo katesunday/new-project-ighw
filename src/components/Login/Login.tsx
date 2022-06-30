@@ -66,13 +66,7 @@ const Login = () => {
             <form onSubmit={formik.handleSubmit}>
                 <Paper className={styles.container}>
                     <CssBaseline/>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
+                    <Box className = {styles.boxStyles}>
                         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                             <LockOutlinedIcon/>
                         </Avatar>

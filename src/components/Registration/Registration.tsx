@@ -77,13 +77,7 @@ const Registration = () => {
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
                     <Paper className={styles.block}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
-                        >
+                        <Box className = {styles.boxStyles}>
                             <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                                 <LockOutlinedIcon/>
                             </Avatar>

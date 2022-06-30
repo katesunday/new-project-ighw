@@ -1,0 +1,17 @@
+.BgcStyle {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.olStyle{
+    position: absolute;
+    left: 10px;
+}
+.changeTheme{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}

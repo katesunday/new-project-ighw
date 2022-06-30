@@ -12,6 +12,7 @@ import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from './components/Error404/Error404';
 import Container from '@mui/material/Container';
 import Navigation from './components/Navigation/Navigation';
+import s from './styles/app.module.css'
 
 type AppPropsType = {
     themes: object[]
@@ -28,19 +29,17 @@ function App(props: AppPropsType) {
         dispatch(meRequest())
     }, [dispatch])
 
+    // some error: Message failed: 554 5.2.0 STOREDRV.Submission.Exception:OutboundSpamException;
+    // Failed to process message due to a permanent exception with message [BeginDiagnosticData]WASCL UserAction verdict is not None.
+    // Actual verdict is Suspend, ShowTierUpgrade.
+    // OutboundSpamException: WASCL UserAction verdict is not None.
+    // Actual verdict is Suspend, ShowTierUpgrade.[EndDiagnosticData] [Hostname=PAXP193MB1774.EURP193.PROD.OUTLOOK.COM]
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
             {appStatus === 'inProgress' && <LinearProgress/>}
-            <Paper style={{
-                minHeight: '100vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundImage: darkMode ? 'linear-gradient(135deg, gray 20%, black )' : 'linear-gradient(135deg, antiquewhite 20%, aquamarine)'
-            }}>
-                <Container fixed={true} disableGutters={false} style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <ol style={{position: 'fixed', left: '10px'}}>
+            <Paper className = {s.BgcStyle} style={{backgroundImage: darkMode ? 'linear-gradient(135deg, gray 20%, black )' : 'linear-gradient(135deg, antiquewhite 20%, aquamarine)'}}>
+                    <ol className={s.olStyle}>
                         <li><NavLink to='/login'>Login</NavLink></li>
                         <li><NavLink to='/registration'>Registration</NavLink></li>
                         <li><NavLink to='/profile'>Profile</NavLink></li>
@@ -62,9 +61,8 @@ function App(props: AppPropsType) {
                             <Route path='/test' element={<TestComponents/>}/>
                         </Routes> :
                         <LinearProgress style={{position: 'absolute'}}/>}
-                </Container>
                 <Navigation/>
-                <div style={{position: 'absolute', top: '20px', left: '20px'}}><Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)}/>Go to the dark side!</div>
+                <div className={s.changeTheme}><Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)}/>Go to the dark side!</div>
             </Paper>
         </ThemeProvider>
     )
