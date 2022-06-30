@@ -21,8 +21,7 @@ export const Error404 = () => {
                 onClick={toLogin}
                 type={'submit'}
                 variant="contained"
-                sx={{mt: 3 , mb: 2}}
-            >
+                sx={{mt: 3 , mb: 2}}>
                 Go back
             </Button>
         </div>
