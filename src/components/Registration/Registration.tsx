@@ -140,7 +140,7 @@ const Registration = () => {
                             </Button>
                             <Grid item>
                                 <NavLink to='/login'>
-                                    Back to login
+                                    <span>Back to login</span>
                                 </NavLink>
 
                             </Grid>

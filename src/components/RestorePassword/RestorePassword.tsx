@@ -113,7 +113,7 @@ const RestorePassword = () => {
                             {isPWSent === 'onprogress' && <LinearProgress style={{width: '-webkit-fill-available'}}/>}
                             <Grid item>
                                 <NavLink to="/login">
-                                    Did you remember your password?
+                                    <span>Did you remember your password?</span>
                                 </NavLink>
                             </Grid>
                         </Box>
