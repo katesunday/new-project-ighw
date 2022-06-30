@@ -133,8 +133,9 @@ const Login = () => {
                                 </NavLink>
                             </Grid>
                             <Grid item style={{textAlign: 'center'}}>
+                                <span>Don't have an account?<br/></span>
                                 <NavLink to='/registration'>
-                                    <span>Don't have an account?<br/> Sign Up</span>
+                                   <span> Sign Up</span>
                                 </NavLink>
                             </Grid>
                         </Grid>

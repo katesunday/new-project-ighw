@@ -10,7 +10,6 @@ import {useAppDispatch, useAppSelector} from './utils/hooks';
 import {meRequest} from './reducers/appReducer';
 import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from './components/Error404/Error404';
-import Container from '@mui/material/Container';
 import Navigation from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
 
