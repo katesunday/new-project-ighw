@@ -23,7 +23,7 @@ export const Error404 = () => {
                 variant="contained"
                 sx={{mt: 3 , mb: 2}}
             >
-                Go to login page
+                Go back
             </Button>
         </div>
     )
