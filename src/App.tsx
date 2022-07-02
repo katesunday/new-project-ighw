@@ -17,7 +17,7 @@ type AppPropsType = {
     themes: object[]
 }
 
-function App(props: AppPropsType) {
+const App = React.memo((props: AppPropsType) => {
 
     const [darkMode, setDarkMode] = useState(false)
     const appStatus = useAppSelector(state => state.app.appStatus)
@@ -27,12 +27,6 @@ function App(props: AppPropsType) {
     useEffect(() => {
         dispatch(meRequest())
     }, [dispatch])
-
-    // some error: Message failed: 554 5.2.0 STOREDRV.Submission.Exception:OutboundSpamException;
-    // Failed to process message due to a permanent exception with message [BeginDiagnosticData]WASCL UserAction verdict is not None.
-    // Actual verdict is Suspend, ShowTierUpgrade.
-    // OutboundSpamException: WASCL UserAction verdict is not None.
-    // Actual verdict is Suspend, ShowTierUpgrade.[EndDiagnosticData] [Hostname=PAXP193MB1774.EURP193.PROD.OUTLOOK.COM]
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
@@ -50,7 +44,7 @@ function App(props: AppPropsType) {
                     {appInitializing ?
                         <Routes>
                             <Route path='*' element={<Navigate to={'/error'}/>}/>
-                            <Route path='/' element={<Profile/>}/>
+                            <Route path='/' element={<Navigate to={'/profile'}/>}/>
                             <Route path='/login' element={<Login/>}/>
                             <Route path='/registration' element={<Registration/>}/>
                             <Route path='/profile' element={<Profile/>}/>
@@ -65,6 +59,6 @@ function App(props: AppPropsType) {
             </Paper>
         </ThemeProvider>
     )
-}
+})
 
 export default App;

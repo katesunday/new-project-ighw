@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -25,13 +25,14 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
-const Login = () => {
+const Login = React.memo(() => {
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const [passVisibility, setPassVisibility] = useState(false)
-    const changeVisibility = () => {
+
+    const changeVisibility = useCallback(() => {
         setPassVisibility(!passVisibility)
-    }
+    }, [passVisibility])
 
     const formik = useFormik({
         initialValues: {
@@ -145,6 +146,6 @@ const Login = () => {
             <ErrorSnackbar/>
         </Grid>
     );
-};
+})
 
 export default Login;

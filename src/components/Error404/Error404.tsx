@@ -1,15 +1,16 @@
 import styles from './error.module.css'
 import errorPage from "../../assets/images/error_page404.png";
 import Button from '@mui/material/Button';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-export const Error404 = () => {
+export const Error404 = React.memo(() => {
     const navigate = useNavigate();
-    const toLogin = () =>{
+
+    const toLogin = useCallback(() => {
         let path = `/login`;
         navigate(path,{ replace: true });
-    }
+    }, [navigate])
 
     return (
         <div className={styles.container}>
@@ -26,4 +27,4 @@ export const Error404 = () => {
             </Button>
         </div>
     )
-}
+})

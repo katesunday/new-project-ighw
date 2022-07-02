@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -19,7 +19,7 @@ import styles from "./setNewPassword.module.css";
 type FormikErrorType = {
     password?: string
 }
-const SetNewPassword = () => {
+const SetNewPassword = React.memo(() => {
     const dispatch = useAppDispatch()
     const isPWSent = useAppSelector(state => state.restorePassword.isPWSent)
     const [passVisibility, setPassVisibility] = useState(false)
@@ -55,10 +55,10 @@ const SetNewPassword = () => {
     })
 
     const navigate = useNavigate();
-    const toLogin = () => {
+    const toLogin = useCallback(() => {
         let path = `/login`;
         navigate(path, {replace: true});
-    }
+    }, [navigate])
 
     //when password is submited
     if (isPWSent === 'sent') {
@@ -154,6 +154,6 @@ const SetNewPassword = () => {
             <ErrorSnackbar/>
         </div>
     );
-};
+})
 
 export default SetNewPassword;

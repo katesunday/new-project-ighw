@@ -18,7 +18,7 @@ import styles from './restorePassword.module.css';
 type FormikErrorType = {
     email?: string
 }
-const RestorePassword = () => {
+const RestorePassword = React.memo(() => {
     const dispatch = useAppDispatch()
     const isPWSent = useAppSelector(state => state.restorePassword.isPWSent)
     const formik = useFormik({
@@ -123,6 +123,6 @@ const RestorePassword = () => {
             <ErrorSnackbar/>
         </div>
     );
-};
+})
 
 export default RestorePassword;

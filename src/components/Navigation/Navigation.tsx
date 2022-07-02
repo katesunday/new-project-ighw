@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import s from './Navigation.module.css'
 import {NavLink} from "react-router-dom";
 
-const Nav = () => {
+const Nav = React.memo(() => {
     const [state, setState] = useState(false)
-    const rerender = () => {
+
+    const rerender = useCallback(() => {
         setState(!state)
-    }
+    }, [state])
 
     return (
         <nav className={s.headerHolder}>
@@ -53,6 +54,6 @@ const Nav = () => {
             </div>
         </nav>
     );
-};
+})
 
 export default Nav;

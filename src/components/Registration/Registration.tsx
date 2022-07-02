@@ -1,15 +1,12 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useFormik} from 'formik';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {createNewUser} from '../../reducers/registrationReducers';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
-import {useAppDispatch} from '../../utils/hooks';
+import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {Paper} from '@mui/material';
-import {AppRootStateType} from '../../store/store';
-import {AppStatusType} from '../../reducers/appReducer';
-import {useSelector} from 'react-redux';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -26,9 +23,9 @@ type FormikErrorsType = {
     repeatPass?: string
 }
 
-const Registration = () => {
+const Registration = React.memo(() => {
     const dispatch = useAppDispatch()
-    const appStatus = useSelector<AppRootStateType, AppStatusType>((state) => state.app.appStatus)
+    const appStatus = useAppSelector((state) => state.app.appStatus)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -65,9 +62,9 @@ const Registration = () => {
 
     const [passVisibility, setPassVisibility] = useState<boolean>(true)
 
-    const changeVisibility = () => {
+    const changeVisibility = useCallback(() => {
         setPassVisibility(!passVisibility)
-    }
+    }, [dispatch, passVisibility])
 
     if (appStatus === 'succeeded') {
         return <Navigate to='/login'/>
@@ -142,7 +139,6 @@ const Registration = () => {
                                 <NavLink to='/login'>
                                     <span>Back to login</span>
                                 </NavLink>
-
                             </Grid>
                         </Box>
                     </Paper>
@@ -150,83 +146,10 @@ const Registration = () => {
             </Grid>
             <ErrorSnackbar/>
         </div>
-
-
-
-
-        // <div>
-        //     {appStatus === 'inProgress' && <LinearProgress/>}
-        //     <Grid container justifyContent={'center'}>
-        //         <Grid item justifyContent={'center'} >
-        //             <form onSubmit={formik.handleSubmit}>
-        //                 <FormControl>
-        //                     <FormLabel style={{
-        //                         textAlign: 'center',
-        //                         fontSize: '32px',
-        //                         fontWeight: 'bolder',
-        //                         margin: '0'
-        //                     }}>
-        //                         <Typography component="h1" variant="h5">
-        //                             Registration
-        //                         </Typography>
-        //                     </FormLabel>
-        //                     <FormGroup>
-        //                         <TextField label='E-mail'
-        //                                    margin='normal'
-        //                                    helperText={(formik.errors.email && formik.touched.email) ? formik.errors.email : 'Please enter your email'}
-        //                                    error={!!formik.errors.email && formik.touched.email}
-        //                                    {...formik.getFieldProps('email')}/>
-        //
-        //                         <TextField label='Password'
-        //                                    margin='normal'
-        //                                    helperText={(formik.errors.pass && formik.touched.pass) ? formik.errors.pass : 'Please enter your password'}
-        //                                    type={passVisibility ? 'password' : 'text'}
-        //                                    error={!!formik.errors.pass && formik.touched.pass}
-        //                                    InputProps={{
-        //                                        endAdornment: <InputAdornment position="start">
-        //                                            <IconButton
-        //                                                aria-label="toggle password visibility"
-        //                                                onClick={changeVisibility}
-        //                                                edge="end">
-        //                                                {passVisibility ? <VisibilityOff/> : <Visibility/>}
-        //                                            </IconButton>
-        //                                        </InputAdornment>,
-        //                                    }}
-        //                                    {...formik.getFieldProps('pass')}/>
-        //
-        //                         <TextField label='Confirm your password'
-        //                                    margin='normal'
-        //                                    helperText={(formik.errors.repeatPass && formik.touched.repeatPass) ? formik.errors.repeatPass : 'Confirm your password'}
-        //                                    type={passVisibility ? 'password' : 'text'}
-        //                                    error={!!formik.errors.repeatPass && formik.touched.repeatPass}
-        //                                    InputProps={{
-        //                                        endAdornment: <InputAdornment position="start">
-        //                                            <IconButton
-        //                                                aria-label="toggle password visibility"
-        //                                                onClick={changeVisibility}
-        //                                                edge="end">
-        //                                                {passVisibility ? <VisibilityOff/> : <Visibility/>}
-        //                                            </IconButton>
-        //                                        </InputAdornment>,
-        //                                    }}
-        //                                    {...formik.getFieldProps('repeatPass')}/>
-        //                     </FormGroup>
-        //                     <Button sx={{mt: 3, mb: 2}}
-        //                         // style={{marginTop: '15px'}}
-        //                             fullWidth
-        //                             type={'submit'}
-        //                             variant={'contained'}
-        //                             color={'success'}
-        //                             disabled={!!(formik.errors.email || formik.errors.pass || formik.errors.repeatPass)}>
-        //                         Register
-        //                     </Button>
-        //                 </FormControl>
-        //             </form>
-        //             <ErrorSnackbar/>
-        //         </Grid>
-        //     </Grid>
-        // </div>
-    );
-};
+    )
+})
 
 export default Registration;
+
+
+// state = [id:[...cards]....]
