@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7eebf7f2-1d09-47b1-861e-ccc6b5e777a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Error404/Error404.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Error404/Error404.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/profileAPI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/profileAPI.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/profile.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/profile.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Registration/Registration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Registration/Registration.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RestorePassword/RestorePassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RestorePassword/RestorePassword.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SetNewPassword/SetNewPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SetNewPassword/SetNewPassword.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/appReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/appReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/profileReducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/profileReducers.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +71,7 @@
       <workItem from="1656581939837" duration="2056000" />
       <workItem from="1656586299781" duration="986000" />
       <workItem from="1656692642444" duration="1802000" />
-      <workItem from="1656750254127" duration="6955000" />
+      <workItem from="1656750254127" duration="9953000" />
     </task>
     <servers />
   </component>
@@ -98,10 +95,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1656428868309" />
-    <state x="668" y="239" width="583" height="562" key="find.popup" timestamp="1656432854470">
+    <state x="668" y="239" width="583" height="562" key="find.popup" timestamp="1656761233368">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="668" y="239" width="583" height="562" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1656432854470" />
+    <state x="668" y="239" width="583" height="562" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1656761233368" />
     <state x="731" y="299" key="git4idea.merge.GitMergeDialog" timestamp="1656428719866">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
