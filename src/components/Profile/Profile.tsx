@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useCallback, useEffect, useState, KeyboardEvent} from 'react';
 import styles from "./profile.module.css";
 import {Button, LinearProgress, Paper, TextField} from '@mui/material';
-import {changeName, getCurrentUser, logout, UserType} from '../../reducers/profileReducers';
+import {changeName, logout, UserType} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -16,7 +16,6 @@ export const Profile = React.memo(() => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (isLoggedIn) dispatch(getCurrentUser())
         setLocalName(name)
     }, [dispatch, name])
 

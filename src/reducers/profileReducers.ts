@@ -91,25 +91,6 @@ export const logout = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsT
         })
 
 }
-export const getCurrentUser = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
-    dispatch(setAppStatus('inProgress'))
-    profileAPI.getCurrentUserInfo()
-        .then(res => {
-            const currentUser = res.data
-            console.log(currentUser)
-            if (!currentUser.avatar) currentUser.avatar = `${ninja}`
-            dispatch(setProfileData({
-                name: currentUser.name,
-                email: currentUser.email,
-                avatar: currentUser.avatar
-            }))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(err.error))
-        })
-}
 
 export const changeName = (newName: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))

@@ -9,10 +9,6 @@ export const profileAPI = {
         return instance.post<AxiosResponse<RegistrationResponseType>>('auth/register', {...payload})
     },
 
-    getCurrentUserInfo() {
-        return instance.post<UserType>('auth/me', {})
-    },
-
     updateCurrentUser(name: string) {
         return instance.put<ChangeProfileType>('auth/me', {name, avatar: ''})
     }
