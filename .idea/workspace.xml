@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7eebf7f2-1d09-47b1-861e-ccc6b5e777a5" name="Default Changelist" comment="">
+    <list default="true" id="827b6d3a-51f2-4083-adb4-7700e3eafba7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/new-project-ighw.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_07_2022_15_00_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_07_2022_15_00__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/instance.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/packsAPI.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PacksList/PacksList.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PacksList/PacksList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/reducers/packListsReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/authAPI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/authAPI.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/profileAPI.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/profileAPI.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Registration/Registration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Registration/Registration.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reducers/appReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/appReducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reducers/profileReducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/profileReducers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,14 +39,9 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="2BCIV7QoMog0dEwECNWai64Tdv4" />
+  <component name="ProjectId" id="2BO36tdu37WeGKTx9fd5VwHexvI" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,38 +50,26 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../exam_monday" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../todolistCopy" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="yarn" />
     <property name="ts.external.directory.path" value="F:\ItIncubator\fridayTeamWork\new-project-ighw\node_modules\typescript\lib" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\ItIncubator\fridayTeamWork\new-project-ighw\src\components\Login" />
-    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7eebf7f2-1d09-47b1-861e-ccc6b5e777a5" name="Default Changelist" comment="" />
-      <created>1656403660538</created>
+      <changelist id="827b6d3a-51f2-4083-adb4-7700e3eafba7" name="Default Changelist" comment="" />
+      <created>1656763131303</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1656403660538</updated>
-      <workItem from="1656403664425" duration="19000" />
-      <workItem from="1656403684365" duration="588000" />
-      <workItem from="1656404286809" duration="21115000" />
-      <workItem from="1656502012073" duration="14480000" />
-      <workItem from="1656579585531" duration="998000" />
-      <workItem from="1656581939837" duration="2056000" />
-      <workItem from="1656586299781" duration="986000" />
-      <workItem from="1656692642444" duration="1802000" />
-      <workItem from="1656750254127" duration="9953000" />
+      <updated>1656763131303</updated>
+      <workItem from="1656763133722" duration="150000" />
+      <workItem from="1656763289052" duration="638000" />
+      <workItem from="1656836028789" duration="15539000" />
     </task>
     <servers />
   </component>
@@ -79,33 +77,17 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1656515719633">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1656839379974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1656515719633" />
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1656429040592">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1656839379974" />
+    <state x="840" y="386" width="389" height="268" key="MultipleFileMergeDialog" timestamp="1656763268303">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1656429040592" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1656757553356">
+    <state x="840" y="386" width="389" height="268" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1656763268303" />
+    <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1656763252341">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1656757553356" />
-    <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1656428868309">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1656428868309" />
-    <state x="668" y="239" width="583" height="562" key="find.popup" timestamp="1656761233368">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="668" y="239" width="583" height="562" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1656761233368" />
-    <state x="731" y="299" key="git4idea.merge.GitMergeDialog" timestamp="1656428719866">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="731" y="299" key="git4idea.merge.GitMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1656428719866" />
-    <state x="671" y="293" key="git4idea.merge.GitPullDialog" timestamp="1656428925269">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="671" y="293" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1656428925269" />
+    <state x="767" y="430" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1656763252341" />
   </component>
 </project>

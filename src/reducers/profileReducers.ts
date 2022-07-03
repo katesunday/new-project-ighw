@@ -23,6 +23,7 @@ type ProfilePayloadType = {
     name: string
     avatar: string
     email: string
+    id: string
 }
 
 export type ChangeProfileType = {
@@ -53,12 +54,13 @@ const initialState: UserType = {
 export const profileReducers = (state: UserType = initialState, action: ProfileActionTypes): UserType => {
     switch (action.type) {
         case 'PROFILE/SET-PROFILE-DATA':
-            const {name, avatar, email} = action.payload
+            const {name, avatar, email, id} = action.payload
             return {
                 ...state,
                 name: name,
                 avatar: avatar,
-                email: email
+                email: email,
+                _id: id
             }
 
         case 'PROFILE/CHANGE-PROFILE-DATA':
@@ -101,7 +103,8 @@ export const changeName = (newName: string) => (dispatch: Dispatch<ProfileAction
             dispatch(setProfileData({
                 name: updatedUser.name,
                 email: updatedUser.email,
-                avatar: updatedUser.avatar
+                avatar: updatedUser.avatar,
+                id: updatedUser._id
             }))
             dispatch(setAppStatus('succeeded'))
         })

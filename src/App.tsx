@@ -12,6 +12,7 @@ import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from './components/Error404/Error404';
 import Navigation from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
+import {PacksList} from './components/PacksList/PacksList';
 
 type AppPropsType = {
     themes: object[]
@@ -39,6 +40,7 @@ const App = React.memo((props: AppPropsType) => {
                         <li><NavLink to='/error'>ErrorPage</NavLink></li>
                         <li><NavLink to='/restorePassword'>Restore password</NavLink></li>
                         <li><NavLink to='/test'>Testing</NavLink></li>
+                        <li><NavLink to='/packs'>Packs</NavLink></li>
 
                     </ol>
                     {appInitializing ?
@@ -48,6 +50,7 @@ const App = React.memo((props: AppPropsType) => {
                             <Route path='/login' element={<Login/>}/>
                             <Route path='/registration' element={<Registration/>}/>
                             <Route path='/profile' element={<Profile/>}/>
+                            <Route path='/packs' element={<PacksList/>}/>
                             <Route path='/error' element={<Error404/>}/>
                             <Route path='/restorePassword' element={<RestorePassword/>}/>
                             <Route path='/set-new-password/:token' element={<SetNewPassword/>}/>

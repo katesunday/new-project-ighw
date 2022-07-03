@@ -1,7 +1,8 @@
 import {PayloadType} from '../reducers/registrationReducers';
 import {AxiosResponse} from 'axios';
 import {ChangeProfileType, UserType} from '../reducers/profileReducers';
-import {instance, RegistrationResponseType} from './authAPI';
+import {RegistrationResponseType} from './authAPI';
+import {instance} from './instance';
 
 
 export const profileAPI = {

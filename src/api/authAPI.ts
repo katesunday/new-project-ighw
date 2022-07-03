@@ -1,11 +1,8 @@
-import {PayloadType} from "../reducers/registrationReducers";
 import axios , {AxiosResponse} from "axios";
 import {LogoutResponse, UserType} from '../reducers/profileReducers';
+import {instance} from './instance';
 
-export const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/' ,
-    withCredentials: true ,
-})
+
 const messageForRestorePW = `<div style="background-color: lime; padding: 15px">
 Our team created for you password recovery link: 
 <a href='http://localhost:3000/#/set-new-password/$token$'>

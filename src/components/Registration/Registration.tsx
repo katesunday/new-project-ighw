@@ -152,4 +152,3 @@ const Registration = React.memo(() => {
 export default Registration;
 
 
-// state = [id:[...cards]....]

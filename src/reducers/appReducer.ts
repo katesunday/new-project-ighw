@@ -79,7 +79,8 @@ export const meRequest = () => (dispatch: Dispatch<AppActionsType | ProfileActio
                 dispatch(setProfileData({
                     name: currentUser.name,
                     email: currentUser.email,
-                    avatar: currentUser.avatar
+                    avatar: currentUser.avatar,
+                    id: currentUser._id,
                 }))
             }
             dispatch(setAppStatus('succeeded'))
