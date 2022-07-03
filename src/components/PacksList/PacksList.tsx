@@ -11,6 +11,7 @@ import {createNewPack, editPack, getPacks, learnPack, removePack} from '../../re
 import Button from '@mui/material/Button';
 import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
+import {Navigate} from "react-router-dom";
 
 export const PacksList = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -29,7 +30,7 @@ export const PacksList = React.memo(() => {
 
     const editHandler = (id: string) => {
         dispatch(editPack(id))
-        // return <Navigate to={'/editCard'}/> // когда будет готова страница редактирования, редиректим сюда
+        return <Navigate to={'/cards'}/>
     }
 
     const learnHandler = (id: string) => {

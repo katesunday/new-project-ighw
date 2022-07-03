@@ -13,6 +13,7 @@ import {Error404} from './components/Error404/Error404';
 import Navigation from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
 import {PacksList} from './components/PacksList/PacksList';
+import {Cards} from "./components/Cards/Cards";
 
 type AppPropsType = {
     themes: object[]
@@ -41,6 +42,7 @@ const App = React.memo((props: AppPropsType) => {
                         <li><NavLink to='/restorePassword'>Restore password</NavLink></li>
                         <li><NavLink to='/test'>Testing</NavLink></li>
                         <li><NavLink to='/packs'>Packs</NavLink></li>
+                        <li><NavLink to='/cards'>Cards</NavLink></li>
 
                     </ol>
                     {appInitializing ?
@@ -51,6 +53,7 @@ const App = React.memo((props: AppPropsType) => {
                             <Route path='/registration' element={<Registration/>}/>
                             <Route path='/profile' element={<Profile/>}/>
                             <Route path='/packs' element={<PacksList/>}/>
+                            <Route path='/cards' element={<Cards/>}/>
                             <Route path='/error' element={<Error404/>}/>
                             <Route path='/restorePassword' element={<RestorePassword/>}/>
                             <Route path='/set-new-password/:token' element={<SetNewPassword/>}/>
