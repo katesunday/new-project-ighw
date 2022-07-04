@@ -11,9 +11,11 @@ import {createNewPack, editPack, getPacks, learnPack, removePack} from '../../re
 import Button from '@mui/material/Button';
 import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 export const PacksList = React.memo(() => {
+    const navigate = useNavigate();
+
     const dispatch = useAppDispatch()
     const packs = useAppSelector(state => state.packsList.packs)
     const userId= useAppSelector(state => state.profile._id)
@@ -35,6 +37,8 @@ export const PacksList = React.memo(() => {
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
+        const path = `/train`;
+        navigate(path, {replace: true});
         // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
     }
 

@@ -56,7 +56,7 @@ const SetNewPassword = React.memo(() => {
 
     const navigate = useNavigate();
     const toLogin = useCallback(() => {
-        let path = `/login`;
+        const path = `/login`;
         navigate(path, {replace: true});
     }, [navigate])
 
