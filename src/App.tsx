@@ -14,6 +14,8 @@ import Navigation from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
 import {PacksList} from './components/PacksList/PacksList';
 import {Cards} from "./components/Cards/Cards";
+import MainPage from './components/MainPage/MainPage';
+import TrainCard from './components/TrainCard/TrainCard';
 
 type AppPropsType = {
     themes: object[]
@@ -43,6 +45,8 @@ const App = React.memo((props: AppPropsType) => {
                         <li><NavLink to='/test'>Testing</NavLink></li>
                         <li><NavLink to='/packs'>Packs</NavLink></li>
                         <li><NavLink to='/cards'>Cards</NavLink></li>
+                        <li><NavLink to='/mainPage'>Main Page</NavLink></li>
+                        <li><NavLink to='/train'>Train</NavLink></li>
 
                     </ol>
                     {appInitializing ?
@@ -58,6 +62,8 @@ const App = React.memo((props: AppPropsType) => {
                             <Route path='/restorePassword' element={<RestorePassword/>}/>
                             <Route path='/set-new-password/:token' element={<SetNewPassword/>}/>
                             <Route path='/test' element={<TestComponents/>}/>
+                            <Route path='/mainPage' element={<MainPage/>}/>
+                            <Route path='/train' element={<TrainCard packName = {'Pack Name'} cardID = {'625ed9e144fbee0004e6373c'}/>}/>
                         </Routes> :
                         <LinearProgress style={{position: 'absolute'}}/>}
                 <Navigation/>

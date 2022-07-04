@@ -1,0 +1,36 @@
+.MainPage {
+    width: 80%;
+    background-color: aliceblue;
+    height: 80vh;
+    display: flex;
+}
+
+.sideBar {
+    width: 20%;
+    background-color: rgb(184 245 213 / 54%);
+    padding: 23px;
+
+}
+
+.packList {
+    width: 75%;
+
+}
+
+.packListHeader {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.searchAndAdd {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.selectorBtns {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+}
