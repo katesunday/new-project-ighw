@@ -1,6 +1,7 @@
 import axios from "axios"
 import { Dispatch } from "redux"
-import {cardsAPI , CardType} from "../api/cardsAPI"
+import {cardsAPI, CardType } from "../api/cardsAPI"
+import { packsAPI } from "../api/packsAPI"
 import {AppActionsType, setAppError } from "./appReducer"
 
 
@@ -58,7 +59,7 @@ export const GetCardsTC =  (cardsPack_id: string) => {
 
 export const getPacksByParamsTC = (min:number,max:number)=>{
     return async (dispatch: Dispatch<cardsReducerActionType>)=>{
-      const res = await  cardsAPI.getPacksByParams({min,max})
+      const res = await  packsAPI.getPacks({min,max,pageCount:8})
         try {
             console.log(res)
         }
@@ -75,7 +76,7 @@ export const getPacksByParamsTC = (min:number,max:number)=>{
 
 export const searchPacks = (packName:string)=>{
     return async (dispatch: Dispatch<cardsReducerActionType>)=>{
-        const res = await  cardsAPI.getPacksByParams({packName})
+        const res = await  packsAPI.getPacks({packName,pageCount:8})
         try {
             console.log(res)
         }

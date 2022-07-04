@@ -19,7 +19,8 @@ export const cardsAPI = {
     },
     updateCard(_id: string, question: string) {
         return instance.put('/cards/card', {card: {_id, question}})
-    }
+    },
+    
 }
 
 // type

@@ -51,7 +51,7 @@ export type CardType = {
 }
 
 
-export const cardsAPI = {
+export const cardAPI = {
     getCards(payload:GetCardsPayloadType){
         return instance.get<CardsResponseType>('cards/card',{params:{...payload}})
     },

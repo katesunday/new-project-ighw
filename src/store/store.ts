@@ -7,7 +7,6 @@ import {testReducers} from "../reducers/testReducers";
 import {AppActionsType, appReducer} from '../reducers/appReducer';
 import {packsListReducer} from '../reducers/packListsReducer';
 import {cardsReducer, CardsReducerActionType} from "../reducers/cardsReducer";
-import {appReducer} from '../reducers/appReducer';
 import { cardReducer } from "../reducers/cardReducer";
 
 
@@ -18,7 +17,7 @@ const rootReducer = combineReducers({
     restorePassword: restorePWReducers,
     test: testReducers,
     packsList: packsListReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
     card: cardReducer,
 })
 export type AppRootStateType = ReturnType<typeof rootReducer>

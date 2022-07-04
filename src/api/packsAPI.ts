@@ -21,7 +21,7 @@ export type PostPackPayloadType = {
 export type SortType = '0updated' | '1updated'
 
 export type Params = {
-    packName?: 'english'
+    packName?: string
     min?: number
     max?: number
     sortPacks?: SortType
