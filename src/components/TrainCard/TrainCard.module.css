@@ -1,0 +1,16 @@
+.trainDiv{
+    background: #F9F9FE;
+    width: 60vh;
+    min-height: 40vh;
+    border-radius: 8px;
+    padding: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.navBtns{
+    display: flex;
+    justify-content: space-evenly;
+}

@@ -5,6 +5,7 @@ import {profileReducers} from "../reducers/profileReducers";
 import {restorePWReducers} from "../reducers/restorePWReducers";
 import {testReducers} from "../reducers/testReducers";
 import {appReducer} from '../reducers/appReducer';
+import { cardReducer } from "../reducers/cardReducer";
 
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     profile: profileReducers,
     restorePassword: restorePWReducers,
     test: testReducers,
+    card: cardReducer,
 })
  export type AppRootStateType = ReturnType<typeof rootReducer>
  export const store = legacy_createStore(rootReducer,applyMiddleware(thunk))
