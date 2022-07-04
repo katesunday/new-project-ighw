@@ -43,18 +43,34 @@ const initialState: InitialStateType = {
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
     switch (action.type) {
         case "CARDS/SET-CARDS":
-            return { ...state, cards: action.cards }
+            return {...state, cards: action.cards}
+        case "CARDS/DELETE-CARD":
+            return {...state, cards: state.cards.filter(card => card._id !== action.id)}
+        case "CARDS/UPDATE-CARD":
+            return {...state, cards: state.cards.map(card => card._id === action.id ? {...card, question: action.question} : card)}
         default:
             return state
     }
 }
 
-export type CardsReducerActionType = ReturnType<typeof setCards>
+export type CardsReducerActionType =
+    | SetCardsType
+    | SetDeleteCardType
+    | SetUpdateCardType
 
 // actions
+
 export const setCards = (cards: CardType[]) => ({type: 'CARDS/SET-CARDS', cards} as const)
+export type SetCardsType = ReturnType<typeof setCards>
+
+export const setDeleteCard = (id: string) => ({type: 'CARDS/DELETE-CARD', id} as const)
+export type SetDeleteCardType = ReturnType<typeof setDeleteCard>
+
+export const setUpdateCard = (id: string, question: string) => ({type: 'CARDS/UPDATE-CARD', id, question} as const)
+export type SetUpdateCardType = ReturnType<typeof setUpdateCard>
 
 // thunk
+
 export const getCards = (payload: CardsParams): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     cardsAPI.getCards(payload)
@@ -84,6 +100,7 @@ export const removeCard = (id: string): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     cardsAPI.deleteCard(id)
         .then(res => {
+            dispatch(setDeleteCard(id))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {
@@ -96,6 +113,7 @@ export const updateCard = (id: string, question: string): ThunkType => dispatch 
     dispatch(setAppStatus('inProgress'))
     cardsAPI.updateCard(id, question)
         .then(res => {
+            dispatch(setUpdateCard(id, question))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {

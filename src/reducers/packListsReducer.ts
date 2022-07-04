@@ -23,13 +23,13 @@ export type Pack = {
 type PackStateType = {
     packs: Pack[]
     editPackId : string | null
-    learnPackId: string | null
+    learnPackId: string
 }
 
 const initialState: PackStateType = {
     packs: [],
     editPackId: null,
-    learnPackId: null,
+    learnPackId: '',
 }
 export type PacksActionType = SetPacksAT | DeletePackAT | EditPackAT | LearnPackAT
 
