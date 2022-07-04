@@ -5,29 +5,32 @@ import React , {ChangeEvent , useEffect , useState} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
-import {useAppDispatch} from '../../utils/hooks';
-import { getPacksByParamsTC, searchPacks} from '../../reducers/cardReducer';
+import {useAppDispatch , useAppSelector} from '../../utils/hooks';
+import {getPacksByParamsTC , searchPacks} from '../../reducers/cardReducer';
+import {createNewPack , getPacks} from '../../reducers/packListsReducer';
+import {PostPackPayloadType} from '../../api/packsAPI';
+import { PacksList } from '../PacksList/PacksList';
 
 
 const MainPage = React.memo(() => {
-
-    const useDebounce = (value:string, delay:number)=> {
+    const userId = useAppSelector(state => state.profile._id)
+    const useDebounce = (value: string , delay: number) => {
         // State and setters for debounced value
-        const [debouncedValue, setDebouncedValue] = useState(value);
+        const [debouncedValue , setDebouncedValue] = useState(value);
         useEffect(
             () => {
                 // Update debounced value after delay
                 const handler = setTimeout(() => {
                     setDebouncedValue(value);
-                }, delay);
+                } , delay);
                 // Cancel the timeout if value changes (also on delay change or unmount)
                 // This is how we prevent debounced value from updating if value is changed ...
                 // .. within the delay period. Timeout gets cleared and restarted.
                 return () => {
                     clearTimeout(handler);
                 };
-            },
-            [value, delay] // Only re-call effect if value or delay changes
+            } ,
+            [value , delay] // Only re-call effect if value or delay changes
         );
         return debouncedValue;
     }
@@ -51,8 +54,22 @@ const MainPage = React.memo(() => {
         setSearchTerm(e.currentTarget.value)
     }
 
+
+    const getMyPacksHandler = () => {
+        dispatch(getPacks({user_id: userId}))
+    }
+    const getAllPacksHandler = () => {
+        dispatch(getPacks({
+            page: 1 ,
+            pageCount: 8
+        }))
+    }
+    const createNewPackHandler = (payload: PostPackPayloadType) => {
+        dispatch(createNewPack(payload))
+    }
+
     useEffect(() => {
-       dispatch(searchPacks(debouncedSearchTerm))
+        dispatch(searchPacks(debouncedSearchTerm))
     } , [debouncedSearchTerm])
 
     return (
@@ -60,17 +77,15 @@ const MainPage = React.memo(() => {
             <div className={s.sideBar}>
                 <div>Show packs of cards</div>
                 <div className={s.selectorBtns}>
-                    <Button
-                        variant="contained"
-                        sx={{mt: 3 , mb: 2}}
-                    >
-                        My
+                    <Button sx={{mt: 3 , mb: 2}}
+                            onClick={getMyPacksHandler}
+                            variant={'contained'}>
+                        My Packs
                     </Button>
-                    <Button
-                        variant="contained"
-                        sx={{mt: 2 , mb: 2}}
-                    >
-                        All
+                    <Button sx={{mt: 3 , mb: 2}}
+                            onClick={getAllPacksHandler}
+                            variant={'contained'}>
+                        All Packs
                     </Button>
                 </div>
                 <div>
@@ -96,14 +111,17 @@ const MainPage = React.memo(() => {
                                    </InputAdornment>
                                }}
                     />
-                    <Button
-                        variant="contained"
-                        sx={{mt: 3 , mb: 2}}
-                    >
-                        Add new Pack
+                    <Button sx={{mt: 3 , mb: 2}}
+                            onClick={() => createNewPackHandler({
+                                name: 'Some name' ,
+                                private: false ,
+                                deckCover: ''
+                            })}
+                            variant={'contained'}>
+                        AddNewPack
                     </Button>
                 </div>
-
+                <PacksList/>
                 <Pagination count={1000} shape="rounded"/>
             </div>
         </div>
@@ -112,6 +130,4 @@ const MainPage = React.memo(() => {
 
 export default MainPage;
 
-function useDebounce(searchTerm: string , arg1: number) {
-    throw new Error('Function not implemented.');
-}
+

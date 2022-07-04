@@ -42,17 +42,6 @@ export const PacksList = React.memo(() => {
         dispatch(createNewPack(payload))
     }
 
-    const getMyPacksHandler = () => {
-        dispatch(getPacks({user_id: userId}))
-    }
-
-    const getAllPacksHandler = () => {
-        dispatch(getPacks({
-            page: 1,
-            pageCount: 8
-        }))
-    }
-
 
     const [sort, setSort] = useState<SortType>('0updated')
 
@@ -75,30 +64,6 @@ export const PacksList = React.memo(() => {
     return (
         <Grid container justifyContent={'center'}>
             <div>
-                <Button sx={{mt: 3, mb: 2}}
-                        onClick={getMyPacksHandler}
-                        variant={'contained'}>
-                    My Packs
-                </Button>
-                <Button sx={{mt: 3, mb: 2}}
-                        onClick={getAllPacksHandler}
-                        variant={'contained'}>
-                    All Packs
-                </Button>
-            </div>
-            <div>
-                <h3>PacksList</h3>
-                <Button sx={{mt: 3, mb: 2}}
-                        onClick={() => createNewPackHandler({
-                            name: 'Some name',
-                            private: false,
-                            deckCover: ''
-                        })}
-                        variant={'contained'}>
-                    AddNewPack
-                </Button>
-                {/*SearchBar and Button*/}
-
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                         <TableBody>
