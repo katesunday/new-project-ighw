@@ -20,13 +20,14 @@ const TrainCard = () => {
         else return {} as Pack
     })
 
-    const cardsArray = useAppSelector(state => state.card)
+    useEffect(() => {
+        if(currentPack) dispatch(getCards({cardsPack_id: currentPack._id}))
+    } , [])
+
+
+    const cardsArray = useAppSelector(state => state.cards.cards)
 
     const [questionNo,setQuestionNo] = useState(0)
-
-    useEffect(() => {
-       if(currentPack) dispatch(getCards({cardsPack_id: currentPack._id}))
-    } , [])
 
     const [answer,showAnswer] = useState(false)
 

@@ -21,6 +21,7 @@
     width: 100%;
     text-align: center;
     padding: 10px;
+    font-size: larger;
 }
 
 .searchAndAdd {
@@ -32,5 +33,10 @@
 .selectorBtns {
     display: flex;
     align-items: flex-end;
-    justify-content: space-around;
+    justify-content: space-between;
+
+}
+.selectorBtns button{
+    height: 40px;
+    width: 90px;
 }

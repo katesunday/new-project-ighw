@@ -12,10 +12,11 @@ import Button from '@mui/material/Button';
 import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
 import {Navigate, useNavigate} from "react-router-dom";
+import Preloader from '../../common/Preloader/Preloader';
 
 export const PacksList = React.memo(() => {
     const navigate = useNavigate();
-
+    const appStatus = useAppSelector(state => state.app.appStatus)
     const dispatch = useAppDispatch()
     const packs = useAppSelector(state => state.packsList.packs)
     const userId= useAppSelector(state => state.profile._id)
@@ -38,7 +39,6 @@ export const PacksList = React.memo(() => {
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
         navigate( `/train`, {replace: true});
-        // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
     }
 
     const createNewPackHandler = (payload: PostPackPayloadType) => {
@@ -70,7 +70,7 @@ export const PacksList = React.memo(() => {
 
     return (
         <Grid container justifyContent={'center'}>
-            <div>
+            {appStatus ==='succeeded' ?    <div>
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                         <TableBody>
@@ -135,7 +135,9 @@ export const PacksList = React.memo(() => {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-            </div>
+            </div> :
+            <Preloader/>}
+
         </Grid>
     );
 })
