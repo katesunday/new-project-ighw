@@ -11,16 +11,20 @@ import IconButton from '@mui/material/IconButton';
 
 export const Profile = React.memo(() => {
 
-    const {name, email, avatar} = useAppSelector<UserType>(state => state.profile)
-    const {isLoggedIn, appStatus} = useAppSelector(state => state.app)
+    const name = useAppSelector(state => state.profile.name)
+    const email = useAppSelector(state => state.profile.email)
+    const avatar = useAppSelector(state => state.profile.avatar)
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
+    const appStatus = useAppSelector(state => state.app.appStatus)
+
     const dispatch = useAppDispatch()
+
+    const [localName, setLocalName] = useState<string>(name)
+    const validateName = localName === '' || localName === name
 
     useEffect(() => {
         setLocalName(name)
     }, [dispatch, name])
-
-    const [localName, setLocalName] = useState<string>(name)
-    const validateName = localName === '' || localName === name
 
     const changeNickNameHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setLocalName(e.currentTarget.value)

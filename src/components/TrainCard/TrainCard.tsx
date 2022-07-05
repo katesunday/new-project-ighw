@@ -3,23 +3,29 @@ import Button from '@mui/material/Button/Button';
 import React, { useEffect, useState } from 'react';
 import s from './TrainCard.module.css'
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import { GetCardsTC } from '../../reducers/cardReducer';
-import { Navigate, NavLink } from 'react-router-dom';
-
-type TrainCardPropsType = {
-    packName:string
-    cardID:string
-}
+import {Pack} from '../../reducers/packListsReducer';
+import { useNavigate } from 'react-router-dom';
+import {getCards} from '../../reducers/cardsReducer';
 
 
-const TrainCard = (props:TrainCardPropsType) => {
+
+const TrainCard = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const currentPack = useAppSelector(state => {
+        if(state.packsList.packs && state.packsList.learnPackId) {
+            const pack = state.packsList.packs.find(item => item._id === state.packsList.learnPackId)
+            if (pack) return pack
+        }
+        else return {} as Pack
+    })
 
-    const cardsArray = useAppSelector(state=>state.card)
+    const cardsArray = useAppSelector(state => state.card)
+
     const [questionNo,setQuestionNo] = useState(0)
 
     useEffect(() => {
-        dispatch(GetCardsTC(props.cardID))
+       if(currentPack) dispatch(getCards({cardsPack_id: currentPack._id}))
     } , [])
 
     const [answer,showAnswer] = useState(false)
@@ -29,9 +35,16 @@ const TrainCard = (props:TrainCardPropsType) => {
         showAnswer(false)
     }
 
+    const doneHandler = () => {
+        navigate('/mainPage/cards')
+    }
+
+    const cancelHandler = () => {
+        navigate('/mainPage')
+    }
     return (
         <div className={s.trainDiv}>
-            <div>Learn '{props.packName}'</div>
+            <div>Learn {currentPack ? `'${currentPack.name}'` : ''}</div>
 
             <div>Question №{questionNo+1}: {cardsArray[questionNo].question} </div>
             {answer &&  <div>Answer: {cardsArray[questionNo].answer} </div> }
@@ -54,19 +67,18 @@ const TrainCard = (props:TrainCardPropsType) => {
             </div> }
 
             <div className={s.navBtns}>
-                <Button
+                <Button onClick={cancelHandler}
                     variant="contained"
                     sx={{mt: 3 , mb: 2}}
                 >
                     Cancel
-                </Button>
+                </Button >
 
-                { answer && questionNo===cardsArray.length-1  ? <Button
+                { answer && questionNo === cardsArray.length-1  ? <Button onClick={doneHandler}
                     variant="contained"
                     sx={{mt: 3 , mb: 2}}
                 >
-                    <NavLink to='/mainPage'>Done</NavLink>
-
+                    Done
                 </Button> :   answer?   <Button
                             variant="contained"
                             sx={{mt: 3 , mb: 2}}
@@ -81,10 +93,7 @@ const TrainCard = (props:TrainCardPropsType) => {
                         >
                             Show answer
                         </Button> }
-
             </div>
-
-
         </div>
     );
 };

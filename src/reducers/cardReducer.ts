@@ -4,7 +4,6 @@ import {cardsAPI, CardType } from "../api/cardsAPI"
 import { packsAPI } from "../api/packsAPI"
 import {AppActionsType, setAppError } from "./appReducer"
 
-
 const initialState =[
     {
     _id: '' ,
@@ -39,7 +38,6 @@ const setCardQuestionsAC = (payload: CardType[]) => (
     {type: 'CARDS/SET_QUESTIONS' , payload} as const
 )
 
-
 export const GetCardsTC =  (cardsPack_id: string) => {
    return async (dispatch: Dispatch<cardsReducerActionType>) => {
        const res = await cardsAPI.getCards({cardsPack_id})
@@ -57,7 +55,7 @@ export const GetCardsTC =  (cardsPack_id: string) => {
     }
 }
 
-export const getPacksByParamsTC = (min:number,max:number)=>{
+export const getPacksByParamsTC = (min:number, max:number)=>{
     return async (dispatch: Dispatch<cardsReducerActionType>)=>{
       const res = await  packsAPI.getPacks({min,max,pageCount:8})
         try {

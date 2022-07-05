@@ -22,15 +22,17 @@ type AppPropsType = {
 }
 
 const App = React.memo((props: AppPropsType) => {
-
     const [darkMode, setDarkMode] = useState(false)
+
     const appStatus = useAppSelector(state => state.app.appStatus)
-    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appInitializing = useAppSelector(state => state.app.appInitializing)
 
+    const dispatch = useAppDispatch()
+
     useEffect(() => {
-        dispatch(meRequest())
-    }, [dispatch])
+            dispatch(meRequest());
+    }, [dispatch, isLoggedIn])
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
@@ -56,14 +58,17 @@ const App = React.memo((props: AppPropsType) => {
                             <Route path='/login' element={<Login/>}/>
                             <Route path='/registration' element={<Registration/>}/>
                             <Route path='/profile' element={<Profile/>}/>
-                            <Route path='/packs' element={<PacksList/>}/>
-                            <Route path='/cards' element={<Cards/>}/>
+                            <Route path='/mainPage'>
+                                <Route index={true} element={<MainPage/>}/>
+                                <Route index={false} path='cards' element={<Cards/>}/>
+                                <Route index={false} path='train' element={<TrainCard/>}/>
+                            </Route>
                             <Route path='/error' element={<Error404/>}/>
                             <Route path='/restorePassword' element={<RestorePassword/>}/>
                             <Route path='/set-new-password/:token' element={<SetNewPassword/>}/>
                             <Route path='/test' element={<TestComponents/>}/>
                             <Route path='/mainPage' element={<MainPage/>}/>
-                            <Route path='/train' element={<TrainCard packName = {'Pack Name'} cardID = {'625ed9e144fbee0004e6373c'}/>}/>
+                            <Route path='/train' element={<TrainCard/>}/>
                         </Routes> :
                         <LinearProgress style={{position: 'absolute'}}/>}
                 <Navigation/>

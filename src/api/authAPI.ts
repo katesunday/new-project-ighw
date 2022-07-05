@@ -15,7 +15,7 @@ export type LoginParamsType = {
     rememberMe: boolean
 }
 
-export type LoginResponseType = ResponseSuccessType | ResponseErrorType
+export type LoginResponseType = ResponseSuccessType
 export type RegistrationResponseType = RegistrationSuccessResponseType
 export type ResponseSuccessType = {
     _id: string,
@@ -30,6 +30,7 @@ export type ResponseSuccessType = {
     __v: number,
     token: string,
     tokenDeathTime: number
+    avatar?: string
 }
 export type ResponseErrorType = {
     error: string,
@@ -53,7 +54,7 @@ export type RegistrationSuccessResponseType = {
 
 export const authAPI = {
     login(body: LoginParamsType) {
-        return instance.post<AxiosResponse<LoginResponseType>>(`auth/login`, body)
+        return instance.post<LoginResponseType>(`auth/login`, body)
     },
 
     logout() {
@@ -61,7 +62,7 @@ export const authAPI = {
     },
 
     me() {
-        return instance.post<UserType>('auth/me', {})
+        return instance.post<UserType>('auth/me')
     } ,
     restorePW(email: string , from = 'Cards project dev group' , message = messageForRestorePW) {
         return instance.post('auth/forgot',{email, from, message})

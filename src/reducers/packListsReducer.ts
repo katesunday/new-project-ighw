@@ -18,20 +18,26 @@ export type Pack = {
     updated: string
     more_id: string
     __v: number
+    deckCover?: string
 }
+
 
 type PackStateType = {
     packs: Pack[]
-    editPackId : string | null
+    editPackId : string
     learnPackId: string
+    showPackId: string
+    minMax: [number, number]
 }
 
 const initialState: PackStateType = {
     packs: [],
-    editPackId: null,
+    editPackId: '',
     learnPackId: '',
+    showPackId: '',
+    minMax: [0, 100]
 }
-export type PacksActionType = SetPacksAT | DeletePackAT | EditPackAT | LearnPackAT
+export type PacksActionType = SetPacksAT | DeletePackAT | EditPackAT | LearnPackAT | ShowPackAT | SearchMinMaxAT | SetNewPackAT
 
 export const packsListReducer = (state: PackStateType = initialState, action: PacksActionType): PackStateType => {
     switch(action.type) {
@@ -42,10 +48,20 @@ export const packsListReducer = (state: PackStateType = initialState, action: Pa
             return {...state, packs: state.packs.filter(item => item._id !== action.id)}
 
         case 'PACKS/EDIT_PACK':
-            return {...state, editPackId: action.id}
+            return {...state, editPackId: action.id, learnPackId: '', showPackId: ''}
 
         case 'PACKS/LEARN_PACK' :
-            return {...state, learnPackId: action.id}
+            debugger
+            return {...state, learnPackId: action.id, showPackId: '', editPackId: ''}
+
+        case 'PACKS/SHOW_PACK':
+            return {...state, showPackId: action.id, learnPackId: '', editPackId: ''}
+
+        case 'PACKS/SEARCH_MIN_MAX':
+            return {...state, minMax: action.values}
+
+        case 'PACKS/SET_NEW_PACK':
+            return {...state, packs: [action.newPack, ...state.packs]}
 
         default: return state
     }
@@ -63,10 +79,23 @@ export type EditPackAT = ReturnType<typeof editPack>
 export const learnPack = (id: string) => ({type: 'PACKS/LEARN_PACK', id} as const)
 export type LearnPackAT = ReturnType<typeof learnPack>
 
+export const showPack = (id: string) => ({type: 'PACKS/SHOW_PACK', id} as const)
+export type ShowPackAT = ReturnType<typeof showPack>
+
+export const searchMinMax = (values: [number, number]) => ({type: 'PACKS/SEARCH_MIN_MAX', values} as const)
+export type SearchMinMaxAT = ReturnType<typeof searchMinMax>
+
+export const setNewPack = (newPack: Pack) => ({type: 'PACKS/SET_NEW_PACK', newPack} as const)
+export type SetNewPackAT = ReturnType<typeof setNewPack>
+
 export const getPacks = (params: Params) => (dispatch: Dispatch<PacksActionType | AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))
+    dispatch(setPacks([]))
     packsAPI.getPacks(params)
         .then(res => {
+            if(params.min && params.max){
+                dispatch(searchMinMax([params.min, params.max]))
+            }
             dispatch(setPacks(res.data.cardPacks))
             dispatch(setAppStatus('succeeded'))
         })
@@ -93,11 +122,10 @@ export const createNewPack = (payload: PostPackPayloadType) => (dispatch: Dispat
     dispatch(setAppStatus('inProgress'))
     packsAPI.createNewPack(payload)
         .then(res => {
-            debugger
+            dispatch(setNewPack(res.data.newCardsPack))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {
-            debugger
             dispatch(setAppStatus('failed'))
             dispatch(setIsLoggedIn(false))
         })

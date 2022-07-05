@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {createNewPack, editPack, getPacks, learnPack, removePack} from '../../reducers/packListsReducer';
+import {createNewPack, editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
 import Button from '@mui/material/Button';
 import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
@@ -37,8 +37,7 @@ export const PacksList = React.memo(() => {
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
-        const path = `/train`;
-        navigate(path, {replace: true});
+        navigate( `/train`, {replace: true});
         // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
     }
 
@@ -46,6 +45,10 @@ export const PacksList = React.memo(() => {
         dispatch(createNewPack(payload))
     }
 
+    const showHandler = useCallback((id: string) => {
+        navigate('/mainPage/cards')
+        dispatch(showPack(id))
+    }, [dispatch, navigate])
 
     const [sort, setSort] = useState<SortType>('0updated')
 
@@ -80,7 +83,7 @@ export const PacksList = React.memo(() => {
                             </TableRow>
                             {packs.map((pack) => {
                                 return <TableRow key={pack._id}>
-                                    <TableCell onClick={()=> {editHandler(pack._id)}} component="th" scope="row">
+                                    <TableCell onClick={()=> {showHandler(pack._id)}} component="th" scope="row">
                                         {pack.name}
                                     </TableCell>
                                     <TableCell style={{width: 150}} align="right">

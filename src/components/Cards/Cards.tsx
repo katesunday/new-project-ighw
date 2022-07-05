@@ -12,17 +12,20 @@ import TableFooter from "@mui/material/TableFooter";
 import {Rating, TableHead} from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
 
 
 export const Cards = () => {
-
     const dispatch = useAppDispatch()
-
-    const currentPack = useAppSelector(state => state.packsList.learnPackId)
+    const navigate = useNavigate()
+    const showPackId = useAppSelector(state => state.packsList.showPackId)
+    const editPackId = useAppSelector(state => state.packsList.editPackId)
+    const learnPackId = useAppSelector(state => state.packsList.learnPackId)
     const cards = useAppSelector(state => state.cards.cards)
 
+    const currentPack = showPackId || editPackId || learnPackId
+
     useEffect(() => {
-        if (currentPack)
             dispatch(getCards({cardsPack_id: currentPack}))
     }, [dispatch])
 
@@ -39,11 +42,15 @@ export const Cards = () => {
         dispatch(updateCard(id, question))
     }
 
+    const backHandler = () => {
+        navigate('/mainPage')
+    }
+
     return (
         <div style={{margin: '30px auto'}}>
             <div>
                 <Paper style={{padding: '20px'}}>
-                    <Button
+                    <Button onClick={backHandler}
                         size={'small'}
                         variant={'contained'}
                         color={'primary'}

@@ -30,6 +30,12 @@ export type Params = {
     user_id?: string
 }
 
+export type PostNewPackResponseType = {
+    newCardsPack: Pack
+    token: string
+    tokenDeathTime: number
+}
+
 
 
 export const packsAPI = {
@@ -48,6 +54,6 @@ export const packsAPI = {
     },
 
     createNewPack(payload: PostPackPayloadType) {
-        return instance.post('cards/pack', {cardsPack : {...payload}})
+        return instance.post<PostNewPackResponseType>('cards/pack', {cardsPack : {...payload}})
     }
 }

@@ -3,16 +3,16 @@ import React from 'react'
 
 
 type SuperDoubleRangePropsType = {
-    onChangeRange?: (value: number[]) => void
+    onChangeRange?: (value: [number, number]) => void
     value: [number , number]
-    onChangeBoth: (values: number[]) => void
-    onMouseLeave:(values:number[])=>void
+    onChangeBoth: (values: [number, number]) => void
+    onMouseUp:(values: [number, number])=>void
     // min, max, step, disable, ...
 }
 
 const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     {
-        onChangeRange , value , onChangeBoth, onMouseLeave
+        onChangeRange , value , onChangeBoth, onMouseUp
         // min, max, step, disable, ...
     }
 ) => {
@@ -20,10 +20,10 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
 
     return (
         <div style={{width: '85%' , marginLeft: '10px'}}>
-            <Slider onMouseLeave = {()=>onMouseLeave(value)}
+            <Slider onMouseUp = {() => onMouseUp(value)}
                     onChange={(e , v) => {
-                onChangeRange && onChangeRange(v as unknown as number[])
-                onChangeBoth(v as unknown as number[])}}
+                onChangeRange && onChangeRange(v as unknown as [number, number])
+                onChangeBoth(v as unknown as [number, number])}}
                     value={value}
                     valueLabelDisplay="auto"
                     //disabled={value[1] <= value[0]}

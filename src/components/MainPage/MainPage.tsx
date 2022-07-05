@@ -1,24 +1,27 @@
+import React , {ChangeEvent , useEffect , useState} from 'react';
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField';
-import {Icon , IconButton , InputAdornment , Pagination} from '@mui/material';
-import React , {ChangeEvent , useEffect , useState} from 'react';
+import {InputAdornment , Pagination} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
 import {useAppDispatch , useAppSelector} from '../../utils/hooks';
-import {getPacksByParamsTC , searchPacks} from '../../reducers/cardReducer';
 import {createNewPack , getPacks} from '../../reducers/packListsReducer';
 import {PostPackPayloadType} from '../../api/packsAPI';
 import { PacksList } from '../PacksList/PacksList';
 
 
 const MainPage = React.memo(() => {
+    const dispatch = useAppDispatch()
+
     const userId = useAppSelector(state => state.profile._id)
+    const minMax = useAppSelector(state => state.packsList.minMax)
+    const packs = useAppSelector(state => state.packsList.packs)
     const useDebounce = (value: string , delay: number) => {
         // State and setters for debounced value
         const [debouncedValue , setDebouncedValue] = useState(value);
-        useEffect(
-            () => {
+
+        useEffect(() => {
                 // Update debounced value after delay
                 const handler = setTimeout(() => {
                     setDebouncedValue(value);
@@ -30,47 +33,50 @@ const MainPage = React.memo(() => {
                     clearTimeout(handler);
                 };
             } ,
-            [value , delay] // Only re-call effect if value or delay changes
+            [value, delay] // Only re-call effect if value or delay changes
         );
         return debouncedValue;
     }
-    const dispatch = useAppDispatch()
-    const [value1 , setValue1] = useState(0)
-    const [value2 , setValue2] = useState(100)
+
+
+    const [values , setValues] = useState<[number, number]>(minMax)
 
     const [searchTerm , setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm , 1000);
 
-    const onChangeBoth = (values: number[]) => {
-        setValue1(values[0])
-        setValue2(values[1])
+    useEffect(() => {
+        if(debouncedSearchTerm !== '') dispatch(getPacks({packName: debouncedSearchTerm}))
+    } , [debouncedSearchTerm])
 
+    const onChangeBoth = (values: [number, number]) => {
+        setValues(values)
     }
-    const onMouseLeave = (values: number[]) => {
-        dispatch(getPacksByParamsTC(values[0] , values[1]))
+
+    const onMouseUp = (values: number[]) => {
+        // dispatch(getPacksByParamsTC(values[0] , values[1]))
+        dispatch(getPacks({min: values[0], max: values[1]}))
     }
 
     const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.currentTarget.value)
     }
 
-
     const getMyPacksHandler = () => {
         dispatch(getPacks({user_id: userId}))
     }
+
     const getAllPacksHandler = () => {
         dispatch(getPacks({
             page: 1 ,
             pageCount: 8
         }))
     }
+
     const createNewPackHandler = (payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
     }
 
-    useEffect(() => {
-        dispatch(searchPacks(debouncedSearchTerm))
-    } , [debouncedSearchTerm])
+
 
     return (
         <div className={s.MainPage}>
@@ -90,10 +96,10 @@ const MainPage = React.memo(() => {
                 </div>
                 <div>
 
-                    <SuperDoubleRange value={[value1 , value2]}
-                                      onChangeBoth={onChangeBoth} onMouseLeave={onMouseLeave}
+                    <SuperDoubleRange value={values}
+                                      onChangeBoth={onChangeBoth} onMouseUp={onMouseUp}
                     />
-                    <span>{value1} - </span> <span>{value2}</span>
+                    <span>{values[0]} - </span> <span>{values[1]}</span>
                 </div>
             </div>
 
