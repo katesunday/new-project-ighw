@@ -19,6 +19,7 @@ export type Pack = {
     more_id: string
     __v: number
     deckCover?: string
+    avatar?:string
 }
 
 

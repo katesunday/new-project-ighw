@@ -20,13 +20,13 @@ type PackListPropsType = {
     debouncedSearchTerm: string
     min: number
     max: number
+    idForProfile?: string
 }
 
-export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max}) => {
+export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max,idForProfile}) => {
     const navigate = useNavigate();
     const appStatus = useAppSelector(state => state.app.appStatus)
     const dispatch = useAppDispatch()
-
     const packs = useAppSelector(state => state.packsList.packs)
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
@@ -34,6 +34,16 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const [page, setPage] = useState(1)
 
     useEffect(() => {
+        if(idForProfile){
+            dispatch(getPacks({
+                packName: debouncedSearchTerm,
+                page: page,
+                pageCount: 8,
+                min,
+                max,
+                user_id:idForProfile
+            }))
+        }else {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
                 page: page,
@@ -41,6 +51,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                 min,
                 max,
             }))
+        }
+
     }, [dispatch, page, debouncedSearchTerm, min, max])
 
     const deleteHandler = (id: string) => {
@@ -84,6 +96,19 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         }
     }
 
+    const toProfilePacksHandler = (packUserId:string) => {
+        if(userId === packUserId ){
+            dispatch(editPack(packUserId))
+            navigate('/profilePacks')
+        }
+        else{
+            dispatch(showPack(packUserId))
+            navigate('/profilePacks')
+
+        }
+
+    }
+
     return (
         <Grid container justifyContent={'center'}>
             {appStatus ==='succeeded' ?    <div>
@@ -109,7 +134,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                     <TableCell style={{width: 100}} align="right">
                                         {pack.updated.split('T')[0].replace(/-/gi, '.')}
                                     </TableCell>
-                                    <TableCell style={{width: 100}} align="right">
+                                    <TableCell style={{width: 100}} align="right" onClick = {()=>toProfilePacksHandler(pack.user_id)}>
                                         {pack.user_name}
                                     </TableCell>
                                     <TableCell style={{width: 100}} align="right">

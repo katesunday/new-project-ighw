@@ -15,6 +15,7 @@ import s from './styles/app.module.css'
 import {Cards} from "./components/Cards/Cards";
 import MainPage from './components/MainPage/MainPage';
 import TrainCard from './components/TrainCard/TrainCard';
+import ProfilePacks from './components/ProfilePacks/ProfilePacks';
 
 type AppPropsType = {
     themes: object[]
@@ -69,6 +70,7 @@ const App = React.memo((props: AppPropsType) => {
                             <Route path='/test' element={<TestComponents/>}/>
                             <Route path='/mainPage' element={<MainPage/>}/>
                             <Route path='/train' element={<TrainCard/>}/>
+                            <Route path='/profilePacks' element={<ProfilePacks/>}/>
                         </Routes> :
                         <LinearProgress style={{position: 'absolute'}}/>}
                 <Navigation/>
