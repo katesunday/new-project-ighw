@@ -1,12 +1,15 @@
 import React, {ChangeEvent, useCallback, useEffect, useState, KeyboardEvent} from 'react';
 import styles from "./profile.module.css";
-import {Button, LinearProgress, Paper, TextField} from '@mui/material';
-import {changeName, logout, UserType} from '../../reducers/profileReducers';
+import {changeName, logout} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 
 export const Profile = React.memo(() => {
@@ -19,7 +22,7 @@ export const Profile = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
-    const [localName, setLocalName] = useState<string>(name)
+    const [localName, setLocalName] = useState(name)
     const validateName = localName === '' || localName === name
 
     useEffect(() => {

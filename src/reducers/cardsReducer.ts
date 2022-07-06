@@ -2,7 +2,6 @@ import {cardsAPI, CardsParams, CardType} from "../api/cardsAPI";
 import {ThunkType} from "../store/store";
 import {setAppError, setAppStatus} from "./appReducer";
 
-export type OrderType = 'desc' | 'asc'
 type InitialStateType = CardsInfoType & {
     cards: CardType[]
     sortCards: string
@@ -11,8 +10,8 @@ type InitialStateType = CardsInfoType & {
     cardsPack_id: string
     min: number
     max: number
-    order: OrderType
 }
+
 type CardsInfoType = {
     cardsTotalCount: number
     maxGrade: number
@@ -32,7 +31,6 @@ const initialState: InitialStateType = {
     packUserId: '',
 
     sortCards: '',
-    order: 'desc',
     cardAnswer: '',
     cardQuestion: '',
     cardsPack_id: '',
@@ -40,23 +38,22 @@ const initialState: InitialStateType = {
     max: 0
 }
 
+export type CardsReducerActionType = | SetCardsType | SetDeleteCardType | SetUpdateCardType
+
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
     switch (action.type) {
         case "CARDS/SET-CARDS":
-            return {...state, cards: action.cards}
+            return {...state, cards: [...action.cards]}
+
         case "CARDS/DELETE-CARD":
             return {...state, cards: state.cards.filter(card => card._id !== action.id)}
+
         case "CARDS/UPDATE-CARD":
             return {...state, cards: state.cards.map(card => card._id === action.id ? {...card, question: action.question} : card)}
-        default:
-            return state
+
+        default: return state
     }
 }
-
-export type CardsReducerActionType =
-    | SetCardsType
-    | SetDeleteCardType
-    | SetUpdateCardType
 
 // actions
 
@@ -73,6 +70,7 @@ export type SetUpdateCardType = ReturnType<typeof setUpdateCard>
 
 export const getCards = (payload: CardsParams): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
+    dispatch(setCards([]))
     cardsAPI.getCards(payload)
         .then(res => {
             dispatch(setCards(res.data.cards))

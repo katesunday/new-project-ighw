@@ -31,8 +31,9 @@ export const PacksList = React.memo(() => {
     }
 
     const editHandler = (id: string) => {
+        navigate('/mainPage/cards')
         dispatch(editPack(id))
-        return <Navigate to={'/cards'}/>
+        // return <Navigate to={'/cards'}/>
     }
 
     const learnHandler = (id: string) => {
@@ -83,7 +84,8 @@ export const PacksList = React.memo(() => {
                             </TableRow>
                             {packs.map((pack) => {
                                 return <TableRow key={pack._id}>
-                                    <TableCell onClick={()=> {showHandler(pack._id)}} component="th" scope="row">
+                                    <TableCell onClick={()=> {
+                                        userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)}} component="th" scope="row">
                                         {pack.name}
                                     </TableCell>
                                     <TableCell style={{width: 150}} align="right">
