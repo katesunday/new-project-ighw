@@ -18,7 +18,6 @@ const rootReducer = combineReducers({
     test: testReducers,
     packsList: packsListReducer,
     cards: cardsReducer,
-    card: cardReducer,
 })
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))

@@ -71,7 +71,7 @@ export const PacksList = React.memo(() => {
     return (
         <Grid container justifyContent={'center'}>
             {appStatus ==='succeeded' ?    <div>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} style = {{marginBottom: '60px'}}>
                     <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                         <TableBody>
                             <TableRow>
@@ -111,6 +111,7 @@ export const PacksList = React.memo(() => {
                                                 Edit
                                             </Button> : undefined}
                                         <Button sx={{mt: 3, mb: 2}}
+                                                disabled = {pack.cardsCount === 0}
                                                 onClick={() => learnHandler(pack._id)}
                                                 variant={'contained'}>
                                             Learn

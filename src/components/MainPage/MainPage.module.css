@@ -3,6 +3,8 @@
     background-color: aliceblue;
     min-height: 80vh;
     display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .sideBar {
@@ -14,6 +16,7 @@
 
 .packList {
     width: 75%;
+    position: relative;
 
 }
 

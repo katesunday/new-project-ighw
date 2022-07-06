@@ -30,7 +30,6 @@ const initialState: InitialStateType = {
     page: 1,
     pageCount: 5,
     packUserId: '',
-
     sortCards: '',
     order: 'desc',
     cardAnswer: '',
@@ -43,7 +42,7 @@ const initialState: InitialStateType = {
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
     switch (action.type) {
         case "CARDS/SET-CARDS":
-            return {...state, cards: action.cards}
+            return {...state, cards: [...action.cards]}
         case "CARDS/DELETE-CARD":
             return {...state, cards: state.cards.filter(card => card._id !== action.id)}
         case "CARDS/UPDATE-CARD":

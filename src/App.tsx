@@ -22,7 +22,6 @@ type AppPropsType = {
 
 const App = React.memo((props: AppPropsType) => {
     const [darkMode, setDarkMode] = useState(false)
-
     const appStatus = useAppSelector(state => state.app.appStatus)
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appInitializing = useAppSelector(state => state.app.appInitializing)

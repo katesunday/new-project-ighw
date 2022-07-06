@@ -14,11 +14,12 @@ const PaginationComponent = (props:PaginationComponentPropsType) => {
     const [num, setNum] = useState('8');
 
     const handleChange = (event: SelectChangeEvent) => {
-        setNum(event.target.value);
+        debugger
+        // setNum(event.target.value);
     };
     return (
         <div className={s.paginationDiv}>
-            <Pagination count={props.value} shape="rounded" />
+            <Pagination   count={props.value} shape="rounded" />
             <div>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
                     <InputLabel id="demo-simple-select-standard-label">Pack per page</InputLabel>
@@ -26,7 +27,7 @@ const PaginationComponent = (props:PaginationComponentPropsType) => {
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
                         value={num}
-                        onChange={handleChange}
+                        //onChange={handleChange}
                         label="Pack per page"
                     >
                         <MenuItem value="">
