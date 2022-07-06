@@ -7,9 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {createNewPack, editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
+import {editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
 import Button from '@mui/material/Button';
-import {PostPackPayloadType, SortType} from '../../api/packsAPI';
+import {SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
 import {useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
@@ -34,13 +34,13 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-            dispatch(getPacks({
-                packName: debouncedSearchTerm,
-                page: page,
-                pageCount: 8,
-                min,
-                max,
-            }))
+        dispatch(getPacks({
+            packName: debouncedSearchTerm,
+            page: page,
+            pageCount: 8,
+            min,
+            max,
+        }))
     }, [dispatch, page, debouncedSearchTerm, min, max])
 
     const deleteHandler = (id: string) => {
@@ -54,11 +54,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
-        navigate( `/train`, {replace: true});
-    }
-
-    const createNewPackHandler = (payload: PostPackPayloadType) => {
-        dispatch(createNewPack(payload))
+        navigate(`/train`, {replace: true});
     }
 
     const showHandler = useCallback((id: string) => {
@@ -86,64 +82,74 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     return (
         <Grid container justifyContent={'center'}>
-            {appStatus ==='succeeded' ?    <div>
-                <TableContainer component={Paper} style = {{marginBottom: '30px'}}>
-                    <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell align="left">Pack Name</TableCell>
-                                <TableCell align="center">Number of cards</TableCell>
-                                <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
-                                <TableCell align="right">User name</TableCell>
-                                <TableCell align="right">Actions</TableCell>
-                            </TableRow>
-                            {packs.map((pack) => {
-                                return <TableRow key={pack._id}>
-                                    <TableCell onClick={()=> {
-                                        userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)}} component="th" scope="row">
-                                        {pack.name}
-                                    </TableCell>
-                                    <TableCell style={{width: 100}} align="right">
-                                        {pack.cardsCount}
-                                    </TableCell>
-                                    <TableCell style={{width: 100}} align="right">
-                                        {pack.updated.split('T')[0].replace(/-/gi, '.')}
-                                    </TableCell>
-                                    <TableCell style={{width: 100}} align="right">
-                                        {pack.user_name}
-                                    </TableCell>
-                                    <TableCell style={{width: 100}} align="right">
-                                        {userId === pack.user_id ?
-                                            <Button sx={{mt: 3, mb: 2}} className = {s.btns}
+            {appStatus === 'succeeded' ? <div>
+                    <TableContainer component={Paper} style={{marginBottom: '30px'}}>
+                        <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell align="left">Pack Name</TableCell>
+                                    <TableCell align="center">Number of cards</TableCell>
+                                    <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
+                                    <TableCell align="right">User name</TableCell>
+                                    <TableCell align="right">Actions</TableCell>
+                                </TableRow>
+                                {packs.map((pack) => {
+                                    return <TableRow key={pack._id}>
+                                        <TableCell onClick={() => {
+                                            userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)
+                                        }} component="th" scope="row">
+                                            {pack.name}
+                                        </TableCell>
+                                        <TableCell style={{width: 100}} align="right">
+                                            {pack.cardsCount}
+                                        </TableCell>
+                                        <TableCell style={{width: 100}} align="right">
+                                            {pack.updated.split('T')[0].replace(/-/gi, '.')}
+                                        </TableCell>
+                                        <TableCell style={{width: 100}} align="right">
+                                            {pack.user_name}
+                                        </TableCell>
+                                        <TableCell style={{width: 100}} align="right">
+                                            {userId === pack.user_id ?
+                                                <Button
+                                                    sx={{mt: 3, mb: 2}}
+                                                    className={s.btnsDelete}
                                                     onClick={() => deleteHandler(pack._id)}
-                                                    variant={'contained'}>
-                                                Delete
-                                            </Button> : undefined}
-                                        {userId === pack.user_id ?
-                                            <Button sx={{mt: 3, mb: 2}} className = {s.btns}
+                                                    variant={'contained'}
+                                                    color={'error'}>
+                                                    Delete
+                                                </Button> : undefined}
+                                            {userId === pack.user_id ?
+                                                <Button
+                                                    color={'secondary'}
+                                                    sx={{mt: 3, mb: 2}}
+                                                    className={s.btnsEdit}
                                                     onClick={() => {
                                                         editHandler(pack._id)
                                                     }}
                                                     variant={'contained'}>
-                                                Edit
-                                            </Button> : undefined}
-                                        <Button sx={{mt: 3, mb: 2}} className = {s.btns}
-                                                disabled = {pack.cardsCount === 0}
+                                                    Edit
+                                                </Button> : undefined}
+                                            <Button
+                                                color={'secondary'}
+                                                sx={{mt: 3, mb: 2}}
+                                                className={s.btnsLern}
+                                                disabled={pack.cardsCount === 0}
                                                 onClick={() => learnHandler(pack._id)}
                                                 variant={'contained'}>
-                                            Learn
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            })}
-                        </TableBody >
-                        <TableFooter>
-                            <AppPagination setPage={setPage} page={page} amountOfPages={amountOfPages}/>
-                        </TableFooter>
-                    </Table>
-                </TableContainer>
-            </div> :
-            <Preloader/>}
+                                                Learn
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                })}
+                            </TableBody>
+                            <TableFooter>
+                                <AppPagination setPage={setPage} page={page} amountOfPages={amountOfPages}/>
+                            </TableFooter>
+                        </Table>
+                    </TableContainer>
+                </div> :
+                <Preloader/>}
         </Grid>
     );
 })

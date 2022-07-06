@@ -17,12 +17,17 @@ const darkTheme = createTheme({
         },
         primary: {
             main: '#f50057',
-            contrastText: '#090606',
+            contrastText: '#000',
             dark: 'white',
         },
         secondary: {
+            main: '#54e183',
+            contrastText: '#000',
+            dark: 'white',
+        },
+        error: {
             main: '#f50057',
-            contrastText: '#000000',
+            contrastText: '#000',
             dark: 'white',
         },
         mode: "dark",
@@ -42,7 +47,12 @@ const lightTheme = createTheme({
         },
         secondary: {
             main: '#54e183',
-            contrastText: 'rgba(53,168,47,0.8)',
+            contrastText: '#fff',
+            dark: 'black',
+        },
+        error: {
+            main: '#f60606',
+            contrastText: '#fff',
             dark: 'black',
         },
         mode: "light"
@@ -52,13 +62,13 @@ const lightTheme = createTheme({
 const themes = [lightTheme, darkTheme]
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
     <HashRouter>
-          <Provider store={store} >
-              <App themes={themes}/>
-          </Provider>
+        <Provider store={store}>
+            <App themes={themes}/>
+        </Provider>
     </HashRouter>
 );
 

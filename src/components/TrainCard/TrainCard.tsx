@@ -1,4 +1,4 @@
-import {FormControl , FormControlLabel , FormLabel , Radio , RadioGroup} from '@mui/material';
+import {FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup} from '@mui/material';
 import Button from '@mui/material/Button/Button';
 import React , {useEffect , useState} from 'react';
 import s from './TrainCard.module.css'
@@ -61,7 +61,7 @@ const TrainCard = () => {
          return <Preloader/>
      }
     return (
-        <div className={s.trainDiv}>
+        <Paper className={s.trainDiv}>
             <div>Learn {currentPack ? `'${currentPack.name}'` : ''}</div>
 
             <div>Question №{questionNo + 1}: {cardsArray[questionNo].question} </div>
@@ -112,7 +112,7 @@ const TrainCard = () => {
                         Show answer
                     </Button>}
             </div>
-        </div>
+        </Paper>
     );
 };
 

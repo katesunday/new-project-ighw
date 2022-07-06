@@ -1,30 +1,32 @@
 .MainPage {
     background-color: aliceblue;
-    height: 90vh;
+    height: 80vh;
     display: flex;
     margin-top: 100px;
     margin-bottom: 100px;
     min-width: 85%;
     max-width: 85%;
-
 }
 
 .sideBar {
     width: 20%;
     background-color: rgb(184 245 213 / 54%);
     padding: 23px;
-
+    border: 1px solid #fff;
 }
 
 .packList {
     width: 80%;
     position: relative;
-
+    border: 1px solid #fff;
 }
+
 .allPacks{
+    margin: 10px;
     padding: 10px;
     overflow: auto;
-    height: calc(100vh - 235px);
+    height: calc(75vh - 100px);
+    border: 1px solid #fff;
 }
 
 .packListHeader {
@@ -46,7 +48,17 @@
     justify-content: space-between;
 
 }
+
 .selectorBtns button{
     height: 40px;
     width: 120px;
+}
+.container {
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+.dubleRange {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -1,5 +1,32 @@
-.btns{
-    width: 100px;
-    height: 30px;
+.btnsDelete {
+    height: 25px;
+    width: 56px;
+    left: 6px;
+    top: 5px;
     margin: 5px;
+}
+
+.btnsEdit {
+    height: 25px;
+    width: 51px;
+    left: 6px;
+    top: 5px;
+    margin: 5px;
+}
+
+.btnsLern {
+    height: 25px;
+    width: 51px;
+    left: 6px;
+    top: 5px;
+    margin: 5px;
+}
+
+.btnsAdd {
+    height: 30px;
+    width: 115px;
+    margin: 10px;
+    padding: 15px;
+    bottom: 10px;
+    border-radius: 15px;
 }

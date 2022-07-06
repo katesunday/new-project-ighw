@@ -31,13 +31,13 @@ export const Cards = () => {
 
     const [page, setPage] = useState(1)
 
-    const amountOfCards = Math.ceil(cardsTotalCount / 4)
+    const amountOfCards = Math.ceil(cardsTotalCount / 8)
 
     const currentPack = showPackId || editPackId
 
     useEffect(() => {
-        dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 4}))
-    }, [dispatch, page])
+        dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8}))
+    }, [dispatch, page, currentPack])
 
     const createNewCardHandler = (cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
@@ -59,10 +59,10 @@ export const Cards = () => {
 
     const sortHandler = () => {
         if (sort === '0updated') {
-            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 4, sortCards: '0updated'}))
+            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8, sortCards: '0updated'}))
             setSort('1updated')
         } else {
-            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 4, sortCards: '1updated'}))
+            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8, sortCards: '1updated'}))
             setSort('0updated')
         }
     }
@@ -70,12 +70,15 @@ export const Cards = () => {
     return (
         <div style={{margin: '30px auto'}}>
             {appStatus === 'succeeded' ?
-                <Paper style={{padding: '20px'}}>
-                    <Button onClick={backHandler}
-                            size={'small'}
-                            variant={'contained'}
-                            color={'primary'}
-                            sx={{mt: 3, mb: 2}}>
+                <Paper className={s.container} style={{padding: '15px'}}>
+                    <Button
+                        className={s.btnsBack}
+                        style={{borderRadius: '15px', marginLeft: '10px'}}
+                        onClick={backHandler}
+                        size={'small'}
+                        variant={'contained'}
+                        color={'primary'}
+                        sx={{mt: 3, mb: 2}}>
                         Back
                     </Button>
                     <div>
@@ -94,6 +97,8 @@ export const Cards = () => {
                     </div>
                     <div>
                         {editPackId && <Button
+                            style={{borderRadius: '15px', marginLeft: '10px'}}
+                            className={s.btnsAdd}
                             size={'small'}
                             sx={{mt: 3, mb: 2}}
                             onClick={() => createNewCardHandler(currentPack, 'Xander Card', 'Xander answer')}
@@ -101,9 +106,9 @@ export const Cards = () => {
                             Add Cards
                         </Button>}
                     </div>
-                    <TableContainer component={Paper}>
-                        <Table sx={{minWidth: 650}} aria-label="custom pagination table">
-                            <TableBody style={{background: '#87f3b9', fontWeight: 'bold', width: '160px', color: '#fff'}}>
+                    <TableContainer component={Paper} className={s.container}>
+                        <Table aria-label="custom pagination table">
+                            <TableBody>
                                 <TableRow style={{textAlign: 'left'}}>
                                     <TableCell align="left">Question</TableCell>
                                     <TableCell align="center">Answer</TableCell>
@@ -113,7 +118,7 @@ export const Cards = () => {
                                         <TableCell align="right"></TableCell>}
                                 </TableRow>
                                 {cards.map((card) => {
-                                    return <TableRow key={card._id} style={{border: 5, background: '#F8F7FD'}}>
+                                    return <TableRow key={card._id} style={{border: 5}}>
                                         <TableCell component="th" scope="row">
                                             {card.question}
                                         </TableCell>
@@ -132,25 +137,28 @@ export const Cards = () => {
                                                 emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
                                             />
                                         </TableCell>
-                                        <TableCell style={{width: 150}} align="right">
+                                        {editPackId && <TableCell style={{width: 150}} align="right">
                                             {editPackId && <Button
-                                                className={s.btns}
+                                                style={{margin: '5px'}}
+                                                className={s.btnsDelete}
                                                 size={'small'}
                                                 variant={'contained'}
-                                                color={'warning'}
+                                                color={'error'}
                                                 sx={{mt: 3, mb: 2}}
                                                 onClick={() => deleteCardsHandler(card._id)}>
                                                 Delete
                                             </Button>}
                                             {editPackId && <Button
-                                                className={s.btns}
+                                                style={{margin: '5px'}}
+                                                className={s.btnsEdit}
+                                                color={'secondary'}
                                                 size={'small'}
                                                 sx={{mt: 3, mb: 2}}
                                                 onClick={() => updateCardsHandler(card._id, 'Update question')}
                                                 variant={'contained'}>
                                                 Edit
                                             </Button>}
-                                        </TableCell>
+                                        </TableCell>}
                                     </TableRow>
                                 })}
                             </TableBody>
