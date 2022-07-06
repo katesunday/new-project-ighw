@@ -107,8 +107,10 @@ const MainPage = React.memo(() => {
                                 private: false,
                                 deckCover: ''
                             })}
-                            variant={'contained'}>
-                        AddNewPack
+                            variant={'contained'}
+                            disabled = {appStatus ==='inProgress'}
+                    >
+                        Add New Pack
                     </Button>
                 </div>
                 <PacksList debouncedSearchTerm={debouncedSearchTerm}

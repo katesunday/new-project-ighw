@@ -3,6 +3,8 @@
     background-color: aliceblue;
     min-height: 80vh;
     display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .sideBar {
@@ -14,6 +16,7 @@
 
 .packList {
     width: 75%;
+    position: relative;
 
 }
 
@@ -21,6 +24,7 @@
     width: 100%;
     text-align: center;
     padding: 10px;
+    font-size: larger;
 }
 
 .searchAndAdd {
@@ -32,5 +36,10 @@
 .selectorBtns {
     display: flex;
     align-items: flex-end;
-    justify-content: space-around;
+    justify-content: space-between;
+
+}
+.selectorBtns button{
+    height: 40px;
+    width: 90px;
 }

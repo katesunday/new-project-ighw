@@ -53,7 +53,6 @@ export const packsListReducer = (state: PackStateType = initialState, action: Pa
             return {...state, editPackId: action.id, learnPackId: '', showPackId: ''}
 
         case 'PACKS/LEARN_PACK' :
-            debugger
             return {...state, learnPackId: action.id, showPackId: '', editPackId: ''}
 
         case 'PACKS/SHOW_PACK':

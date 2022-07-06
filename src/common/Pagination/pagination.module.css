@@ -1,0 +1,8 @@
+.paginationDiv{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+}

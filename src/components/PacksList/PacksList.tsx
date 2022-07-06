@@ -13,6 +13,8 @@ import {SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
 import {Navigate, useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
+import {Navigate, useNavigate} from "react-router-dom";
+import Preloader from '../../common/Preloader/Preloader';
 
 type PackListPropsType = {
     debouncedSearchTerm: string
@@ -22,6 +24,7 @@ type PackListPropsType = {
 
 export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max}) => {
     const navigate = useNavigate();
+    const appStatus = useAppSelector(state => state.app.appStatus)
     const dispatch = useAppDispatch()
 
     const packs = useAppSelector(state => state.packsList.packs)
@@ -52,6 +55,11 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
         navigate(`/train`, {replace: true});
+        navigate( `/train`, {replace: true});
+    }
+
+    const createNewPackHandler = (payload: PostPackPayloadType) => {
+        dispatch(createNewPack(payload))
     }
 
     const showHandler = useCallback((id: string) => {
@@ -79,8 +87,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     return (
         <Grid container justifyContent={'center'}>
-            <div>
-                <TableContainer component={Paper}>
+            {appStatus ==='succeeded' ?    <div>
+                <TableContainer component={Paper} style = {{marginBottom: '60px'}}>
                     <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                         <TableBody>
                             <TableRow>
@@ -122,6 +130,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                                 Edit
                                             </Button> : undefined}
                                         <Button sx={{mt: 3, mb: 2}}
+                                                disabled = {pack.cardsCount === 0}
                                                 onClick={() => learnHandler(pack._id)}
                                                 variant={'contained'}>
                                             Learn
@@ -135,7 +144,9 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                         </TableFooter>
                     </Table>
                 </TableContainer>
-            </div>
+            </div> :
+            <Preloader/>}
+
         </Grid>
     );
 })

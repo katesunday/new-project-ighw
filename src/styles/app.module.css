@@ -8,7 +8,11 @@
 
 .olStyle{
     position: absolute;
-    left: 10px;
+    top: 0;
+}
+.olStyle li{
+    display: inline;
+    margin: 5px;
 }
 .changeTheme{
     position: absolute;

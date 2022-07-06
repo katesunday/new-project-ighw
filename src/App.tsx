@@ -12,7 +12,6 @@ import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from './components/Error404/Error404';
 import Navigation from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
-import {PacksList} from './components/PacksList/PacksList';
 import {Cards} from "./components/Cards/Cards";
 import MainPage from './components/MainPage/MainPage';
 import TrainCard from './components/TrainCard/TrainCard';
@@ -23,7 +22,6 @@ type AppPropsType = {
 
 const App = React.memo((props: AppPropsType) => {
     const [darkMode, setDarkMode] = useState(false)
-
     const appStatus = useAppSelector(state => state.app.appStatus)
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appInitializing = useAppSelector(state => state.app.appInitializing)
@@ -33,11 +31,13 @@ const App = React.memo((props: AppPropsType) => {
     useEffect(() => {
             dispatch(meRequest());
     }, [dispatch, isLoggedIn])
+    
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
             {appStatus === 'inProgress' && <LinearProgress/>}
-            <Paper className = {s.BgcStyle} style={{backgroundImage: darkMode ? 'linear-gradient(135deg, gray 20%, black )' : 'linear-gradient(135deg, antiquewhite 20%, aquamarine)'}}>
+            <Paper className = {s.BgcStyle}
+                   style={{backgroundImage: darkMode ? 'linear-gradient(135deg, gray 20%, black )' : 'linear-gradient(135deg, antiquewhite 20%, aquamarine)'}}>
                     <ol className={s.olStyle}>
                         <li><NavLink to='/login'>Login</NavLink></li>
                         <li><NavLink to='/registration'>Registration</NavLink></li>
