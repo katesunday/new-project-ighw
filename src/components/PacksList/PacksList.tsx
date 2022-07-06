@@ -14,6 +14,7 @@ import TableFooter from '@mui/material/TableFooter';
 import {Navigate, useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
+import s from '../PacksList/PacksList.module.css';
 
 type PackListPropsType = {
     debouncedSearchTerm: string
@@ -113,20 +114,20 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                     </TableCell>
                                     <TableCell style={{width: 100}} align="right">
                                         {userId === pack.user_id ?
-                                            <Button sx={{mt: 3, mb: 2}}
+                                            <Button sx={{mt: 3, mb: 2}} className = {s.btns}
                                                     onClick={() => deleteHandler(pack._id)}
                                                     variant={'contained'}>
                                                 Delete
                                             </Button> : undefined}
                                         {userId === pack.user_id ?
-                                            <Button sx={{mt: 3, mb: 2}}
+                                            <Button sx={{mt: 3, mb: 2}} className = {s.btns}
                                                     onClick={() => {
                                                         editHandler(pack._id)
                                                     }}
                                                     variant={'contained'}>
                                                 Edit
                                             </Button> : undefined}
-                                        <Button sx={{mt: 3, mb: 2}}
+                                        <Button sx={{mt: 3, mb: 2}} className = {s.btns}
                                                 disabled = {pack.cardsCount === 0}
                                                 onClick={() => learnHandler(pack._id)}
                                                 variant={'contained'}>

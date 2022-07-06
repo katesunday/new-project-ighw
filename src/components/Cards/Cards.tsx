@@ -13,6 +13,7 @@ import {Rating} from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import s from './Cards.module.css'
 
 
 export const Cards = () => {
@@ -113,6 +114,7 @@ export const Cards = () => {
                                             </TableCell>
                                             <TableCell style={{width: 150}} align="right">
                                                 {editPackId && <Button
+                                                    className = {s.btns}
                                                     size={'small'}
                                                     variant={'contained'}
                                                     color={'warning'}
@@ -121,6 +123,7 @@ export const Cards = () => {
                                                     Delete
                                                 </Button>}
                                                 {editPackId && <Button
+                                                    className = {s.btns}
                                                     size={'small'}
                                                     sx={{mt: 3, mb: 2}}
                                                     onClick={() => updateCardsHandler(card._id, 'Update question')}
