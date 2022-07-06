@@ -1,9 +1,12 @@
 .MainPage {
     background-color: aliceblue;
-    min-height: 80vh;
+    height: 90vh;
     display: flex;
     margin-top: 100px;
     margin-bottom: 100px;
+    min-width: 85%;
+    max-width: 85%;
+
 }
 
 .sideBar {
@@ -14,9 +17,14 @@
 }
 
 .packList {
-    width: 75%;
+    width: 80%;
     position: relative;
 
+}
+.allPacks{
+    padding: 10px;
+    overflow: auto;
+    height: calc(100vh - 235px);
 }
 
 .packListHeader {

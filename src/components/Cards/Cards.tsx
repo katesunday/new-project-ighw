@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 export const Cards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    debugger
     const showPackId = useAppSelector(state => state.packsList.showPackId)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
 
@@ -93,7 +92,6 @@ export const Cards = () => {
                                         { editPackId ? <TableCell align="right">Action</TableCell> : <TableCell align="right"></TableCell>}
                                     </TableRow>
                                     {cards.map((card) => {
-                                        debugger
                                         return <TableRow key={card._id} style={{border: 5, background: '#F8F7FD'}}>
                                             <TableCell component="th" scope="row">
                                                 {card.question}

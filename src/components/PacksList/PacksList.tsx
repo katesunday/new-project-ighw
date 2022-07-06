@@ -49,13 +49,11 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const editHandler = (id: string) => {
         navigate('/mainPage/cards')
         dispatch(editPack(id))
-        // return <Navigate to={'/cards'}/>
     }
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
         navigate( `/train`, {replace: true});
-        // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
     }
 
     const createNewPackHandler = (payload: PostPackPayloadType) => {
@@ -89,7 +87,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         <Grid container justifyContent={'center'}>
             {appStatus ==='succeeded' ?    <div>
                 <TableContainer component={Paper} style = {{marginBottom: '30px'}}>
-                    <Table sx={{minWidth: 300}} aria-label="custom pagination table">
+                    <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
                         <TableBody>
                             <TableRow>
                                 <TableCell align="left">Pack Name</TableCell>
@@ -137,7 +135,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                     </TableCell>
                                 </TableRow>
                             })}
-                        </TableBody>
+                        </TableBody >
                         <TableFooter>
                             <AppPagination setPage={setPage} page={page} amountOfPages={amountOfPages}/>
                         </TableFooter>

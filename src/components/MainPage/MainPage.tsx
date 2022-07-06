@@ -1,12 +1,12 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import React , {ChangeEvent , useCallback , useEffect , useState} from 'react';
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField';
-import {InputAdornment, Pagination} from '@mui/material';
+import {InputAdornment , Pagination} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
-import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {createNewPack, getPacks, searchMinMax} from '../../reducers/packListsReducer';
+import {useAppDispatch , useAppSelector} from '../../utils/hooks';
+import {createNewPack , getPacks , searchMinMax} from '../../reducers/packListsReducer';
 import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
 
@@ -18,59 +18,59 @@ const MainPage = React.memo(() => {
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
 
-    const useDebounce = (value: string, delay: number) => {
-        const [debouncedValue, setDebouncedValue] = useState(value);
+    const useDebounce = (value: string , delay: number) => {
+        const [debouncedValue , setDebouncedValue] = useState(value);
         useEffect(() => {
 
                 const handler = setTimeout(() => {
                     setDebouncedValue(value);
-                }, delay);
+                } , delay);
                 return () => {
                     clearTimeout(handler);
                 };
-            },
-            [value, delay]
+            } ,
+            [value , delay]
         );
         return debouncedValue;
     }
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+    const [searchTerm , setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm , 1000);
 
-    const onMouseUp = useCallback((values: [number, number]) => {
+    const onMouseUp = useCallback((values: [number , number]) => {
         dispatch(searchMinMax(values))
-    }, [dispatch, searchMinMax])
+    } , [dispatch , searchMinMax])
 
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.currentTarget.value)
-    }, [setSearchTerm])
+    } , [setSearchTerm])
 
     const getMyPacksHandler = useCallback(() => {
         dispatch(getPacks({user_id: userId}))
-    }, [dispatch, userId, getPacks])
+    } , [dispatch , userId , getPacks])
 
     const getAllPacksHandler = useCallback(() => {
         dispatch(getPacks({
-            page: 1,
+            page: 1 ,
             pageCount: 8
         }))
-    }, [dispatch, getPacks])
+    } , [dispatch , getPacks])
 
     const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
-    }, [dispatch, createNewPack])
+    } , [dispatch , createNewPack])
 
     return (
         <div className={s.MainPage}>
             <div className={s.sideBar}>
                 <div>Show packs of cards</div>
                 <div className={s.selectorBtns}>
-                    <Button sx={{mt: 3, mb: 2}}
+                    <Button sx={{mt: 3 , mb: 2}}
                             onClick={getMyPacksHandler}
                             variant={'contained'}>
                         My Packs
                     </Button>
-                    <Button sx={{mt: 3, mb: 2}}
+                    <Button sx={{mt: 3 , mb: 2}}
                             onClick={getAllPacksHandler}
                             variant={'contained'}>
                         All Packs
@@ -78,7 +78,7 @@ const MainPage = React.memo(() => {
                 </div>
                 <div>
 
-                    <SuperDoubleRange value={[min, max]}
+                    <SuperDoubleRange value={[min , max]}
                                       onMouseUp={onMouseUp}
 
                     />
@@ -100,21 +100,24 @@ const MainPage = React.memo(() => {
                                    </InputAdornment>
                                }}
                     />
-                    <Button sx={{mt: 3, mb: 2}}
+                    <Button sx={{mt: 3 , mb: 2}}
                             onClick={() => createNewPackHandler({
-                                name: 'Some name',
-                                private: false,
+                                name: 'Some name' ,
+                                private: false ,
                                 deckCover: ''
                             })}
                             variant={'contained'}
-                            disabled = {appStatus ==='inProgress'}
+                            disabled={appStatus === 'inProgress'}
                     >
                         Add New Pack
                     </Button>
                 </div>
-                <PacksList debouncedSearchTerm={debouncedSearchTerm}
-                           min={min}
-                           max={max}/>
+                <div className={s.allPacks}>
+                    <PacksList debouncedSearchTerm={debouncedSearchTerm}
+                               min={min}
+                               max={max}/>
+                </div>
+
             </div>
         </div>
     );
