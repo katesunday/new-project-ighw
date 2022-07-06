@@ -7,13 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
+import {createNewPack, editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
 import Button from '@mui/material/Button';
-import {SortType} from '../../api/packsAPI';
+import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
 import {Navigate, useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
-import {Navigate, useNavigate} from "react-router-dom";
 import Preloader from '../../common/Preloader/Preloader';
 
 type PackListPropsType = {
@@ -58,10 +57,6 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         navigate( `/train`, {replace: true});
     }
 
-    const createNewPackHandler = (payload: PostPackPayloadType) => {
-        dispatch(createNewPack(payload))
-    }
-
     const showHandler = useCallback((id: string) => {
         navigate('/mainPage/cards')
         dispatch(showPack(id))
@@ -88,8 +83,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     return (
         <Grid container justifyContent={'center'}>
             {appStatus ==='succeeded' ?    <div>
-                <TableContainer component={Paper} style = {{marginBottom: '60px'}}>
-                    <Table sx={{minWidth: 500}} aria-label="custom pagination table">
+                <TableContainer component={Paper} style = {{marginBottom: '30px'}}>
+                    <Table sx={{minWidth: 300}} aria-label="custom pagination table">
                         <TableBody>
                             <TableRow>
                                 <TableCell align="left">Pack Name</TableCell>
@@ -105,16 +100,16 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                     }} component="th" scope="row">
                                         {pack.name}
                                     </TableCell>
-                                    <TableCell style={{width: 150}} align="right">
+                                    <TableCell style={{width: 100}} align="right">
                                         {pack.cardsCount}
                                     </TableCell>
-                                    <TableCell style={{width: 150}} align="right">
+                                    <TableCell style={{width: 100}} align="right">
                                         {pack.updated.split('T')[0].replace(/-/gi, '.')}
                                     </TableCell>
-                                    <TableCell style={{width: 150}} align="right">
+                                    <TableCell style={{width: 100}} align="right">
                                         {pack.user_name}
                                     </TableCell>
-                                    <TableCell style={{width: 150}} align="right">
+                                    <TableCell style={{width: 100}} align="right">
                                         {userId === pack.user_id ?
                                             <Button sx={{mt: 3, mb: 2}}
                                                     onClick={() => deleteHandler(pack._id)}

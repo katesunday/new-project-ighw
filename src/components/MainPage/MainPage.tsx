@@ -13,14 +13,13 @@ import {PacksList} from '../PacksList/PacksList';
 
 const MainPage = React.memo(() => {
     const dispatch = useAppDispatch()
-
+    const appStatus = useAppSelector(state => state.app.appStatus)
     const userId = useAppSelector(state => state.profile._id)
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
 
     const useDebounce = (value: string, delay: number) => {
         const [debouncedValue, setDebouncedValue] = useState(value);
-        // debugger
         useEffect(() => {
 
                 const handler = setTimeout(() => {
