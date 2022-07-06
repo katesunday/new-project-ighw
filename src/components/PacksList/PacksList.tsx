@@ -11,7 +11,7 @@ import {createNewPack, editPack, getPacks, learnPack, removePack, showPack} from
 import Button from '@mui/material/Button';
 import {PostPackPayloadType, SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
 import s from '../PacksList/PacksList.module.css';
@@ -144,7 +144,6 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                 </TableContainer>
             </div> :
             <Preloader/>}
-
         </Grid>
     );
 })
