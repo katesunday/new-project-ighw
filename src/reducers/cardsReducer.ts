@@ -58,10 +58,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
     }
 }
 
-export type CardsReducerActionType =
-    | SetCardsType
-    | SetDeleteCardType
-    | SetUpdateCardType
 
 // actions
 
