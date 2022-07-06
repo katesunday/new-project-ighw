@@ -3,7 +3,7 @@ import Button from '@mui/material/Button/Button';
 import React , {useEffect , useState} from 'react';
 import s from './TrainCard.module.css'
 import {useAppDispatch , useAppSelector} from '../../utils/hooks';
-import {Pack} from '../../reducers/packListsReducer';
+import {editPack, Pack, showPack} from '../../reducers/packListsReducer';
 import {useNavigate} from 'react-router-dom';
 import {getCards} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
@@ -12,6 +12,7 @@ import Preloader from '../../common/Preloader/Preloader';
 const TrainCard = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const userId = useAppSelector(state => state.profile._id)
     const appStatus = useAppSelector(state => state.app.appStatus)
     const currentPack = useAppSelector(state => {
         if (state.packsList.packs && state.packsList.learnPackId) {
@@ -40,7 +41,17 @@ const TrainCard = () => {
     }
 
     const doneHandler = () => {
-        navigate('/mainPage/cards')
+        if(currentPack && userId === cardsArray[questionNo].user_id  ){
+            dispatch(editPack(currentPack._id))
+            navigate('/mainPage/cards')
+        }
+        else{
+           if (currentPack) {
+               dispatch(showPack(currentPack._id))
+               navigate('/mainPage/cards')
+           }
+        }
+
     }
 
     const cancelHandler = () => {
