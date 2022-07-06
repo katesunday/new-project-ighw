@@ -1,33 +1,25 @@
 import Slider from '@mui/material/Slider'
-import React from 'react'
+import React, {useState} from 'react'
 
 
 type SuperDoubleRangePropsType = {
     onChangeRange?: (value: [number, number]) => void
-    value: [number , number]
-    onChangeBoth: (values: [number, number]) => void
-    onMouseUp:(values: [number, number])=>void
-    // min, max, step, disable, ...
+    value: [number, number]
+    onMouseUp: (values: [number, number]) => void
 }
 
-const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
-    {
-        onChangeRange , value , onChangeBoth, onMouseUp
-        // min, max, step, disable, ...
-    }
-) => {
-    // сделать самому, можно подключать библиотеки
-
+const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = ({onChangeRange, value, onMouseUp}) => {
+    const [borders, setBorders] = useState<[number, number]>(value)
     return (
-        <div style={{width: '85%' , marginLeft: '10px'}}>
-            <Slider onMouseUp = {() => onMouseUp(value)}
-                    onChange={(e , v) => {
-                onChangeRange && onChangeRange(v as unknown as [number, number])
-                onChangeBoth(v as unknown as [number, number])}}
-                    value={value}
+        <div style={{width: '85%', marginLeft: '10px'}}>
+            <Slider onMouseUp={() => onMouseUp(borders)}
+                    onChange={(e, v) => {
+                        onChangeRange && onChangeRange(v as unknown as [number, number])
+                        setBorders(v as unknown as [number, number])
+                    }}
+                    value={borders}
                     valueLabelDisplay="auto"
-                    //disabled={value[1] <= value[0]}
-
+                //disabled={value[1] <= value[0]}
             />
         </div>
     )

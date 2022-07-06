@@ -28,6 +28,7 @@ type PackStateType = {
     learnPackId: string
     showPackId: string
     minMax: [number, number]
+    totalAmountOfPacks: number
 }
 
 const initialState: PackStateType = {
@@ -35,14 +36,15 @@ const initialState: PackStateType = {
     editPackId: '',
     learnPackId: '',
     showPackId: '',
-    minMax: [0, 100]
+    minMax: [0, 100],
+    totalAmountOfPacks: 0
 }
 export type PacksActionType = SetPacksAT | DeletePackAT | EditPackAT | LearnPackAT | ShowPackAT | SearchMinMaxAT | SetNewPackAT
 
 export const packsListReducer = (state: PackStateType = initialState, action: PacksActionType): PackStateType => {
     switch(action.type) {
         case 'PACKS/SET_PACKS':
-            return {...state, packs: [...action.packs]}
+            return {...state, packs: [...action.packs], totalAmountOfPacks: action.totalAmountOfPacks}
 
         case 'PACKS/DELETE_PACK':
             return {...state, packs: state.packs.filter(item => item._id !== action.id)}
@@ -67,7 +69,7 @@ export const packsListReducer = (state: PackStateType = initialState, action: Pa
     }
 }
 
-export const setPacks = (packs: Pack[]) => ({type: 'PACKS/SET_PACKS', packs} as const)
+export const setPacks = (packs: Pack[], totalAmountOfPacks: number) => ({type: 'PACKS/SET_PACKS', packs, totalAmountOfPacks} as const)
 export type SetPacksAT = ReturnType<typeof setPacks>
 
 export const deletePack = (id: string) => ({type: 'PACKS/DELETE_PACK', id} as const)
@@ -90,13 +92,13 @@ export type SetNewPackAT = ReturnType<typeof setNewPack>
 
 export const getPacks = (params: Params) => (dispatch: Dispatch<PacksActionType | AppActionsType>) => {
     dispatch(setAppStatus('inProgress'))
-    dispatch(setPacks([]))
+    dispatch(setPacks([], 0))
     packsAPI.getPacks(params)
         .then(res => {
             if(params.min && params.max){
                 dispatch(searchMinMax([params.min, params.max]))
             }
-            dispatch(setPacks(res.data.cardPacks))
+            dispatch(setPacks(res.data.cardPacks, res.data.cardPacksTotalCount))
             dispatch(setAppStatus('succeeded'))
         })
         .catch(err => {

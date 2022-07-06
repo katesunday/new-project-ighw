@@ -7,24 +7,38 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {createNewPack, editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
+import {editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
 import Button from '@mui/material/Button';
-import {PostPackPayloadType, SortType} from '../../api/packsAPI';
+import {SortType} from '../../api/packsAPI';
 import TableFooter from '@mui/material/TableFooter';
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from 'react-router-dom';
+import {AppPagination} from '../../common/Pagination/Pagination';
 
-export const PacksList = React.memo(() => {
+type PackListPropsType = {
+    debouncedSearchTerm: string
+    min: number
+    max: number
+}
+
+export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max}) => {
     const navigate = useNavigate();
-
     const dispatch = useAppDispatch()
+
     const packs = useAppSelector(state => state.packsList.packs)
-    const userId= useAppSelector(state => state.profile._id)
+    const userId = useAppSelector(state => state.profile._id)
+    const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
+    const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
+    const [page, setPage] = useState(1)
+
     useEffect(() => {
-        dispatch(getPacks({
-            page: 1,
-            pageCount: 8
-        }))
-    }, [dispatch])
+            dispatch(getPacks({
+                packName: debouncedSearchTerm,
+                page: page,
+                pageCount: 8,
+                min,
+                max,
+            }))
+    }, [dispatch, page, debouncedSearchTerm, min, max])
 
     const deleteHandler = (id: string) => {
         dispatch(removePack(id))
@@ -37,12 +51,7 @@ export const PacksList = React.memo(() => {
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
-        navigate( `/train`, {replace: true});
-        // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
-    }
-
-    const createNewPackHandler = (payload: PostPackPayloadType) => {
-        dispatch(createNewPack(payload))
+        navigate(`/train`, {replace: true});
     }
 
     const showHandler = useCallback((id: string) => {
@@ -53,7 +62,7 @@ export const PacksList = React.memo(() => {
     const [sort, setSort] = useState<SortType>('0updated')
 
     const sortHandler = () => {
-        if(sort === '0updated') {
+        if (sort === '0updated') {
             dispatch(getPacks({
                 sortPacks: '0updated',
                 pageCount: 8
@@ -83,7 +92,9 @@ export const PacksList = React.memo(() => {
                             </TableRow>
                             {packs.map((pack) => {
                                 return <TableRow key={pack._id}>
-                                    <TableCell onClick={()=> {showHandler(pack._id)}} component="th" scope="row">
+                                    <TableCell onClick={() => {
+                                        showHandler(pack._id)
+                                    }} component="th" scope="row">
                                         {pack.name}
                                     </TableCell>
                                     <TableCell style={{width: 150}} align="right">
@@ -120,18 +131,7 @@ export const PacksList = React.memo(() => {
                             })}
                         </TableBody>
                         <TableFooter>
-                            <TableRow>
-                                {/*<TablePagination*/}
-                                {/*    count={-1}*/}
-                                {/*    rowsPerPage={8}*/}
-                                {/*    // count={rows.length}*/}
-                                {/*    // rowsPerPage={rowsPerPage}*/}
-                                {/*    // page={page}*/}
-                                {/*    // onPageChange={handleChangePage}*/}
-                                {/*    // onRowsPerPageChange={handleChangeRowsPerPage}*/}
-                                {/*    // ActionsComponent={TablePaginationActions}*/}
-                                {/*/>*/}
-                            </TableRow>
+                            <AppPagination setPage={setPage} page={page} amountOfPages={amountOfPages}/>
                         </TableFooter>
                     </Table>
                 </TableContainer>

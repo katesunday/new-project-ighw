@@ -1,94 +1,77 @@
-import React , {ChangeEvent , useEffect , useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField';
-import {InputAdornment , Pagination} from '@mui/material';
+import {InputAdornment, Pagination} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
-import {useAppDispatch , useAppSelector} from '../../utils/hooks';
-import {createNewPack , getPacks} from '../../reducers/packListsReducer';
+import {useAppDispatch, useAppSelector} from '../../utils/hooks';
+import {createNewPack, getPacks, searchMinMax} from '../../reducers/packListsReducer';
 import {PostPackPayloadType} from '../../api/packsAPI';
-import { PacksList } from '../PacksList/PacksList';
+import {PacksList} from '../PacksList/PacksList';
 
 
 const MainPage = React.memo(() => {
     const dispatch = useAppDispatch()
 
     const userId = useAppSelector(state => state.profile._id)
-    const minMax = useAppSelector(state => state.packsList.minMax)
-    const packs = useAppSelector(state => state.packsList.packs)
-    const useDebounce = (value: string , delay: number) => {
-        // State and setters for debounced value
-        const [debouncedValue , setDebouncedValue] = useState(value);
+    const min = useAppSelector(state => state.packsList.minMax[0])
+    const max = useAppSelector(state => state.packsList.minMax[1])
 
+    const useDebounce = (value: string, delay: number) => {
+        const [debouncedValue, setDebouncedValue] = useState(value);
+        // debugger
         useEffect(() => {
-                // Update debounced value after delay
+
                 const handler = setTimeout(() => {
                     setDebouncedValue(value);
-                } , delay);
-                // Cancel the timeout if value changes (also on delay change or unmount)
-                // This is how we prevent debounced value from updating if value is changed ...
-                // .. within the delay period. Timeout gets cleared and restarted.
+                }, delay);
                 return () => {
                     clearTimeout(handler);
                 };
-            } ,
-            [value, delay] // Only re-call effect if value or delay changes
+            },
+            [value, delay]
         );
         return debouncedValue;
     }
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const [values , setValues] = useState<[number, number]>(minMax)
+    const onMouseUp = useCallback((values: [number, number]) => {
+        dispatch(searchMinMax(values))
+    }, [dispatch, searchMinMax])
 
-    const [searchTerm , setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebounce(searchTerm , 1000);
-
-    useEffect(() => {
-        if(debouncedSearchTerm !== '') dispatch(getPacks({packName: debouncedSearchTerm}))
-    } , [debouncedSearchTerm])
-
-    const onChangeBoth = (values: [number, number]) => {
-        setValues(values)
-    }
-
-    const onMouseUp = (values: number[]) => {
-        // dispatch(getPacksByParamsTC(values[0] , values[1]))
-        dispatch(getPacks({min: values[0], max: values[1]}))
-    }
-
-    const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.currentTarget.value)
-    }
+    }, [setSearchTerm])
 
-    const getMyPacksHandler = () => {
+    const getMyPacksHandler = useCallback(() => {
         dispatch(getPacks({user_id: userId}))
-    }
+    }, [dispatch, userId, getPacks])
 
-    const getAllPacksHandler = () => {
+    const getAllPacksHandler = useCallback(() => {
         dispatch(getPacks({
-            page: 1 ,
+            page: 1,
             pageCount: 8
         }))
-    }
+    }, [dispatch, getPacks])
 
-    const createNewPackHandler = (payload: PostPackPayloadType) => {
+    const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
-    }
-
-
+    }, [dispatch, createNewPack])
 
     return (
         <div className={s.MainPage}>
             <div className={s.sideBar}>
                 <div>Show packs of cards</div>
                 <div className={s.selectorBtns}>
-                    <Button sx={{mt: 3 , mb: 2}}
+                    <Button sx={{mt: 3, mb: 2}}
                             onClick={getMyPacksHandler}
                             variant={'contained'}>
                         My Packs
                     </Button>
-                    <Button sx={{mt: 3 , mb: 2}}
+                    <Button sx={{mt: 3, mb: 2}}
                             onClick={getAllPacksHandler}
                             variant={'contained'}>
                         All Packs
@@ -96,10 +79,11 @@ const MainPage = React.memo(() => {
                 </div>
                 <div>
 
-                    <SuperDoubleRange value={values}
-                                      onChangeBoth={onChangeBoth} onMouseUp={onMouseUp}
+                    <SuperDoubleRange value={[min, max]}
+                                      onMouseUp={onMouseUp}
+
                     />
-                    <span>{values[0]} - </span> <span>{values[1]}</span>
+                    <span>{min} - </span> <span>{max}</span>
                 </div>
             </div>
 
@@ -117,18 +101,19 @@ const MainPage = React.memo(() => {
                                    </InputAdornment>
                                }}
                     />
-                    <Button sx={{mt: 3 , mb: 2}}
+                    <Button sx={{mt: 3, mb: 2}}
                             onClick={() => createNewPackHandler({
-                                name: 'Some name' ,
-                                private: false ,
+                                name: 'Some name',
+                                private: false,
                                 deckCover: ''
                             })}
                             variant={'contained'}>
                         AddNewPack
                     </Button>
                 </div>
-                <PacksList/>
-                <Pagination count={1000} shape="rounded"/>
+                <PacksList debouncedSearchTerm={debouncedSearchTerm}
+                           min={min}
+                           max={max}/>
             </div>
         </div>
     );
