@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Button from "@mui/material/Button";
 import TableFooter from "@mui/material/TableFooter";
-import {Rating, TableHead} from "@mui/material";
+import {Rating} from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
@@ -18,12 +18,13 @@ import { useNavigate } from "react-router-dom";
 export const Cards = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    debugger
     const showPackId = useAppSelector(state => state.packsList.showPackId)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
-    const learnPackId = useAppSelector(state => state.packsList.learnPackId)
+
     const cards = useAppSelector(state => state.cards.cards)
 
-    const currentPack = showPackId || editPackId || learnPackId
+    const currentPack = showPackId || editPackId
 
     useEffect(() => {
             dispatch(getCards({cardsPack_id: currentPack}))
@@ -72,28 +73,27 @@ export const Cards = () => {
                         />
                     </div>
                     <div>
-                        <Button
+                        {editPackId && <Button
                             size={'small'}
                             sx={{mt: 3, mb: 2}}
                             onClick={() => createNewCardHandler(currentPack, 'Some question', 'Some answer')}
                             variant={'contained'}>
                             Add Cards
-                        </Button>
+                        </Button>}
                     </div>
                     <TableContainer component={Paper}>
                         <Table sx={{minWidth: 650}} aria-label="custom pagination table">
-                            <TableHead
-                                style={{background: '#87f3b9', fontWeight: 'bold', width: '160px', color: '#fff'}}>
-                                <TableBody>
+                                <TableBody style={{background: '#87f3b9', fontWeight: 'bold', width: '160px', color: '#fff'}}>
                                     <TableRow style={{textAlign: 'left'}}>
                                         <TableCell align="left">Question</TableCell>
                                         <TableCell align="center">Answer</TableCell>
                                         <TableCell align="right" onClick={() => {
                                         }}>Last Updated</TableCell>
                                         <TableCell align="right">Grade</TableCell>
-                                        <TableCell align="right">Action</TableCell>
+                                        { editPackId ? <TableCell align="right">Action</TableCell> : <TableCell align="right"></TableCell>}
                                     </TableRow>
                                     {cards.map((card) => {
+                                        debugger
                                         return <TableRow key={card._id} style={{border: 5, background: '#F8F7FD'}}>
                                             <TableCell component="th" scope="row">
                                                 {card.question}
@@ -114,21 +114,21 @@ export const Cards = () => {
                                                 />
                                             </TableCell>
                                             <TableCell style={{width: 150}} align="right">
-                                                <Button
+                                                {editPackId && <Button
                                                     size={'small'}
                                                     variant={'contained'}
                                                     color={'warning'}
                                                     sx={{mt: 3, mb: 2}}
                                                     onClick={() => deleteCardsHandler(card._id)}>
                                                     Delete
-                                                </Button>
-                                                <Button
+                                                </Button>}
+                                                {editPackId && <Button
                                                     size={'small'}
                                                     sx={{mt: 3, mb: 2}}
                                                     onClick={() => updateCardsHandler(card._id, 'Update question')}
                                                     variant={'contained'}>
                                                     Edit
-                                                </Button>
+                                                </Button>}
                                             </TableCell>
                                         </TableRow>
                                     })}
@@ -147,7 +147,6 @@ export const Cards = () => {
                                         {/*/>*/}
                                     </TableRow>
                                 </TableFooter>
-                            </TableHead>
                         </Table>
                     </TableContainer>
                 </Paper>

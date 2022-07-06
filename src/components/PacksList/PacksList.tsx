@@ -47,14 +47,19 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     }
 
     const editHandler = (id: string) => {
+        navigate('/mainPage/cards')
         dispatch(editPack(id))
-        return <Navigate to={'/cards'}/>
+        // return <Navigate to={'/cards'}/>
     }
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
-        navigate(`/train`, {replace: true});
         navigate( `/train`, {replace: true});
+        // <Navigate to={'/card'}/> // когда будет готова страница обучения, редиректим сюда
+    }
+
+    const createNewPackHandler = (payload: PostPackPayloadType) => {
+        dispatch(createNewPack(payload))
     }
 
     const showHandler = useCallback((id: string) => {
@@ -95,9 +100,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                             </TableRow>
                             {packs.map((pack) => {
                                 return <TableRow key={pack._id}>
-                                    <TableCell onClick={() => {
-                                        showHandler(pack._id)
-                                    }} component="th" scope="row">
+                                    <TableCell onClick={()=> {
+                                        userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)}} component="th" scope="row">
                                         {pack.name}
                                     </TableCell>
                                     <TableCell style={{width: 100}} align="right">
