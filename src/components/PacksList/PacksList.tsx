@@ -29,7 +29,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const packs = useAppSelector(state => state.packsList.packs)
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
-
+    const dispatch = useAppDispatch()
     const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
     const [page, setPage] = useState(1)
 
