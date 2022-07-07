@@ -39,7 +39,7 @@ const initialState: PackStateType = {
     learnPackId: '',
     showPackId: '',
     minMax: [0, 100],
-    totalAmountOfPacks: 0
+    totalAmountOfPacks: 0,
 }
 export type PacksActionType =
     SetPacksAT

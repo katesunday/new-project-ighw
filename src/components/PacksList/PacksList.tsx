@@ -31,17 +31,18 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
 
-    const [sort, setSort] = useState<SortType>('0updated')
-    const [page, setPage] = useState(1)
+
 
     const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
 
     useEffect(() => {
         if (idForProfile) {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
-                page: page,
-                pageCount: 8,
+                page: page ,
+                pageCount: rowsPerPage,
                 min,
                 max,
                 user_id: idForProfile
@@ -49,14 +50,14 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         } else {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
-                page: page,
-                pageCount: 8,
+                page: page + 1,
+                pageCount: rowsPerPage,
                 min,
                 max,
             }))
         }
 
-    }, [dispatch, page, debouncedSearchTerm, min, max])
+    }, [dispatch, page, debouncedSearchTerm, min, max, rowsPerPage])
 
     const deleteHandler = useCallback( (id: string) => {
         dispatch(removePack(id))
@@ -100,6 +101,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         } else {
             dispatch(showPack(packUserId))
             navigate('/profilePacks')
+
         }
     }, [dispatch, navigate, userId])
 
@@ -170,10 +172,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                     </TableRow>
                                 })}
                             </TableBody>
-                            <TableFooter>
-                                <AppPagination setPage={setPage} page={page} amountOfPages={amountOfPages}/>
-                            </TableFooter>
                         </Table>
+                        <AppPagination setPage={setPage} page={page} totalAmountOfItems={totalAmountOfPacks} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage}/>
                     </TableContainer>
                 </div> :
                 <Preloader/>}
