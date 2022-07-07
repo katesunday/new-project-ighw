@@ -1,17 +1,15 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks";
-import {addNewCard, getCards, removeCard,updateCard} from "../../reducers/cardsReducer";
-import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import Button from "@mui/material/Button";
-import TableFooter from "@mui/material/TableFooter";
-import Rating from "@mui/material/Rating";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
+import {addNewCard, getCards, removeCard, updateCard} from '../../reducers/cardsReducer';
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import TextField from '@mui/material/TextField';
 import {useNavigate} from 'react-router-dom';
 import s from './Cards.module.css'
 import {AppPagination} from '../../common/Pagination/Pagination';
@@ -55,7 +53,7 @@ export const Cards = React.memo(() => {
                 pageCount: rowsPerPage,
             }))
         }
-    }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm])
+    }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm, sort])
 
     const createNewCardHandler = useCallback( (cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
@@ -169,8 +167,11 @@ export const Cards = React.memo(() => {
                                 })}
                             </TableBody>
                         </Table>
-                        <AppPagination setPage={setPage} page={page} totalAmountOfItems={cardsTotalCount}
-                                       setRowsPerPage={setRowsPerPage} rowsPerPage={rowsPerPage}/>
+                        <AppPagination setPage={setPage}
+                                       page={page}
+                                       totalAmountOfItems={cardsTotalCount}
+                                       setRowsPerPage={setRowsPerPage}
+                                       rowsPerPage={rowsPerPage}/>
                     </TableContainer>
                 </Paper>
                 : <Preloader/>}

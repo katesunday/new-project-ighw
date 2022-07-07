@@ -1,12 +1,7 @@
 import InputAdornment from '@mui/material/InputAdornment/InputAdornment';
 import TextField from '@mui/material/TextField';
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import {useAppDispatch} from '../../utils/hooks';
-import {Params} from '../../api/packsAPI';
-import {Dispatch} from 'redux';
-import {PacksActionType} from '../../reducers/packListsReducer';
-import {AppActionsType} from '../../reducers/appReducer';
 
 type UniversalSearchPropsType = {
     setSearchTerm: (searchTerm: string) => void

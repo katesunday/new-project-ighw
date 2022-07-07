@@ -26,18 +26,25 @@ export const MainPage = React.memo(() => {
     }, [dispatch, searchMinMax])
 
     const getMyPacksHandler = useCallback(() => {
+        debugger
         dispatch(getPacks({
             user_id: userId,
             min,
-            max, }))
-    }, [dispatch, userId, getPacks])
+            max,
+            pageCount: 5,
+            page: 1,
+        }))
+    }, [dispatch, userId, getPacks, min, max])
 
     const getAllPacksHandler = useCallback(() => {
+        debugger
         dispatch(getPacks({
+            min,
+            max,
+            pageCount: 5,
             page: 1,
-            pageCount: 8
         }))
-    }, [dispatch, getPacks])
+    }, [dispatch, getPacks, min, max])
 
     const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
