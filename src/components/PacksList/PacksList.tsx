@@ -20,10 +20,10 @@ type PackListPropsType = {
     debouncedSearchTerm: string
     min: number
     max: number
+    idForProfile?: string
 }
 
-export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max}) => {
-    const dispatch = useAppDispatch()
+export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max,idForProfile}) => {
     const navigate = useNavigate();
     const appStatus = useAppSelector(state => state.app.appStatus)
     const packs = useAppSelector(state => state.packsList.packs)
@@ -34,13 +34,25 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-        dispatch(getPacks({
-            packName: debouncedSearchTerm,
-            page: page,
-            pageCount: 8,
-            min,
-            max,
-        }))
+        if(idForProfile){
+            dispatch(getPacks({
+                packName: debouncedSearchTerm,
+                page: page,
+                pageCount: 8,
+                min,
+                max,
+                user_id:idForProfile
+            }))
+        }else {
+            dispatch(getPacks({
+                packName: debouncedSearchTerm,
+                page: page,
+                pageCount: 8,
+                min,
+                max,
+            }))
+        }
+
     }, [dispatch, page, debouncedSearchTerm, min, max])
 
     const deleteHandler = (id: string) => {
@@ -54,7 +66,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     const learnHandler = (id: string) => {
         dispatch(learnPack(id))
-        navigate(`/train`, {replace: true});
+        navigate( `/train`, {replace: true});
     }
 
     const showHandler = useCallback((id: string) => {
@@ -80,41 +92,50 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
         }
     }
 
+    const toProfilePacksHandler = (packUserId:string) => {
+        if(userId === packUserId ){
+            dispatch(editPack(packUserId))
+            navigate('/profilePacks')
+        }
+        else{
+            dispatch(showPack(packUserId))
+            navigate('/profilePacks')
+
+        }
+
+    }
+
     return (
         <Grid container justifyContent={'center'}>
-            {appStatus === 'succeeded' ? <div>
-                    <TableContainer component={Paper} style={{marginBottom: '30px'}}>
-                        <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
-                            <TableBody>
-                                <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
-                                    <TableCell align="left">Pack Name</TableCell>
-                                    <TableCell align="center">Number of cards</TableCell>
-                                    <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
-                                    <TableCell align="right">User name</TableCell>
-                                    <TableCell align="right">Actions</TableCell>
-                                </TableRow>
-                                {packs.map((pack) => {
-                                    return <TableRow key={pack._id}>
-                                        <TableCell onClick={() => {
-                                            userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)
-                                        }} component="th" scope="row">
-                                            {pack.name}
-                                        </TableCell>
-                                        <TableCell style={{width: 100}} align="right">
-                                            {pack.cardsCount}
-                                        </TableCell>
-                                        <TableCell style={{width: 100}} align="right">
-                                            {pack.updated.split('T')[0].replace(/-/gi, '.')}
-                                        </TableCell>
-                                        <TableCell style={{width: 100}} align="right">
-                                            {pack.user_name}
-                                        </TableCell>
-                                        <TableCell style={{width: 100}} align="right">
-                                            {userId === pack.user_id ?
-                                                <Button
-                                                    style={{margin: '5px'}}
-                                                    sx={{mt: 3, mb: 2}}
-                                                    className={s.btnsDelete}
+            {appStatus ==='succeeded' ?    <div>
+                <TableContainer component={Paper} style = {{marginBottom: '30px'}}>
+                    <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell align="left">Pack Name</TableCell>
+                                <TableCell align="center">Number of cards</TableCell>
+                                <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
+                                <TableCell align="right">User name</TableCell>
+                                <TableCell align="right">Actions</TableCell>
+                            </TableRow>
+                            {packs.map((pack) => {
+                                return <TableRow key={pack._id}>
+                                    <TableCell onClick={()=> {
+                                        userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)}} component="th" scope="row">
+                                        {pack.name}
+                                    </TableCell>
+                                    <TableCell style={{width: 100}} align="right">
+                                        {pack.cardsCount}
+                                    </TableCell>
+                                    <TableCell style={{width: 100}} align="right">
+                                        {pack.updated.split('T')[0].replace(/-/gi, '.')}
+                                    </TableCell>
+                                    <TableCell style={{width: 100}} align="right" onClick = {()=>toProfilePacksHandler(pack.user_id)}>
+                                        {pack.user_name}
+                                    </TableCell>
+                                    <TableCell style={{width: 100}} align="right">
+                                        {userId === pack.user_id ?
+                                            <Button sx={{mt: 3, mb: 2}} className = {s.btns}
                                                     onClick={() => deleteHandler(pack._id)}
                                                     variant={'contained'}
                                                     color={'error'}>

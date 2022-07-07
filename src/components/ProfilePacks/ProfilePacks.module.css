@@ -1,0 +1,65 @@
+.MainPage {
+    background-color: aliceblue;
+    height: 90vh;
+    display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    min-width: 85%;
+    max-width: 85%;
+
+}
+
+.sideBar {
+    width: 20%;
+    background-color: rgb(184 245 213 / 54%);
+    padding: 23px;
+
+}
+
+.packList {
+    width: 80%;
+    position: relative;
+
+}
+.allPacks{
+    padding: 10px;
+    overflow: auto;
+    height: calc(100vh - 235px);
+}
+
+.packListHeader {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: larger;
+}
+
+.searchAndAdd {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profileDiv {
+    display: flex;
+    height: 100px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+.editBtn {
+    height: 26px;
+    width: 140px;
+    margin: 12px;
+}
+.avatarImg{
+    border-radius: 50%;
+    width: 190px;
+}
+.doubleRange{
+    margin-top: 20px;
+    font-size: 12px;
+}

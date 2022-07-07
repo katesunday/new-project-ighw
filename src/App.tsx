@@ -18,6 +18,7 @@ import {ThemeProvider} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import LinearProgress from "@mui/material/LinearProgress";
 import Switch from "@mui/material/Switch";
+import ProfilePacks from './components/ProfilePacks/ProfilePacks';
 
 type AppPropsType = {
     themes: object[]
@@ -70,6 +71,7 @@ export const App = React.memo((props: AppPropsType) => {
                             <Route path='/test' element={<TestComponents/>}/>
                             <Route path='/mainPage' element={<MainPage/>}/>
                             <Route path='/train' element={<TrainCard/>}/>
+                            <Route path='/profilePacks' element={<ProfilePacks/>}/>
                         </Routes> :
                         <LinearProgress style={{position: 'absolute'}}/>}
                 <Navigation/>
