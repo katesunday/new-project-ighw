@@ -1,9 +1,10 @@
 import {AxiosError} from 'axios';
-import {setAppError, setAppStatus, setIsLoggedIn} from './appReducer';
+import {setAppStatus, setIsLoggedIn} from './appReducer';
 import {authAPI} from '../api/authAPI';
 import {profileAPI} from '../api/profileAPI';
 import ninja from './../assets/images/ninja.jpg'
 import {ThunkType} from "../store/store";
+import {handlerErrorUtils} from "../utils/errorUtils";
 
 export type UserType = {
     _id: string;
@@ -75,48 +76,45 @@ type SetProfileDataAT = ReturnType<typeof setProfileData>
 
 export const changeProfileData = (data: UserType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
 type ChangeProfileDataAT = ReturnType<typeof changeProfileData>
+
 // thunks
-
-export const logout = (): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    authAPI.logout()
-        .then(res => {
-            if (res.data.info) {
-                dispatch(setProfileData({
-                    name: '',
-                    id: '',
-                    email: '',
-                    avatar: `${ninja}`
-                }))
-                dispatch(setAppStatus('empty'))
-                dispatch(setIsLoggedIn(false))
-            }
-        })
-        .catch((err: AxiosError) => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(err.message))
-        })
-
+export const logout = (): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        const res = await authAPI.logout()
+        if (res.data.info) {
+            dispatch(setProfileData({
+                name: '',
+                id: '',
+                email: '',
+                avatar: `${ninja}`
+            }))
+            dispatch(setAppStatus('empty'))
+            dispatch(setIsLoggedIn(false))
+        }
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
 
-export const changeName = (newName: string): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    profileAPI.updateCurrentUser(newName)
-        .then(res => {
-            const updatedUser = res.data.updatedUser
-            if (!updatedUser.avatar) updatedUser.avatar = `${ninja}`
-            dispatch(setProfileData({
-                name: updatedUser.name,
-                email: updatedUser.email,
-                avatar: updatedUser.avatar,
-                id: updatedUser._id
-            }))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setAppError(err.error))
-        })
+export const changeName = (newName: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        const res = await profileAPI.updateCurrentUser(newName)
+        const updatedUser = res.data.updatedUser
+        if (!updatedUser.avatar) updatedUser.avatar = `${ninja}`
+        dispatch(setProfileData({
+            name: updatedUser.name,
+            email: updatedUser.email,
+            avatar: updatedUser.avatar,
+            id: updatedUser._id
+        }))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
 
 

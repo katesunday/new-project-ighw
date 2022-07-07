@@ -1,6 +1,8 @@
 import {setAppError, setAppStatus} from './appReducer';
 import {profileAPI} from '../api/profileAPI';
 import {ThunkType} from "../store/store";
+import {AxiosError} from "axios";
+import {handlerErrorUtils} from "../utils/errorUtils";
 
 type InitialStateType = {
     error: string | null
@@ -31,14 +33,13 @@ export const setRegistrationError = (error: string | null) => ({type: 'REG/SET_R
 type SetRegistrationErrorAT = ReturnType<typeof setRegistrationError>
 
 //thunk
-export const createNewUser = (payload: PayloadType): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    profileAPI.createNewUser(payload)
-        .then((data) => {
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch((err) => {
-            dispatch(setAppError(err.response.data.error))
-            dispatch(setAppStatus('failed'))
-        })
+export const createNewUser = (payload: PayloadType): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        await profileAPI.createNewUser(payload)
+        dispatch(setAppStatus('succeeded'))
+    }catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }

@@ -1,6 +1,8 @@
 import {authAPI} from "../api/authAPI";
-import {AppActionsType, setAppError} from "./appReducer";
+import {AppActionsType} from "./appReducer";
 import {ThunkType} from "../store/store";
+import {AxiosError} from "axios";
+import {handlerErrorUtils} from "../utils/errorUtils";
 
 type RestorePWStatusType = 'not sent' | 'onprogress' | 'sent' | 'failed'
 
@@ -25,29 +27,24 @@ export const setPWStatusAC = (status: RestorePWStatusType) => ({type: 'RESTORE_P
 export type RestorePWActionsType = ReturnType<typeof setPWStatusAC> | AppActionsType
 
 //thunk
-export const restorePWTC = (email: string): ThunkType => dispatch => {
-    dispatch(setPWStatusAC('onprogress'))
-    authAPI.restorePW(email)
-        .then((res) => {
-            console.log(res)
-            dispatch(setPWStatusAC('sent'))
-        })
-        .catch((res) => {
-            dispatch(setPWStatusAC('failed'))
-            dispatch(setAppError(res.response.data.error))
-            console.log(res)
-        })
+export const restorePWTC = (email: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setPWStatusAC('onprogress'))
+        await authAPI.restorePW(email)
+        dispatch(setPWStatusAC('sent'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
-export const setNewPWTC = (password: string, resetPasswordToken: string): ThunkType => dispatch => {
-    dispatch(setPWStatusAC('onprogress'))
-    authAPI.setNewPW(password, resetPasswordToken)
-        .then((res) => {
-            console.log(res)
-            dispatch(setPWStatusAC('sent'))
-        })
-        .catch((res) => {
-            dispatch(setPWStatusAC('failed'))
-            dispatch(setAppError(res.response.data.error))
-            console.log(res)
-        })
+
+export const setNewPWTC = (password: string, resetPasswordToken: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setPWStatusAC('onprogress'))
+        await authAPI.setNewPW(password, resetPasswordToken)
+        dispatch(setPWStatusAC('sent'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }

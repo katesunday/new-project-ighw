@@ -2,6 +2,8 @@ import {authAPI, LoginParamsType} from '../api/authAPI';
 import ninja from '../assets/images/ninja.jpg';
 import {setProfileData} from './profileReducers';
 import {ThunkType} from "../store/store";
+import {AxiosError} from "axios";
+import {handlerErrorUtils} from "../utils/errorUtils";
 
 export type AppStatusType = 'succeeded' | 'inProgress' | 'failed' | 'empty'
 
@@ -45,48 +47,45 @@ export const setIsLoggedIn = (value: boolean) => ({type: 'APP/SET-IS-LOGGED-IN',
 export type LoginActionType = ReturnType<typeof setIsLoggedIn>
 
 export const setAppStatus = (status: AppStatusType) => ({type: 'APP/SET_REQUEST_STATUS', status} as const)
-type SetRequestStatusAT = ReturnType<typeof setAppStatus>
+export type SetRequestStatusAT = ReturnType<typeof setAppStatus>
 
 export const setAppError = (error: string | null) => ({type: 'APP/SET_ERROR', error} as const)
-type SetAppErrorStatusAT = ReturnType<typeof setAppError>
+export type SetAppErrorStatusAT = ReturnType<typeof setAppError>
 
 export const setAppIsInitialize = (marker: boolean) => ({type: 'APP/SET_APP_INITIALIZING', marker} as const)
 type setAppIsInitialize = ReturnType<typeof setAppIsInitialize>
 
 //thunk
-export const login = (data: LoginParamsType): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    authAPI.login(data)
-        .then((res) => {
-            dispatch(setIsLoggedIn(true))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch((err) => {
-            dispatch(setAppError(err.response.data.error))
-            dispatch(setAppStatus('failed'))
-        })
+export const login = (data: LoginParamsType): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        await authAPI.login(data)
+        dispatch(setIsLoggedIn(true))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
 
-export const meRequest = (): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    authAPI.me()
-        .then(res => {
-            const currentUser = res.data
-            if (!currentUser.avatar) currentUser.avatar = `${ninja}`
-            dispatch(setProfileData({
-                name: currentUser.name,
-                email: currentUser.email,
-                avatar: currentUser.avatar,
-                id: currentUser._id,
-            }))
-            dispatch(setIsLoggedIn(true))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setIsLoggedIn(false))
-        })
-        .finally(() => dispatch(setAppIsInitialize(true)))
+export const meRequest = (): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        const res = await authAPI.me()
+        const currentUser = res.data
+        if (!currentUser.avatar) currentUser.avatar = `${ninja}`
+        dispatch(setProfileData({
+            name: currentUser.name,
+            email: currentUser.email,
+            avatar: currentUser.avatar,
+            id: currentUser._id,
+        }))
+        dispatch(setIsLoggedIn(true))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    } finally {
+        dispatch(setAppIsInitialize(true))
+    }
 }
-
-

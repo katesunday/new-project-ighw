@@ -31,8 +31,10 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
 
-    const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
+    const [sort, setSort] = useState<SortType>('0updated')
     const [page, setPage] = useState(1)
+
+    const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
 
     useEffect(() => {
         if (idForProfile) {
@@ -56,28 +58,26 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     }, [dispatch, page, debouncedSearchTerm, min, max])
 
-    const deleteHandler = (id: string) => {
+    const deleteHandler = useCallback( (id: string) => {
         dispatch(removePack(id))
-    }
+    }, [dispatch])
 
-    const editHandler = (id: string) => {
+    const editHandler = useCallback( (id: string) => {
         navigate('/mainPage/cards')
         dispatch(editPack(id))
-    }
+    }, [dispatch, navigate])
 
-    const learnHandler = (id: string) => {
+    const learnHandler = useCallback( (id: string) => {
         dispatch(learnPack(id))
         navigate(`/train`, {replace: true});
-    }
+    }, [dispatch, navigate])
 
     const showHandler = useCallback((id: string) => {
         navigate('/mainPage/cards')
         dispatch(showPack(id))
     }, [dispatch, navigate])
 
-    const [sort, setSort] = useState<SortType>('0updated')
-
-    const sortHandler = () => {
+    const sortHandler = useCallback( () => {
         if (sort === '0updated') {
             dispatch(getPacks({
                 sortPacks: '0updated',
@@ -91,19 +91,17 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
             }))
             setSort('0updated')
         }
-    }
+    }, [dispatch, sort])
 
-    const toProfilePacksHandler = (packUserId: string) => {
+    const toProfilePacksHandler = useCallback( (packUserId: string) => {
         if (userId === packUserId) {
             dispatch(editPack(packUserId))
             navigate('/profilePacks')
         } else {
             dispatch(showPack(packUserId))
             navigate('/profilePacks')
-
         }
-
-    }
+    }, [dispatch, navigate, userId])
 
     return (
         <Paper>

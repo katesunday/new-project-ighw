@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button/Button';
-import React , {useEffect , useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import s from './TrainCard.module.css'
 import {useAppDispatch , useAppSelector} from '../../utils/hooks';
 import {editPack, Pack, showPack} from '../../reducers/packListsReducer';
@@ -13,9 +13,8 @@ import {useNavigate} from 'react-router-dom';
 import {getCards} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
 
-export const TrainCard = () => {
+export const TrainCard = React.memo( () => {
     const dispatch = useAppDispatch()
-
     const navigate = useNavigate()
 
     const cardsArray = useAppSelector(state => state.cards.cards)
@@ -36,12 +35,12 @@ export const TrainCard = () => {
 
     } , [dispatch,currentPack])
 
-    const nextQuestionHandler = () => {
+    const nextQuestionHandler = useCallback(() => {
         setQuestionNo(questionNo + 1)
         showAnswer(false)
-    }
+    }, [questionNo])
 
-    const doneHandler = () => {
+    const doneHandler = useCallback(() => {
         if(currentPack && userId === cardsArray[questionNo].user_id  ){
             dispatch(editPack(currentPack._id))
             navigate('/mainPage/cards')
@@ -52,15 +51,16 @@ export const TrainCard = () => {
                navigate('/mainPage/cards')
            }
         }
+    }, [dispatch, navigate, currentPack, cardsArray, questionNo, userId])
 
-    }
-
-    const cancelHandler = () => {
+    const cancelHandler = useCallback( () => {
         navigate('/mainPage')
-    }
+    }, [navigate])
+
      if(cardsArray.length ===0){
          return <Preloader/>
      }
+
     return (
         <Paper className={s.trainDiv}>
             <div>Learn {currentPack ? `'${currentPack.name}'` : ''}</div>
@@ -115,4 +115,4 @@ export const TrainCard = () => {
             </div>
         </Paper>
     );
-};
+});

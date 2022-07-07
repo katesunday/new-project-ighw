@@ -25,14 +25,17 @@ type FormikErrorType = {
 }
 export const SetNewPassword = React.memo(() => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
+    const {token} = useParams()
 
     const isPWSent = useAppSelector(state => state.restorePassword.isPWSent)
 
     const [passVisibility, setPassVisibility] = useState(false)
-    const changeVisibility = () => {
+
+    const changeVisibility = useCallback( () => {
         setPassVisibility(!passVisibility)
-    }
-    const {token} = useParams()
+    }, [passVisibility])
+
 
     const formik = useFormik({
         initialValues: {
@@ -59,8 +62,6 @@ export const SetNewPassword = React.memo(() => {
             formik.resetForm()
         },
     })
-
-    const navigate = useNavigate();
     const toLogin = useCallback(() => {
         const path = `/login`;
         navigate(path, {replace: true});

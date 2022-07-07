@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {addNewCard, getCards, removeCard,updateCard} from "../../reducers/cardsReducer";
 import TableContainer from "@mui/material/TableContainer";
@@ -19,7 +19,7 @@ import {SortType} from "../../api/packsAPI";
 import Preloader from "../../common/Preloader/Preloader";
 
 
-export const Cards = () => {
+export const Cards = React.memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -39,17 +39,17 @@ export const Cards = () => {
         dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8}))
     }, [dispatch, page, currentPack])
 
-    const createNewCardHandler = (cardsPack_id: string, question: string, answer: string) => {
+    const createNewCardHandler = useCallback( (cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
-    }
+    } , [dispatch])
 
-    const deleteCardsHandler = (id: string) => {
+    const deleteCardsHandler = useCallback( (id: string) => {
         dispatch(removeCard(id))
-    }
+    }, [dispatch])
 
-    const updateCardsHandler = (id: string, question: string) => {
+    const updateCardsHandler = useCallback( (id: string, question: string) => {
         dispatch(updateCard(id, question))
-    }
+    }, [dispatch])
 
     const backHandler = () => {
         navigate('/mainPage')
@@ -171,4 +171,4 @@ export const Cards = () => {
                 : <Preloader/>}
         </div>
     );
-};
+});

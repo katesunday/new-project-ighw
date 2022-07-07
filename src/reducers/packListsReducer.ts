@@ -1,6 +1,8 @@
-import {setAppStatus, setIsLoggedIn} from './appReducer';
+import {setAppStatus} from './appReducer';
 import {packsAPI, Params, PostPackPayloadType} from '../api/packsAPI';
 import {ThunkType} from "../store/store";
+import {AxiosError} from "axios";
+import {handlerErrorUtils} from "../utils/errorUtils";
 
 export type Pack = {
     _id: string
@@ -19,7 +21,7 @@ export type Pack = {
     more_id: string
     __v: number
     deckCover?: string
-    avatar?:string
+    avatar?: string
 }
 
 type PackStateType = {
@@ -103,45 +105,42 @@ export const setNewPack = (newPack: Pack) => ({type: 'PACKS/SET_NEW_PACK', newPa
 export type SetNewPackAT = ReturnType<typeof setNewPack>
 
 //thunk
-export const getPacks = (params: Params): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    dispatch(setPacks([], 0))
-    packsAPI.getPacks(params)
-        .then(res => {
-            if (params.min && params.max) {
-                dispatch(searchMinMax([params.min, params.max]))
-            }
-            dispatch(setPacks(res.data.cardPacks, res.data.cardPacksTotalCount))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setIsLoggedIn(false))
-        })
+export const getPacks = (params: Params): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        dispatch(setPacks([], 0))
+        const res = await packsAPI.getPacks(params)
+        if (params.min && params.max) {
+            dispatch(searchMinMax([params.min, params.max]))
+        }
+        dispatch(setPacks(res.data.cardPacks, res.data.cardPacksTotalCount))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
 
-export const removePack = (id: string): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    packsAPI.deletePack(id)
-        .then(res => {
-            dispatch(deletePack(id))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setIsLoggedIn(false))
-        })
+export const removePack = (id: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        await packsAPI.deletePack(id)
+        dispatch(deletePack(id))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }
 
-export const createNewPack = (payload: PostPackPayloadType): ThunkType => dispatch => {
-    dispatch(setAppStatus('inProgress'))
-    packsAPI.createNewPack(payload)
-        .then(res => {
-            dispatch(setNewPack(res.data.newCardsPack))
-            dispatch(setAppStatus('succeeded'))
-        })
-        .catch(err => {
-            dispatch(setAppStatus('failed'))
-            dispatch(setIsLoggedIn(false))
-        })
+export const createNewPack = (payload: PostPackPayloadType): ThunkType => async dispatch => {
+    try {
+        dispatch(setAppStatus('inProgress'))
+        const res = await packsAPI.createNewPack(payload)
+        dispatch(setNewPack(res.data.newCardsPack))
+        dispatch(setAppStatus('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
 }

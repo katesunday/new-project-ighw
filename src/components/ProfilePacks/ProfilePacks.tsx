@@ -11,7 +11,7 @@ import {PacksList} from '../PacksList/PacksList';
 import { useNavigate } from 'react-router-dom';
 import Paper from "@mui/material/Paper";
 
-export const ProfilePacks = () => {
+export const ProfilePacks = React.memo( () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
@@ -124,4 +124,4 @@ export const ProfilePacks = () => {
             </div>
         </Paper>
     );
-};
+});
