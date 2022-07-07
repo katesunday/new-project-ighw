@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useCallback, useEffect, useState, KeyboardEvent} from 'react';
-import styles from "./profile.module.css";
+import styles from "./Profile.module.css";
 import {changeName, logout} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {Navigate} from "react-router-dom";

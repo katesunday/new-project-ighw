@@ -86,7 +86,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                     <TableContainer component={Paper} style={{marginBottom: '30px'}}>
                         <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
                             <TableBody>
-                                <TableRow>
+                                <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Pack Name</TableCell>
                                     <TableCell align="center">Number of cards</TableCell>
                                     <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
@@ -112,6 +112,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                         <TableCell style={{width: 100}} align="right">
                                             {userId === pack.user_id ?
                                                 <Button
+                                                    style={{margin: '5px'}}
                                                     sx={{mt: 3, mb: 2}}
                                                     className={s.btnsDelete}
                                                     onClick={() => deleteHandler(pack._id)}
@@ -121,6 +122,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                                 </Button> : undefined}
                                             {userId === pack.user_id ?
                                                 <Button
+                                                    style={{margin: '5px'}}
                                                     color={'secondary'}
                                                     sx={{mt: 3, mb: 2}}
                                                     className={s.btnsEdit}
@@ -131,6 +133,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                                     Edit
                                                 </Button> : undefined}
                                             <Button
+                                                style={{margin: '5px'}}
                                                 color={'secondary'}
                                                 sx={{mt: 3, mb: 2}}
                                                 className={s.btnsLern}

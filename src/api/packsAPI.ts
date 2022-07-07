@@ -36,13 +36,11 @@ export type PostNewPackResponseType = {
     tokenDeathTime: number
 }
 
-
-
 export const packsAPI = {
     getPacks(params: Params = {}) {
         return instance.get<PacksList>('cards/pack', {
             params: {
-               ...params
+                ...params
             }
         })
     },
@@ -54,6 +52,6 @@ export const packsAPI = {
     },
 
     createNewPack(payload: PostPackPayloadType) {
-        return instance.post<PostNewPackResponseType>('cards/pack', {cardsPack : {...payload}})
+        return instance.post<PostNewPackResponseType>('cards/pack', {cardsPack: {...payload}})
     }
 }

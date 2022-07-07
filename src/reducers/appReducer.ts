@@ -1,8 +1,7 @@
 import {authAPI, LoginParamsType} from '../api/authAPI';
-import {Dispatch} from 'redux';
 import ninja from '../assets/images/ninja.jpg';
-import {ProfileActionTypes, setProfileData} from './profileReducers';
-
+import {setProfileData} from './profileReducers';
+import {ThunkType} from "../store/store";
 
 export type AppStatusType = 'succeeded' | 'inProgress' | 'failed' | 'empty'
 
@@ -36,10 +35,12 @@ export const appReducer = (state: AppStateType = initialState, action: AppAction
         case 'APP/SET_APP_INITIALIZING':
             return {...state, appInitializing: action.marker}
 
-        default:return state
+        default:
+            return state
     }
 }
 
+//action
 export const setIsLoggedIn = (value: boolean) => ({type: 'APP/SET-IS-LOGGED-IN', value} as const)
 export type LoginActionType = ReturnType<typeof setIsLoggedIn>
 
@@ -52,7 +53,8 @@ type SetAppErrorStatusAT = ReturnType<typeof setAppError>
 export const setAppIsInitialize = (marker: boolean) => ({type: 'APP/SET_APP_INITIALIZING', marker} as const)
 type setAppIsInitialize = ReturnType<typeof setAppIsInitialize>
 
-export const login = (data: LoginParamsType) => (dispatch: Dispatch<AppActionsType>) => {
+//thunk
+export const login = (data: LoginParamsType): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     authAPI.login(data)
         .then((res) => {
@@ -66,26 +68,26 @@ export const login = (data: LoginParamsType) => (dispatch: Dispatch<AppActionsTy
         })
 }
 
-export const meRequest = () => (dispatch: Dispatch<AppActionsType | ProfileActionTypes>) => {
+export const meRequest = (): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
-        authAPI.me()
-            .then(res => {
-                const currentUser = res.data
-                if (!currentUser.avatar) currentUser.avatar = `${ninja}`
-                dispatch(setProfileData({
-                    name: currentUser.name,
-                    email: currentUser.email,
-                    avatar: currentUser.avatar,
-                    id: currentUser._id,
-                }))
-                dispatch(setIsLoggedIn(true))
-                dispatch(setAppStatus('succeeded'))
-            })
-            .catch(err => {
-                dispatch(setAppStatus('failed'))
-                dispatch(setIsLoggedIn(false))
-            })
-            .finally(() => dispatch(setAppIsInitialize(true)))
+    authAPI.me()
+        .then(res => {
+            const currentUser = res.data
+            if (!currentUser.avatar) currentUser.avatar = `${ninja}`
+            dispatch(setProfileData({
+                name: currentUser.name,
+                email: currentUser.email,
+                avatar: currentUser.avatar,
+                id: currentUser._id,
+            }))
+            dispatch(setIsLoggedIn(true))
+            dispatch(setAppStatus('succeeded'))
+        })
+        .catch(err => {
+            dispatch(setAppStatus('failed'))
+            dispatch(setIsLoggedIn(false))
+        })
+        .finally(() => dispatch(setAppIsInitialize(true)))
 }
 
 

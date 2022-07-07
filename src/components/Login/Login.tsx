@@ -17,7 +17,7 @@ import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {login} from '../../reducers/appReducer';
 import Paper from '@mui/material/Paper';
-import styles from './login.module.css';
+import styles from './Login.module.css';
 
 type FormikErrorType = {
     email?: string

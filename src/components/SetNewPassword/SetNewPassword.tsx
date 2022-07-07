@@ -14,7 +14,7 @@ import {useFormik} from "formik";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
 import {setNewPWTC, setPWStatusAC} from "../../reducers/restorePWReducers";
-import styles from "./setNewPassword.module.css";
+import styles from "./SetNewPassword.module.css";
 
 type FormikErrorType = {
     password?: string

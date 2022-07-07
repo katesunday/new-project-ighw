@@ -1,4 +1,4 @@
-import styles from './error.module.css'
+import styles from './Error.module.css'
 import errorPage from "../../assets/images/error_page404.png";
 import Button from '@mui/material/Button';
 import React, {useCallback} from 'react';

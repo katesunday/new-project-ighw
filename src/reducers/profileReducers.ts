@@ -1,10 +1,9 @@
 import {AxiosError} from 'axios';
-import {AppActionsType, setAppError, setAppStatus, setIsLoggedIn} from './appReducer';
-import {Dispatch} from 'redux';
+import {setAppError, setAppStatus, setIsLoggedIn} from './appReducer';
 import {authAPI} from '../api/authAPI';
 import {profileAPI} from '../api/profileAPI';
 import ninja from './../assets/images/ninja.jpg'
-
+import {ThunkType} from "../store/store";
 
 export type UserType = {
     _id: string;
@@ -78,7 +77,7 @@ export const changeProfileData = (data: UserType) => ({type: 'PROFILE/CHANGE-PRO
 type ChangeProfileDataAT = ReturnType<typeof changeProfileData>
 // thunks
 
-export const logout = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+export const logout = (): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     authAPI.logout()
         .then(res => {
@@ -100,7 +99,7 @@ export const logout = () => (dispatch: Dispatch<ProfileActionTypes | AppActionsT
 
 }
 
-export const changeName = (newName: string) => (dispatch: Dispatch<ProfileActionTypes | AppActionsType>) => {
+export const changeName = (newName: string): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     profileAPI.updateCurrentUser(newName)
         .then(res => {

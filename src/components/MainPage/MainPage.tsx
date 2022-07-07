@@ -66,6 +66,7 @@ const MainPage = React.memo(() => {
                 <div>Show packs of cards</div>
                 <div className={s.selectorBtns}>
                     <Button
+                        style={{borderRadius:'30px'}}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}
                         onClick={getMyPacksHandler}
@@ -73,6 +74,7 @@ const MainPage = React.memo(() => {
                         My Packs
                     </Button>
                     <Button
+                        style={{borderRadius:'30px'}}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}
                         onClick={getAllPacksHandler}
@@ -104,6 +106,7 @@ const MainPage = React.memo(() => {
                                }}
                     />
                     <Button
+                        style={{borderRadius:'30px'}}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}
                         onClick={() => createNewPackHandler({

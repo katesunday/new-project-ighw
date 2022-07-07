@@ -1,6 +1,6 @@
-import {Dispatch} from 'redux';
-import {AppActionsType , setAppError , setAppStatus} from './appReducer';
+import {setAppError, setAppStatus} from './appReducer';
 import {profileAPI} from '../api/profileAPI';
+import {ThunkType} from "../store/store";
 
 type InitialStateType = {
     error: string | null
@@ -15,28 +15,30 @@ export type PayloadType = {
     password: string
 }
 
-type RegistrationActionsType = SetRegistrationErrorAT
+export type RegistrationActionsType = SetRegistrationErrorAT
 
 export const registrationReducers = (state: InitialStateType = initialState, action: RegistrationActionsType): InitialStateType => {
     switch (action.type) {
         case 'REG/SET_REGISTRATION_ERROR': {
             return {error: action.error}
         }
-        default: return state
+        default:
+            return state
     }
 }
-
+//action
 export const setRegistrationError = (error: string | null) => ({type: 'REG/SET_REGISTRATION_ERROR', error})
 type SetRegistrationErrorAT = ReturnType<typeof setRegistrationError>
 
-export const createNewUser = (payload: PayloadType) => (dispatch: Dispatch<RegistrationActionsType | AppActionsType>) => {
+//thunk
+export const createNewUser = (payload: PayloadType): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
-        profileAPI.createNewUser(payload)
-            .then((data) => {
-                    dispatch(setAppStatus('succeeded'))
-            })
-            .catch((err) => {
-                dispatch(setAppError(err.response.data.error))
-                dispatch(setAppStatus('failed'))
-            })
+    profileAPI.createNewUser(payload)
+        .then((data) => {
+            dispatch(setAppStatus('succeeded'))
+        })
+        .catch((err) => {
+            dispatch(setAppError(err.response.data.error))
+            dispatch(setAppStatus('failed'))
+        })
 }

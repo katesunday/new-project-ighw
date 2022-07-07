@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
-import {addNewCard, getCards, removeCard, updateCard} from "../../reducers/cardsReducer";
+import {addNewCard, getCards, removeCard,updateCard} from "../../reducers/cardsReducer";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -68,7 +68,7 @@ export const Cards = () => {
     }
 
     return (
-        <div style={{margin: '30px auto'}}>
+        <div className={s.mainContainer}>
             {appStatus === 'succeeded' ?
                 <Paper className={s.container} style={{padding: '15px'}}>
                     <Button
@@ -109,7 +109,7 @@ export const Cards = () => {
                     <TableContainer component={Paper} className={s.container}>
                         <Table aria-label="custom pagination table">
                             <TableBody>
-                                <TableRow style={{textAlign: 'left'}}>
+                                <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Question</TableCell>
                                     <TableCell align="center">Answer</TableCell>
                                     <TableCell align="right" onClick={sortHandler}>Last Updated</TableCell>
@@ -118,7 +118,7 @@ export const Cards = () => {
                                         <TableCell align="right"></TableCell>}
                                 </TableRow>
                                 {cards.map((card) => {
-                                    return <TableRow key={card._id} style={{border: 5}}>
+                                    return <TableRow key={card._id}>
                                         <TableCell component="th" scope="row">
                                             {card.question}
                                         </TableCell>
@@ -138,7 +138,7 @@ export const Cards = () => {
                                             />
                                         </TableCell>
                                         {editPackId && <TableCell style={{width: 150}} align="right">
-                                            {editPackId && <Button
+                                            <Button
                                                 style={{margin: '5px'}}
                                                 className={s.btnsDelete}
                                                 size={'small'}
@@ -147,8 +147,8 @@ export const Cards = () => {
                                                 sx={{mt: 3, mb: 2}}
                                                 onClick={() => deleteCardsHandler(card._id)}>
                                                 Delete
-                                            </Button>}
-                                            {editPackId && <Button
+                                            </Button>
+                                            <Button
                                                 style={{margin: '5px'}}
                                                 className={s.btnsEdit}
                                                 color={'secondary'}
@@ -157,7 +157,7 @@ export const Cards = () => {
                                                 onClick={() => updateCardsHandler(card._id, 'Update question')}
                                                 variant={'contained'}>
                                                 Edit
-                                            </Button>}
+                                            </Button>
                                         </TableCell>}
                                     </TableRow>
                                 })}

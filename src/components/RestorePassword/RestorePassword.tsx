@@ -13,7 +13,7 @@ import {restorePWTC, setPWStatusAC} from '../../reducers/restorePWReducers';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {LinearProgress, Paper} from '@mui/material';
 import {NavLink} from 'react-router-dom';
-import styles from './restorePassword.module.css';
+import styles from './RestorePassword.module.css';
 
 type FormikErrorType = {
     email?: string

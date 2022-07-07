@@ -1,6 +1,6 @@
-import {Dispatch} from 'redux';
-import {AppActionsType, setAppStatus, setIsLoggedIn} from './appReducer';
+import {setAppStatus, setIsLoggedIn} from './appReducer';
 import {packsAPI, Params, PostPackPayloadType} from '../api/packsAPI';
+import {ThunkType} from "../store/store";
 
 export type Pack = {
     _id: string
@@ -21,10 +21,9 @@ export type Pack = {
     deckCover?: string
 }
 
-
 type PackStateType = {
     packs: Pack[]
-    editPackId : string
+    editPackId: string
     learnPackId: string
     showPackId: string
     minMax: [number, number]
@@ -39,10 +38,17 @@ const initialState: PackStateType = {
     minMax: [0, 100],
     totalAmountOfPacks: 0
 }
-export type PacksActionType = SetPacksAT | DeletePackAT | EditPackAT | LearnPackAT | ShowPackAT | SearchMinMaxAT | SetNewPackAT
+export type PacksActionType =
+    SetPacksAT
+    | DeletePackAT
+    | EditPackAT
+    | LearnPackAT
+    | ShowPackAT
+    | SearchMinMaxAT
+    | SetNewPackAT
 
 export const packsListReducer = (state: PackStateType = initialState, action: PacksActionType): PackStateType => {
-    switch(action.type) {
+    switch (action.type) {
         case 'PACKS/SET_PACKS':
             return {...state, packs: [...action.packs], totalAmountOfPacks: action.totalAmountOfPacks}
 
@@ -64,11 +70,17 @@ export const packsListReducer = (state: PackStateType = initialState, action: Pa
         case 'PACKS/SET_NEW_PACK':
             return {...state, packs: [action.newPack, ...state.packs]}
 
-        default: return state
+        default:
+            return state
     }
 }
 
-export const setPacks = (packs: Pack[], totalAmountOfPacks: number) => ({type: 'PACKS/SET_PACKS', packs, totalAmountOfPacks} as const)
+//action
+export const setPacks = (packs: Pack[], totalAmountOfPacks: number) => ({
+    type: 'PACKS/SET_PACKS',
+    packs,
+    totalAmountOfPacks
+} as const)
 export type SetPacksAT = ReturnType<typeof setPacks>
 
 export const deletePack = (id: string) => ({type: 'PACKS/DELETE_PACK', id} as const)
@@ -89,12 +101,13 @@ export type SearchMinMaxAT = ReturnType<typeof searchMinMax>
 export const setNewPack = (newPack: Pack) => ({type: 'PACKS/SET_NEW_PACK', newPack} as const)
 export type SetNewPackAT = ReturnType<typeof setNewPack>
 
-export const getPacks = (params: Params) => (dispatch: Dispatch<PacksActionType | AppActionsType>) => {
+//thunk
+export const getPacks = (params: Params): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     dispatch(setPacks([], 0))
     packsAPI.getPacks(params)
         .then(res => {
-            if(params.min && params.max){
+            if (params.min && params.max) {
                 dispatch(searchMinMax([params.min, params.max]))
             }
             dispatch(setPacks(res.data.cardPacks, res.data.cardPacksTotalCount))
@@ -106,7 +119,7 @@ export const getPacks = (params: Params) => (dispatch: Dispatch<PacksActionType 
         })
 }
 
-export const removePack = (id: string) => (dispatch: Dispatch<PacksActionType | AppActionsType>) => {
+export const removePack = (id: string): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     packsAPI.deletePack(id)
         .then(res => {
@@ -119,7 +132,7 @@ export const removePack = (id: string) => (dispatch: Dispatch<PacksActionType | 
         })
 }
 
-export const createNewPack = (payload: PostPackPayloadType) => (dispatch: Dispatch<PacksActionType | AppActionsType>) => {
+export const createNewPack = (payload: PostPackPayloadType): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     packsAPI.createNewPack(payload)
         .then(res => {

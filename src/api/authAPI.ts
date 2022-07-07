@@ -1,7 +1,5 @@
-import axios , {AxiosResponse} from "axios";
 import {LogoutResponse, UserType} from '../reducers/profileReducers';
 import {instance} from './instance';
-
 
 const messageForRestorePW = `<div style="background-color: lime; padding: 15px">
 Our team created for you password recovery link: 
@@ -32,11 +30,7 @@ export type ResponseSuccessType = {
     tokenDeathTime: number
     avatar?: string
 }
-export type ResponseErrorType = {
-    error: string,
-    password: string,
-    in: string
-}
+
 export type RegistrationSuccessResponseType = {
     addedUser: {
         _id: string
@@ -63,11 +57,13 @@ export const authAPI = {
 
     me() {
         return instance.post<UserType>('auth/me')
-    } ,
-    restorePW(email: string , from = 'Cards project dev group' , message = messageForRestorePW) {
-        return instance.post('auth/forgot',{email, from, message})
     },
-    setNewPW(password:string,resetPasswordToken:string){
-        return instance.post('auth/set-new-password',{password,resetPasswordToken})
+
+    restorePW(email: string, from = 'Cards project dev group', message = messageForRestorePW) {
+        return instance.post('auth/forgot', {email, from, message})
+    },
+
+    setNewPW(password: string, resetPasswordToken: string) {
+        return instance.post('auth/set-new-password', {password, resetPasswordToken})
     }
 }

@@ -2,8 +2,8 @@ import {instance} from "./instance";
 import {SortType} from "./packsAPI";
 
 export type CardsParams = {
-    cardAnswer?: 'english'
-    cardQuestion?: 'english'
+    cardAnswer?: string
+    cardQuestion?: string
     cardsPack_id: string
     max?: number
     sortCards?: SortType
@@ -22,6 +22,7 @@ export type CardType = {
     updated: string
     _id: string
 }
+
 export type CardsResponseType = {
     cards: CardType[]
     cardsTotalCount: number
@@ -41,12 +42,15 @@ export const cardsAPI = {
                 }
             })
     },
+
     addNewCard(cardsPack_id: string, question: string, answer: string) {
         return instance.post<CardsParams>('/cards/card', {card: {cardsPack_id, question, answer}})
     },
+
     deleteCard(id: string) {
         return instance.delete('/cards/card', {params: {id}})
     },
+
     updateCard(_id: string, question: string) {
         return instance.put('/cards/card', {card: {_id, question}})
     },
