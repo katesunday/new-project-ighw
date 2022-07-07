@@ -5,11 +5,12 @@ import React , {ChangeEvent , useCallback , useEffect , useState} from 'react';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import SearchIcon from '@mui/icons-material/Search';
 import {Pack , searchMinMax} from '../../reducers/packListsReducer';
-import {useAppDispatch , useAppSelector} from '../../utils/hooks';
+import {useAppDispatch , useAppSelector, useDebounce} from '../../utils/hooks';
 import s from './ProfilePacks.module.css';
 import {PacksList} from '../PacksList/PacksList';
 import { useNavigate } from 'react-router-dom';
 import Paper from "@mui/material/Paper";
+import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 
 export const ProfilePacks = () => {
     const dispatch = useAppDispatch()
@@ -19,6 +20,7 @@ export const ProfilePacks = () => {
     const editPackId = useAppSelector(state => state.packsList.editPackId)
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
+    const showPackId = useAppSelector(state => state.packsList.showPackId)
     const currentPack = useAppSelector(state => {
         if (state.packsList.packs && state.packsList.showPackId || state.packsList.editPackId) {
             const pack = state.packsList.packs.find(item => item.user_id === state.packsList.showPackId || state.packsList.editPackId)
@@ -30,28 +32,8 @@ export const ProfilePacks = () => {
         dispatch(searchMinMax(values))
     } , [dispatch , searchMinMax])
 
-    const useDebounce = (value: string , delay: number) => {
-        const [debouncedValue , setDebouncedValue] = useState(value);
-        useEffect(() => {
-
-                const handler = setTimeout(() => {
-                    setDebouncedValue(value);
-                } , delay);
-                return () => {
-                    clearTimeout(handler);
-                };
-            } ,
-            [value , delay]
-        );
-        return debouncedValue;
-    }
-
     const [searchTerm , setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm , 1000);
-
-    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.currentTarget.value)
-    } , [setSearchTerm])
 
     const toMainPage = useCallback(() => {
         let path = `/mainPage`;
@@ -102,26 +84,16 @@ export const ProfilePacks = () => {
             <div className={s.packList}>
                 <div className={s.packListHeader}>Pack List of {currentPack && currentPack.user_name}</div>
                 <div className={s.searchAndAdd}>
-                    <TextField style={{width: '70%'}}
-                               fullWidth
-                               label="Search..."
-                               value={searchTerm}
-                               onChange={searchHandler}
-                               InputProps={{
-                                   endAdornment: <InputAdornment position="start">
-                                       <SearchIcon/>
-                                   </InputAdornment>
-                               }}
-                    />
-                    {/*<UniversalSearch paramName = {'PackName'} dispatchCallBack = {getPacks}/>*/}
+                    <UniversalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                 </div>
                 <div className={s.allPacks}>
                     <PacksList debouncedSearchTerm={debouncedSearchTerm}
                                min={min}
                                max={max}
-                               idForProfile={currentPack && currentPack.user_id}/>
+                               idForProfile={showPackId || editPackId}/>
                 </div>
             </div>
         </Paper>
     );
 };
+

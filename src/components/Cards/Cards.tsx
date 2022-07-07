@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks";
-import {addNewCard, getCards, removeCard,updateCard} from "../../reducers/cardsReducer";
-import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import Button from "@mui/material/Button";
-import TableFooter from "@mui/material/TableFooter";
-import Rating from "@mui/material/Rating";
+import React, {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
+import {addNewCard, getCards, removeCard, updateCard} from '../../reducers/cardsReducer';
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+import TableFooter from '@mui/material/TableFooter';
+import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import TextField from "@mui/material/TextField";
-import {useNavigate} from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import {useNavigate} from 'react-router-dom';
 import s from './Cards.module.css'
-import {AppPagination} from "../../common/Pagination/Pagination";
-import {SortType} from "../../api/packsAPI";
-import Preloader from "../../common/Preloader/Preloader";
+import {AppPagination} from '../../common/Pagination/Pagination';
+import {SortType} from '../../api/packsAPI';
+import Preloader from '../../common/Preloader/Preloader';
+import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 
 
 export const Cards = () => {
@@ -29,15 +30,32 @@ export const Cards = () => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const cards = useAppSelector(state => state.cards.cards)
 
-    const [page, setPage] = useState(1)
 
-    const amountOfCards = Math.ceil(cardsTotalCount / 8)
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [sort, setSort] = useState<SortType>('0updated')
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     const currentPack = showPackId || editPackId
 
     useEffect(() => {
-        dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8}))
-    }, [dispatch, page, currentPack])
+        if (searchTerm) {
+            dispatch(getCards({
+                cardsPack_id: currentPack,
+                page: page + 1,
+                pageCount: rowsPerPage,
+                cardQuestion: debouncedSearchTerm
+            }))
+        } else {
+            dispatch(getCards({
+                cardsPack_id: currentPack,
+                page: page + 1,
+                pageCount: rowsPerPage,
+            }))
+        }
+    }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm])
 
     const createNewCardHandler = (cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
@@ -55,7 +73,6 @@ export const Cards = () => {
         navigate('/mainPage')
     }
 
-    const [sort, setSort] = useState<SortType>('0updated')
 
     const sortHandler = () => {
         if (sort === '0updated') {
@@ -82,18 +99,7 @@ export const Cards = () => {
                         Back
                     </Button>
                     <div>
-                        <TextField
-                            style={{width: '48%', marginLeft: '10px'}}
-                            margin={'normal'}
-                            size={'small'}
-                            placeholder={'Question'}
-                        />
-                        <TextField
-                            style={{width: '48%', marginLeft: '10px'}}
-                            margin={'normal'}
-                            size={'small'}
-                            placeholder={'Answer'}
-                        />
+                        <UniversalSearch setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
                     </div>
                     <div>
                         {editPackId && <Button
@@ -162,10 +168,9 @@ export const Cards = () => {
                                     </TableRow>
                                 })}
                             </TableBody>
-                            <TableFooter style={{paddingBottom:'10px'}}>
-                                <AppPagination setPage={setPage} page={page} amountOfPages={amountOfCards}/>
-                            </TableFooter>
                         </Table>
+                        <AppPagination setPage={setPage} page={page} totalAmountOfItems={cardsTotalCount}
+                                       setRowsPerPage={setRowsPerPage} rowsPerPage={rowsPerPage}/>
                     </TableContainer>
                 </Paper>
                 : <Preloader/>}

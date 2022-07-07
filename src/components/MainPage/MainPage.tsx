@@ -1,15 +1,13 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Button from '@mui/material/Button/Button';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import Paper from '@mui/material/Paper';
-import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
-import {useAppDispatch, useAppSelector} from '../../utils/hooks';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
 import {createNewPack, getPacks, searchMinMax} from '../../reducers/packListsReducer';
 import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
+import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 
 
 export const MainPage = React.memo(() => {
@@ -20,22 +18,6 @@ export const MainPage = React.memo(() => {
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
 
-    const useDebounce = (value: string, delay: number) => {
-        const [debouncedValue, setDebouncedValue] = useState(value);
-        useEffect(() => {
-
-                const handler = setTimeout(() => {
-                    setDebouncedValue(value);
-                }, delay);
-                return () => {
-                    clearTimeout(handler);
-                };
-            },
-            [value, delay]
-        );
-        return debouncedValue;
-    }
-
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
@@ -43,12 +25,11 @@ export const MainPage = React.memo(() => {
         dispatch(searchMinMax(values))
     }, [dispatch, searchMinMax])
 
-    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.currentTarget.value)
-    }, [setSearchTerm])
-
     const getMyPacksHandler = useCallback(() => {
-        dispatch(getPacks({user_id: userId}))
+        dispatch(getPacks({
+            user_id: userId,
+            min,
+            max, }))
     }, [dispatch, userId, getPacks])
 
     const getAllPacksHandler = useCallback(() => {
@@ -96,17 +77,7 @@ export const MainPage = React.memo(() => {
             <div className={s.packList}>
                 <div className={s.packListHeader}>Pack List</div>
                 <div className={s.searchAndAdd}>
-                    <TextField style={{width: '70%'}}
-                               fullWidth
-                               label="Search..."
-                               value={searchTerm}
-                               onChange={searchHandler}
-                               InputProps={{
-                                   endAdornment: <InputAdornment position="start">
-                                       <SearchIcon/>
-                                   </InputAdornment>
-                               }}
-                    />
+                    <UniversalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                     <Button
                         style={{borderRadius:'30px'}}
                         color={'primary'}
@@ -131,3 +102,4 @@ export const MainPage = React.memo(() => {
         </Paper>
     );
 });
+
