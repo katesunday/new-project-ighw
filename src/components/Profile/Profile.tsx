@@ -2,7 +2,7 @@ import React, {ChangeEvent, useCallback, useEffect, useState, KeyboardEvent} fro
 import styles from "./Profile.module.css";
 import {changeName, logout} from '../../reducers/profileReducers';
 import {useAppDispatch, useAppSelector} from "../../utils/hooks";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 
 export const Profile = React.memo(() => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
 
     const name = useAppSelector(state => state.profile.name)
     const email = useAppSelector(state => state.profile.email)
@@ -50,6 +51,10 @@ export const Profile = React.memo(() => {
         dispatch(logout())
     }, [dispatch])
 
+    const backHandler = () => {
+        navigate('/profilePacks')
+    }
+
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
@@ -57,6 +62,16 @@ export const Profile = React.memo(() => {
     return <div className={styles.container}>
         {appStatus === 'inProgress' && <LinearProgress/>}
         <Paper className={styles.block}>
+            <Button
+                className={styles.button}
+                style={{borderRadius: '15px', marginLeft: '10px'}}
+                onClick={backHandler}
+                size={'small'}
+                variant={'contained'}
+                color={'primary'}
+                sx={{mt: 3, mb: 2}}>
+                Back
+            </Button>
             <div className={styles.box}>
                 <h2 className={styles.textH2}>Personal Information</h2>
                 <div className={styles.image}>

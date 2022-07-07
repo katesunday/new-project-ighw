@@ -26,7 +26,6 @@ export const MainPage = React.memo(() => {
     }, [dispatch, searchMinMax])
 
     const getMyPacksHandler = useCallback(() => {
-        debugger
         dispatch(getPacks({
             user_id: userId,
             min,

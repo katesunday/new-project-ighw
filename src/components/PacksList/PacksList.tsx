@@ -35,7 +35,6 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const [sort, setSort] = useState('0updated')
 
     useEffect(() => {
-        debugger
         if (idForProfile) {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
@@ -103,13 +102,13 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                 <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Pack Name</TableCell>
                                     <TableCell align="center">Number of cards</TableCell>
-                                    <TableCell align="right" onClick={sortHandler}>Last update</TableCell>
+                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last update</TableCell>
                                     <TableCell align="right">User name</TableCell>
                                     <TableCell align="right">Actions</TableCell>
                                 </TableRow>
                                 {packs.map((pack) => {
                                     return <TableRow key={pack._id}>
-                                        <TableCell onClick={() => {
+                                        <TableCell className={s.cursor} onClick={() => {
                                             userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)
                                         }} component="th" scope="row">
                                             {pack.name}
@@ -120,7 +119,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                         <TableCell style={{width: 100}} align="right">
                                             {pack.updated.split('T')[0].replace(/-/gi, '.')}
                                         </TableCell>
-                                        <TableCell style={{width: 100}} align="right"
+                                        <TableCell className={s.cursor} style={{width: 100}} align="right"
                                                    onClick={() => toProfilePacksHandler(pack.user_id)}>
                                             {pack.user_name}
                                         </TableCell>

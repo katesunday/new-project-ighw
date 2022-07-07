@@ -28,7 +28,6 @@ export const Cards = React.memo(() => {
     const appStatus = useAppSelector(state => state.app.appStatus)
     const cards = useAppSelector(state => state.cards.cards)
 
-
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const [sort, setSort] = useState<SortType>('0updated')
@@ -55,15 +54,15 @@ export const Cards = React.memo(() => {
         }
     }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm, sort])
 
-    const createNewCardHandler = useCallback( (cardsPack_id: string, question: string, answer: string) => {
+    const createNewCardHandler = useCallback((cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
-    } , [dispatch])
+    }, [dispatch])
 
-    const deleteCardsHandler = useCallback( (id: string) => {
+    const deleteCardsHandler = useCallback((id: string) => {
         dispatch(removeCard(id))
     }, [dispatch])
 
-    const updateCardsHandler = useCallback( (id: string, question: string) => {
+    const updateCardsHandler = useCallback((id: string, question: string) => {
         dispatch(updateCard(id, question))
     }, [dispatch])
 
@@ -71,16 +70,10 @@ export const Cards = React.memo(() => {
         navigate('/mainPage')
     }
 
-
-    const sortHandler = () => {
-        if (sort === '0updated') {
-            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8, sortCards: '0updated'}))
-            setSort('1updated')
-        } else {
-            dispatch(getCards({cardsPack_id: currentPack, page, pageCount: 8, sortCards: '1updated'}))
-            setSort('0updated')
-        }
-    }
+    const sortHandler = useCallback(() => {
+        if (sort === '1updated') setSort('0updated')
+        else setSort('1updated')
+    }, [dispatch, sort])
 
     return (
         <div className={s.mainContainer}>
@@ -96,7 +89,7 @@ export const Cards = React.memo(() => {
                         sx={{mt: 3, mb: 2}}>
                         Back
                     </Button>
-                    <div>
+                    <div className={s.search}>
                         <UniversalSearch setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
                     </div>
                     <div>
@@ -116,10 +109,9 @@ export const Cards = React.memo(() => {
                                 <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Question</TableCell>
                                     <TableCell align="center">Answer</TableCell>
-                                    <TableCell align="right" onClick={sortHandler}>Last Updated</TableCell>
+                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last Updated</TableCell>
                                     <TableCell align="right">Grade</TableCell>
-                                    {editPackId ? <TableCell align="right">Action</TableCell> :
-                                        <TableCell align="right"></TableCell>}
+                                    {editPackId ? <TableCell align="right">Action</TableCell> : null}
                                 </TableRow>
                                 {cards.map((card) => {
                                     return <TableRow key={card._id}>
@@ -167,11 +159,12 @@ export const Cards = React.memo(() => {
                                 })}
                             </TableBody>
                         </Table>
-                        <AppPagination setPage={setPage}
-                                       page={page}
-                                       totalAmountOfItems={cardsTotalCount}
-                                       setRowsPerPage={setRowsPerPage}
-                                       rowsPerPage={rowsPerPage}/>
+                            <AppPagination
+                                setPage={setPage}
+                                page={page}
+                                totalAmountOfItems={cardsTotalCount}
+                                setRowsPerPage={setRowsPerPage}
+                                rowsPerPage={rowsPerPage}/>
                     </TableContainer>
                 </Paper>
                 : <Preloader/>}

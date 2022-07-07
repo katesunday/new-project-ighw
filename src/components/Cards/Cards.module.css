@@ -33,9 +33,29 @@
 
 .mainContainer {
     margin: 30px auto;
+    width: 80%;
 }
 
 .container {
     border: 1px solid #fff;
     border-radius: 5px;
+}
+
+.search {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cursor {
+    cursor: pointer;
+}
+.cursor:hover {
+    color: #dc4f4f;
 }
