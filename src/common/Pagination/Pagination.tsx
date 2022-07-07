@@ -7,12 +7,12 @@ type PaginationType = {
     amountOfPages: number
 }
 
-export const AppPagination: React.FC<PaginationType> = React.memo(({page, setPage, amountOfPages}) => {
+export const AppPagination: React.FC<PaginationType> = React.memo(({page , setPage , amountOfPages}) => {
     return (
         <Pagination count={amountOfPages}
                     style={{width: '500px'}}
                     page={page}
-                    onChange={(_, num) => setPage(num)}
+                    onChange={(_ , num) => setPage(num)}
         />
     );
 })

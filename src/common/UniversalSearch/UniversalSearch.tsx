@@ -43,7 +43,7 @@ export const UniversalSearch = (props:UniversalSearchPropsType) => {
     }
     const param = props.paramName
 
-    useEffect(() => {
+    useEffect(() => { 
         //как сюда пропс пихнуть
         if(debouncedSearchTerm !== '') dispatch(props.dispatchCallBack({packName:debouncedSearchTerm}))
             //dispatch(getPacks({packName: debouncedSearchTerm}))
