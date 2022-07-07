@@ -1,26 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
-import Login from './components/Login/Login';
-import Registration from './components/Registration/Registration';
-import RestorePassword from './components/RestorePassword/RestorePassword';
-import SetNewPassword from './components/SetNewPassword/SetNewPassword';
-import TestComponents from './components/TestComponents/TestComponents';
+import {Login} from './components/Login/Login';
+import {Registration} from './components/Registration/Registration';
+import {RestorePassword} from './components/RestorePassword/RestorePassword';
+import {SetNewPassword} from './components/SetNewPassword/SetNewPassword';
+import {TestComponents} from './components/TestComponents/TestComponents';
 import {Profile} from './components/Profile/Profile';
 import {useAppDispatch, useAppSelector} from './utils/hooks';
 import {meRequest} from './reducers/appReducer';
-import {LinearProgress, Paper, Switch, ThemeProvider} from '@mui/material';
 import {Error404} from './components/Error404/Error404';
-import Navigation from './components/Navigation/Navigation';
+import {Navigation} from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
 import {Cards} from "./components/Cards/Cards";
-import MainPage from './components/MainPage/MainPage';
-import TrainCard from './components/TrainCard/TrainCard';
+import {MainPage} from './components/MainPage/MainPage';
+import {TrainCard} from './components/TrainCard/TrainCard';
+import {ThemeProvider} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import LinearProgress from "@mui/material/LinearProgress";
+import Switch from "@mui/material/Switch";
 
 type AppPropsType = {
     themes: object[]
 }
 
-const App = React.memo((props: AppPropsType) => {
+export const App = React.memo((props: AppPropsType) => {
     const [darkMode, setDarkMode] = useState(false)
     const appStatus = useAppSelector(state => state.app.appStatus)
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
@@ -31,7 +34,6 @@ const App = React.memo((props: AppPropsType) => {
     useEffect(() => {
             dispatch(meRequest());
     }, [dispatch, isLoggedIn])
-    
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
@@ -49,7 +51,6 @@ const App = React.memo((props: AppPropsType) => {
                         <li><NavLink to='/cards'>Cards</NavLink></li>
                         <li><NavLink to='/mainPage'>Main Page</NavLink></li>
                         <li><NavLink to='/train'>Train</NavLink></li>
-
                     </ol>
                     {appInitializing ?
                         <Routes>
@@ -77,5 +78,3 @@ const App = React.memo((props: AppPropsType) => {
         </ThemeProvider>
     )
 })
-
-export default App;

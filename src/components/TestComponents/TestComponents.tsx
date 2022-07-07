@@ -7,8 +7,7 @@ import SuperSelect from "../../common/c5-SuperSelect/SuperSelect";
 import SuperRadio from "../../common/c6-SuperRadio/SuperRadio";
 import s from '../../common/SuperComponents.module.css'
 
-
-const TestComponents = () => {
+export const TestComponents = () => {
     //testing for input
     const [text , setText] = useState<string>('')
     const error = text ? '' : 'error'
@@ -79,5 +78,3 @@ const TestComponents = () => {
         </div>
     );
 };
-
-export default TestComponents;

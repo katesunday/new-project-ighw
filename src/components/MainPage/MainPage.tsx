@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import Button from '@mui/material/Button/Button';
 import TextField from '@mui/material/TextField';
-import {InputAdornment, Paper} from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import Paper from '@mui/material/Paper';
 import SearchIcon from '@mui/icons-material/Search';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
@@ -11,8 +12,9 @@ import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
 
 
-const MainPage = React.memo(() => {
+export const MainPage = React.memo(() => {
     const dispatch = useAppDispatch()
+
     const appStatus = useAppSelector(state => state.app.appStatus)
     const userId = useAppSelector(state => state.profile._id)
     const min = useAppSelector(state => state.packsList.minMax[0])
@@ -129,7 +131,3 @@ const MainPage = React.memo(() => {
         </Paper>
     );
 });
-
-export default MainPage;
-
-

@@ -1,16 +1,16 @@
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Pagination from '@mui/material/Pagination';
-import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
+import Select, {SelectChangeEvent} from '@mui/material/Select/Select';
 import MenuItem from 'material-ui/MenuItem';
-import React, { useState } from 'react';
-import s from '../Pagination/pagination.module.css'
+import React, {useState} from 'react';
+import s from './Pagination.module.css'
 
 type PaginationComponentPropsType = {
-    value:number
+    value: number
 }
 
-const PaginationComponent = (props:PaginationComponentPropsType) => {
+export const PaginationComponent = (props: PaginationComponentPropsType) => {
     const [num, setNum] = useState('8');
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -19,9 +19,9 @@ const PaginationComponent = (props:PaginationComponentPropsType) => {
     };
     return (
         <div className={s.paginationDiv}>
-            <Pagination   count={props.value} shape="rounded" />
+            <Pagination count={props.value} shape="rounded"/>
             <div>
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 130 }}>
+                <FormControl variant="standard" sx={{m: 1, minWidth: 130}}>
                     <InputLabel id="demo-simple-select-standard-label">Pack per page</InputLabel>
                     <Select
                         labelId="demo-simple-select-standard-label"
@@ -42,5 +42,3 @@ const PaginationComponent = (props:PaginationComponentPropsType) => {
         </div>
     );
 };
-
-export default PaginationComponent;

@@ -11,16 +11,19 @@ import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useFormik} from 'formik';
 import {restorePWTC, setPWStatusAC} from '../../reducers/restorePWReducers';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {LinearProgress, Paper} from '@mui/material';
+import LinearProgress from '@mui/material/LinearProgress';
+import Paper from '@mui/material/Paper';
 import {NavLink} from 'react-router-dom';
 import styles from './RestorePassword.module.css';
 
 type FormikErrorType = {
     email?: string
 }
-const RestorePassword = React.memo(() => {
+export const RestorePassword = React.memo(() => {
     const dispatch = useAppDispatch()
+
     const isPWSent = useAppSelector(state => state.restorePassword.isPWSent)
+
     const formik = useFormik({
         initialValues: {
             email: ''
@@ -124,5 +127,3 @@ const RestorePassword = React.memo(() => {
         </div>
     );
 })
-
-export default RestorePassword;

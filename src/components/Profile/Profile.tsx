@@ -11,16 +11,14 @@ import Paper from '@mui/material/Paper';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-
 export const Profile = React.memo(() => {
+    const dispatch = useAppDispatch()
 
     const name = useAppSelector(state => state.profile.name)
     const email = useAppSelector(state => state.profile.email)
     const avatar = useAppSelector(state => state.profile.avatar)
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appStatus = useAppSelector(state => state.app.appStatus)
-
-    const dispatch = useAppDispatch()
 
     const [localName, setLocalName] = useState(name)
     const validateName = localName === '' || localName === name

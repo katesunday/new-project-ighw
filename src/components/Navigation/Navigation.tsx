@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import s from './Navigation.module.css'
 import {NavLink} from "react-router-dom";
 
-const Nav = React.memo(() => {
+export const Navigation = React.memo(() => {
     const [state, setState] = useState(false)
 
     const rerender = useCallback(() => {
@@ -55,5 +55,3 @@ const Nav = React.memo(() => {
         </nav>
     );
 })
-
-export default Nav;

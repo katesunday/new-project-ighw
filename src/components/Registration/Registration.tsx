@@ -6,8 +6,9 @@ import Button from '@mui/material/Button';
 import {createNewUser} from '../../reducers/registrationReducers';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {Paper} from '@mui/material';
-import {Visibility, VisibilityOff} from '@mui/icons-material';
+import Paper from '@mui/material/Paper';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import {Navigate, NavLink} from "react-router-dom";
@@ -23,9 +24,17 @@ type FormikErrorsType = {
     repeatPass?: string
 }
 
-const Registration = React.memo(() => {
+export const Registration = React.memo(() => {
     const dispatch = useAppDispatch()
+
     const appStatus = useAppSelector((state) => state.app.appStatus)
+
+    const [passVisibility, setPassVisibility] = useState<boolean>(true)
+
+    const changeVisibility = useCallback(() => {
+        setPassVisibility(!passVisibility)
+    }, [dispatch, passVisibility])
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -37,7 +46,6 @@ const Registration = React.memo(() => {
             if (!values.email) {
                 errors.email = 'Required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-
                 errors.email = 'Invalid email address'
             }
 
@@ -60,12 +68,6 @@ const Registration = React.memo(() => {
         }
     })
 
-    const [passVisibility, setPassVisibility] = useState<boolean>(true)
-
-    const changeVisibility = useCallback(() => {
-        setPassVisibility(!passVisibility)
-    }, [dispatch, passVisibility])
-
     if (appStatus === 'succeeded') {
         return <Navigate to='/login'/>
     }
@@ -74,7 +76,7 @@ const Registration = React.memo(() => {
             <Grid item justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
                     <Paper className={styles.block}>
-                        <Box className = {styles.boxStyles}>
+                        <Box className={styles.boxStyles}>
                             <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                                 <LockOutlinedIcon/>
                             </Avatar>
@@ -148,7 +150,5 @@ const Registration = React.memo(() => {
         </div>
     )
 })
-
-export default Registration;
 
 

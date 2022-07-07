@@ -11,8 +11,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {useFormik} from 'formik';
 import {Navigate, NavLink} from 'react-router-dom';
-import {IconButton, InputAdornment} from '@mui/material';
-import {Visibility, VisibilityOff} from '@mui/icons-material';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
 import {ErrorSnackbar} from '../../common/ErrorSnackbar/ErrorSnackBar';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {login} from '../../reducers/appReducer';
@@ -25,9 +27,11 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
-const Login = React.memo(() => {
+export const Login = React.memo(() => {
     const dispatch = useAppDispatch()
+
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
+
     const [passVisibility, setPassVisibility] = useState(false)
 
     const changeVisibility = useCallback(() => {
@@ -147,5 +151,3 @@ const Login = React.memo(() => {
         </Grid>
     );
 })
-
-export default Login;

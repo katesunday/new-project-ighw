@@ -1,4 +1,9 @@
-import {FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup} from '@mui/material';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import Paper from '@mui/material/Paper';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button/Button';
 import React , {useEffect , useState} from 'react';
 import s from './TrainCard.module.css'
@@ -8,12 +13,13 @@ import {useNavigate} from 'react-router-dom';
 import {getCards} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
 
-
-const TrainCard = () => {
+export const TrainCard = () => {
     const dispatch = useAppDispatch()
+
     const navigate = useNavigate()
+
+    const cardsArray = useAppSelector(state => state.cards.cards)
     const userId = useAppSelector(state => state.profile._id)
-    const appStatus = useAppSelector(state => state.app.appStatus)
     const currentPack = useAppSelector(state => {
         if (state.packsList.packs && state.packsList.learnPackId) {
             const pack = state.packsList.packs.find(item => item._id === state.packsList.learnPackId)
@@ -21,19 +27,14 @@ const TrainCard = () => {
         }
          else return {} as Pack
     })
-    console.log(currentPack)
+
+    const [questionNo , setQuestionNo] = useState(0)
+    const [answer , showAnswer] = useState(false)
 
     useEffect(() => {
         currentPack && dispatch(getCards({cardsPack_id: currentPack._id}))
 
     } , [dispatch,currentPack])
-
-
-    const cardsArray = useAppSelector(state => state.cards.cards)
-
-    const [questionNo , setQuestionNo] = useState(0)
-
-    const [answer , showAnswer] = useState(false)
 
     const nextQuestionHandler = () => {
         setQuestionNo(questionNo + 1)
@@ -115,5 +116,3 @@ const TrainCard = () => {
         </Paper>
     );
 };
-
-export default TrainCard;

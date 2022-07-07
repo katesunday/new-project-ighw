@@ -6,8 +6,12 @@ import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {IconButton, InputAdornment, LinearProgress, Paper} from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import Paper from "@mui/material/Paper";
+import LinearProgress from "@mui/material/LinearProgress";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 import Button from "@mui/material/Button";
 import {ErrorSnackbar} from "../../common/ErrorSnackbar/ErrorSnackBar";
 import {useFormik} from "formik";
@@ -19,9 +23,11 @@ import styles from "./SetNewPassword.module.css";
 type FormikErrorType = {
     password?: string
 }
-const SetNewPassword = React.memo(() => {
+export const SetNewPassword = React.memo(() => {
     const dispatch = useAppDispatch()
+
     const isPWSent = useAppSelector(state => state.restorePassword.isPWSent)
+
     const [passVisibility, setPassVisibility] = useState(false)
     const changeVisibility = () => {
         setPassVisibility(!passVisibility)
@@ -155,5 +161,3 @@ const SetNewPassword = React.memo(() => {
         </div>
     );
 })
-
-export default SetNewPassword;

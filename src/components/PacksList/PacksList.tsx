@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Grid} from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,13 +23,13 @@ type PackListPropsType = {
 }
 
 export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max}) => {
+    const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const appStatus = useAppSelector(state => state.app.appStatus)
-    const dispatch = useAppDispatch()
-
     const packs = useAppSelector(state => state.packsList.packs)
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
+
     const amountOfPages = Math.ceil(totalAmountOfPacks / 8)
     const [page, setPage] = useState(1)
 
