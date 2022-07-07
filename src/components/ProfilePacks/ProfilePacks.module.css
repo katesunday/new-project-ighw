@@ -63,3 +63,9 @@
     margin-top: 20px;
     font-size: 12px;
 }
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

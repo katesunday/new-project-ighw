@@ -57,7 +57,6 @@ export const Login = React.memo(() => {
             return errors;
         },
         onSubmit: values => {
-            console.log(values)
             dispatch(login(values))
             formik.resetForm()
         },

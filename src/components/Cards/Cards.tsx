@@ -162,7 +162,7 @@ export const Cards = () => {
                                     </TableRow>
                                 })}
                             </TableBody>
-                            <TableFooter>
+                            <TableFooter style={{paddingBottom:'10px'}}>
                                 <AppPagination setPage={setPage} page={page} amountOfPages={amountOfCards}/>
                             </TableFooter>
                         </Table>

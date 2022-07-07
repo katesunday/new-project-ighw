@@ -11,7 +11,7 @@ type SuperDoubleRangePropsType = {
 const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = ({onChangeRange, value, onMouseUp}) => {
     const [borders, setBorders] = useState<[number, number]>(value)
     return (
-        <div style={{width: '90%', marginLeft: '10px'}}>
+        <div style={{width: '95%', marginLeft: '10px'}}>
             <Slider onMouseUp={() => onMouseUp(borders)}
                     onChange={(e, v) => {
                         onChangeRange && onChangeRange(v as unknown as [number, number])

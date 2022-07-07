@@ -58,7 +58,6 @@ export const login = (data: LoginParamsType): ThunkType => dispatch => {
     dispatch(setAppStatus('inProgress'))
     authAPI.login(data)
         .then((res) => {
-            console.log(res)
             dispatch(setIsLoggedIn(true))
             dispatch(setAppStatus('succeeded'))
         })
