@@ -26,8 +26,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(192 245 214);
-    box-shadow: -5px -5px 20px rgb(70 175 126);
+    background-color: rgb(184 245 213 / 54%);
+    box-shadow: -5px -5px 20px rgb(114 147 129)
 }
 
 .navigation a {
