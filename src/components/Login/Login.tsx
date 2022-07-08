@@ -62,7 +62,7 @@ export const Login = React.memo(() => {
         },
     })
 
-    if (isLoggedIn) return <Navigate to='/profile'/>
+    if (isLoggedIn) return <Navigate to='/profilePacks'/>
 
     return (
         <Grid item justifyContent={'center'}>

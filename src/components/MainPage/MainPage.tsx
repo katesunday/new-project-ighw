@@ -38,7 +38,6 @@ export const MainPage = React.memo(() => {
     }, [dispatch, userId, getPacks, min, max])
 
     const getAllPacksHandler = useCallback(() => {
-        debugger
         dispatch(getPacks({
             min,
             max,

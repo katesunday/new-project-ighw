@@ -53,7 +53,7 @@ export const Profile = React.memo(() => {
     }, [dispatch])
 
     const backHandler = () => {
-        navigate('/mainPage')
+        navigate('/profilePacks')
     }
 
     if (!isLoggedIn) {

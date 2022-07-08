@@ -28,7 +28,7 @@ export const Navigation = React.memo(() => {
                         className={s.list}
                         onClick={rerender}>
 
-                        <NavLink to={'/profile'}>
+                        <NavLink to={'/profilePacks'}>
                             <span className={s.icon}>
                                 <FaceIcon fontSize='large'/>
                             </span>

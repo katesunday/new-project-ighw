@@ -110,13 +110,14 @@ export const Cards = React.memo(() => {
                             Add Cards
                         </Button>}
                     </div>
-                    <TableContainer component={Paper} className={s.container}>
+                    {cards.length === 0 ? <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no questions</div> : <TableContainer component={Paper} className={s.container}>
                         <Table aria-label="custom pagination table">
                             <TableBody>
                                 <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Question</TableCell>
                                     <TableCell align="center">Answer</TableCell>
-                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last Updated</TableCell>
+                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last
+                                        Updated</TableCell>
                                     <TableCell align="right">Grade</TableCell>
                                     {editPackId ? <TableCell align="right">Action</TableCell> : null}
                                 </TableRow>
@@ -166,13 +167,13 @@ export const Cards = React.memo(() => {
                                 })}
                             </TableBody>
                         </Table>
-                            <AppPagination
-                                setPage={setPage}
-                                page={page}
-                                totalAmountOfItems={cardsTotalCount}
-                                setRowsPerPage={setRowsPerPage}
-                                rowsPerPage={rowsPerPage}/>
-                    </TableContainer>
+                        <AppPagination
+                            setPage={setPage}
+                            page={page}
+                            totalAmountOfItems={cardsTotalCount}
+                            setRowsPerPage={setRowsPerPage}
+                            rowsPerPage={rowsPerPage}/>
+                    </TableContainer>}
                 </Paper>
                 : <Preloader/>}
         </div>

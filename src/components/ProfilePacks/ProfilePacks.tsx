@@ -18,6 +18,9 @@ export const ProfilePacks = React.memo( () => {
 
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const avatar = useAppSelector(state => state.profile.avatar)
+    const userId = useAppSelector(state => state.profile._id)
+    const name = useAppSelector(state => state.profile.name)
+    const email = useAppSelector(state => state.profile.email)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
@@ -59,8 +62,8 @@ export const ProfilePacks = React.memo( () => {
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
                 </div>
                 <div className={s.profileDiv}>
-                    {currentPack && currentPack.user_name}
-                    {currentPack && currentPack.user_id === editPackId ?
+                   <div className={s.nameContainer}>{(currentPack && currentPack.user_name) || name}</div>
+                    {(currentPack && currentPack.user_id === editPackId) || userId ?
                         <Button className={s.editBtn}
                                 variant="contained"
                                 onClick={toEdit}
@@ -87,7 +90,7 @@ export const ProfilePacks = React.memo( () => {
             </div>
 
             <div className={s.packList}>
-                <div className={s.packListHeader}>Pack List of {currentPack && currentPack.user_name}</div>
+                <div className={s.packListHeader}>Pack List of {(currentPack && currentPack.user_name) || name}</div>
                 <div className={s.searchAndAdd}>
                     <UniversalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                 </div>
@@ -95,7 +98,7 @@ export const ProfilePacks = React.memo( () => {
                     <PacksList debouncedSearchTerm={debouncedSearchTerm}
                                min={min}
                                max={max}
-                               idForProfile={showPackId || editPackId}/>
+                               idForProfile={showPackId || editPackId || userId}/>
                 </div>
             </div>
         </Paper>
