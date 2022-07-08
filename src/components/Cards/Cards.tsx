@@ -44,13 +44,15 @@ export const Cards = React.memo(() => {
                 cardsPack_id: currentPack,
                 page: page + 1,
                 pageCount: rowsPerPage,
-                cardQuestion: debouncedSearchTerm
+                cardQuestion: debouncedSearchTerm,
+                sortCards: sort
             }))
         } else {
             dispatch(getCards({
                 cardsPack_id: currentPack,
                 page: page + 1,
                 pageCount: rowsPerPage,
+                sortCards: sort
             }))
         }
     }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm, sort])

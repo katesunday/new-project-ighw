@@ -32,7 +32,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
-    const [sort, setSort] = useState('0updated')
+    const [sort, setSort] = useState<SortType>('0updated')
 
     useEffect(() => {
         if (idForProfile) {
