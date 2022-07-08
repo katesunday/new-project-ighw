@@ -8,7 +8,7 @@ import {Pack , searchMinMax} from '../../reducers/packListsReducer';
 import {useAppDispatch , useAppSelector, useDebounce} from '../../utils/hooks';
 import s from './ProfilePacks.module.css';
 import {PacksList} from '../PacksList/PacksList';
-import { useNavigate } from 'react-router-dom';
+import {Navigate, useNavigate } from 'react-router-dom';
 import Paper from "@mui/material/Paper";
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 
@@ -44,6 +44,7 @@ export const ProfilePacks = React.memo( () => {
         let path = `/profile`;
         navigate(path,{ replace: true });
     }, [navigate])
+
 
     return (
         <Paper className={s.MainPage}>

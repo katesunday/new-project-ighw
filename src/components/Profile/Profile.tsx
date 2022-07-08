@@ -10,6 +10,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Preloader from '../../common/Preloader/Preloader';
 
 export const Profile = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -60,8 +61,8 @@ export const Profile = React.memo(() => {
     }
 
     return <div className={styles.container}>
-        {appStatus === 'inProgress' && <LinearProgress/>}
-        <Paper className={styles.block}>
+        {appStatus === 'succeeded' ?
+            <Paper className={styles.block}>
             <Button
                 className={styles.button}
                 style={{borderRadius: '15px', marginLeft: '10px'}}
@@ -120,5 +121,6 @@ export const Profile = React.memo(() => {
                 </div>
             </div>
         </Paper>
+            : <Preloader/>}
     </div>
 })

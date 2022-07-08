@@ -1,55 +1,67 @@
-import React, {useCallback, useState} from 'react';
+import React , {useCallback , useState} from 'react';
 import s from './Navigation.module.css'
 import {NavLink} from "react-router-dom";
+import FaceIcon from '@mui/icons-material/Face';
+import ListIcon from '@mui/icons-material/List';
+import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
+import { logout } from '../../reducers/profileReducers';
+import { useAppDispatch } from '../../utils/hooks';
 
 export const Navigation = React.memo(() => {
-    const [state, setState] = useState(false)
+    const dispatch = useAppDispatch()
+    const [state , setState] = useState(false)
 
     const rerender = useCallback(() => {
         setState(!state)
-    }, [state])
+    } , [state])
+
+    const logoutHandler = useCallback(() => {
+        dispatch(logout())
+    }, [dispatch])
 
     return (
         <nav className={s.headerHolder}>
             <div className={s.navigation}>
                 <ul className={s.nav}>
+
                     <li
                         className={s.list}
                         onClick={rerender}>
-                        <NavLink to={'/'}>
-                            <span className={s.icon}>
 
+                        <NavLink to={'/profile'}>
+                            <span className={s.icon}>
+                                <FaceIcon fontSize='large'/>
                             </span>
-                            <span className={s.tip}>1</span>
+                            <span className={s.tip}>Profile</span>
                         </NavLink>
                     </li>
                     <li
                         onClick={rerender}>
-                        <NavLink to={'/'}>
+                        <NavLink to={'/mainPage'}>
                             <span className={s.icon}>
-
+                                <ListIcon fontSize='large'/>
                             </span>
-                            <span className={s.tip}>2</span>
+                            <span className={s.tip}>Packs list</span>
                         </NavLink>
                     </li>
                     <li className={s.list}
                         onClick={rerender}>
                         <NavLink to={'/'}>
-                            <span className={s.icon}>
-
+                            <span className={s.icon} onClick={logoutHandler}>
+                                <LogoutSharpIcon fontSize='large'/>
                             </span>
-                            <span className={s.tip}>3</span>
+                            <span className={s.tip}>Log out</span>
                         </NavLink>
                     </li>
-                    <li className={s.list}
-                        onClick={rerender}>
-                        <NavLink to={'/'}>
-                            <span className={s.icon}>
+                    {/*<li className={s.list}*/}
+                    {/*    onClick={rerender}>*/}
+                    {/*    <NavLink to={'/'}>*/}
+                    {/*        <span className={s.icon}>*/}
 
-                            </span>
-                            <span className={s.tip}>4</span>
-                        </NavLink>
-                    </li>
+                    {/*        </span>*/}
+                    {/*        <span className={s.tip}>4</span>*/}
+                    {/*    </NavLink>*/}
+                    {/*</li>*/}
                 </ul>
             </div>
         </nav>

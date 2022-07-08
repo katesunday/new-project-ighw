@@ -8,11 +8,13 @@ import {createNewPack, getPacks, searchMinMax} from '../../reducers/packListsRed
 import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
+import { Navigate } from 'react-router-dom';
 
 
 export const MainPage = React.memo(() => {
     const dispatch = useAppDispatch()
 
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appStatus = useAppSelector(state => state.app.appStatus)
     const userId = useAppSelector(state => state.profile._id)
     const min = useAppSelector(state => state.packsList.minMax[0])
@@ -48,6 +50,7 @@ export const MainPage = React.memo(() => {
     const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
     }, [dispatch, createNewPack])
+
 
     return (
         <Paper className={s.MainPage}>

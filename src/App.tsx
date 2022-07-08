@@ -26,7 +26,7 @@ type AppPropsType = {
 
 export const App = React.memo((props: AppPropsType) => {
     const [darkMode, setDarkMode] = useState(false)
-    const appStatus = useAppSelector(state => state.app.appStatus)
+
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const appInitializing = useAppSelector(state => state.app.appInitializing)
 
@@ -38,21 +38,8 @@ export const App = React.memo((props: AppPropsType) => {
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>
-            {appStatus === 'inProgress' && <LinearProgress/>}
             <Paper className = {s.BgcStyle}
                    style={{backgroundImage: darkMode ? 'linear-gradient(135deg, gray 20%, black )' : 'linear-gradient(135deg, antiquewhite 20%, aquamarine)'}}>
-                    <ol className={s.olStyle}>
-                        <li><NavLink to='/login'>Login</NavLink></li>
-                        <li><NavLink to='/registration'>Registration</NavLink></li>
-                        <li><NavLink to='/profile'>Profile</NavLink></li>
-                        <li><NavLink to='/error'>ErrorPage</NavLink></li>
-                        <li><NavLink to='/restorePassword'>Restore password</NavLink></li>
-                        <li><NavLink to='/test'>Testing</NavLink></li>
-                        <li><NavLink to='/packs'>Packs</NavLink></li>
-                        <li><NavLink to='/cards'>Cards</NavLink></li>
-                        <li><NavLink to='/mainPage'>Main Page</NavLink></li>
-                        <li><NavLink to='/train'>Train</NavLink></li>
-                    </ol>
                     {appInitializing ?
                         <Routes>
                             <Route path='*' element={<Navigate to={'/error'}/>}/>

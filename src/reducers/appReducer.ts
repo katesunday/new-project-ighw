@@ -84,7 +84,7 @@ export const meRequest = (): ThunkType => async dispatch => {
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
-        handlerErrorUtils(err, dispatch)
+        // handlerErrorUtils(err, dispatch)
     } finally {
         dispatch(setAppIsInitialize(true))
     }
