@@ -9,7 +9,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import s from './TrainCard.module.css'
 import {useAppDispatch , useAppSelector} from '../../utils/hooks';
 import {editPack, Pack, showPack} from '../../reducers/packListsReducer';
-import {useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import {getCards} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
 
@@ -17,6 +17,7 @@ export const TrainCard = React.memo( () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const cardsArray = useAppSelector(state => state.cards.cards)
     const userId = useAppSelector(state => state.profile._id)
     const currentPack = useAppSelector(state => {
@@ -60,6 +61,9 @@ export const TrainCard = React.memo( () => {
      if(cardsArray.length ===0){
          return <Preloader/>
      }
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
 
     return (
         <Paper className={s.trainDiv}>

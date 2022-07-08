@@ -10,7 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import {useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import s from './Cards.module.css'
 import {AppPagination} from '../../common/Pagination/Pagination';
 import {SortType} from '../../api/packsAPI';
@@ -22,6 +22,7 @@ export const Cards = React.memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const showPackId = useAppSelector(state => state.packsList.showPackId)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
     const cardsTotalCount = useAppSelector(state => state.cards.cardsTotalCount)
@@ -74,6 +75,10 @@ export const Cards = React.memo(() => {
         if (sort === '1updated') setSort('0updated')
         else setSort('1updated')
     }, [dispatch, sort])
+
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
 
     return (
         <div className={s.mainContainer}>

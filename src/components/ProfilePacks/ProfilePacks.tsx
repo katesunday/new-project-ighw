@@ -16,6 +16,7 @@ export const ProfilePacks = React.memo( () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
+    const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const avatar = useAppSelector(state => state.profile.avatar)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
     const min = useAppSelector(state => state.packsList.minMax[0])
@@ -45,7 +46,10 @@ export const ProfilePacks = React.memo( () => {
         navigate(path,{ replace: true });
     }, [navigate])
 
-
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
+    
     return (
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>

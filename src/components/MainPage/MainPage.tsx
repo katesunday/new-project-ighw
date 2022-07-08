@@ -51,7 +51,9 @@ export const MainPage = React.memo(() => {
         dispatch(createNewPack(payload))
     }, [dispatch, createNewPack])
 
-
+    if (!isLoggedIn) {
+        return <Navigate to="/login"/>
+    }
     return (
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>
