@@ -14,6 +14,7 @@ import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
 import s from './PacksList.module.css';
 import AppModal from '../AppModal/AppModal';
+import TableSortLabel from "@mui/material/TableSortLabel";
 
 type PackListPropsType = {
     debouncedSearchTerm: string
@@ -34,7 +35,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
-    const [sort, setSort] = useState<SortType>('0updated')
+    const [sort, setSort] = useState<SortType>('0updated'||'0packName'||'0numberOfCards'||'0userName')
 
     useEffect(() => {
         if (userId === '') return
@@ -98,6 +99,21 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
         else setSort('1updated')
     }, [dispatch, sort])
 
+    const sortPackHandler = useCallback(() => {
+        if (sort === '1packName') setSort('0packName')
+        else setSort('1packName')
+    }, [dispatch, sort])
+
+    const sortNumberOfCardsHandler = useCallback(() => {
+        if (sort === '1numberOfCards') setSort('0numberOfCards')
+        else setSort('1numberOfCards')
+    }, [dispatch, sort])
+
+    const sortUserNameHandler = useCallback(() => {
+        if (sort === '1userName') setSort('0userName')
+        else setSort('1userName')
+    }, [dispatch, sort])
+
     const toProfilePacksHandler = useCallback((packUserId: string) => {
         if (userId === packUserId) {
             dispatch(editPack(packUserId))
@@ -117,11 +133,38 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                         <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
                             <TableBody>
                                 <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
-                                    <TableCell align="left">Pack Name</TableCell>
-                                    <TableCell align="center">Number of cards</TableCell>
-                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last
-                                        update</TableCell>
-                                    <TableCell align="right">User name</TableCell>
+                                    <TableCell align="left">
+                                        Pack Name
+                                        <TableSortLabel
+                                            onClick={sortPackHandler}
+                                            active={true}
+                                            direction={sort === '1packName' ? 'desc' : 'asc'}>
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        Number of cards
+                                        <TableSortLabel
+                                            onClick={sortNumberOfCardsHandler}
+                                            active={true}
+                                            direction={sort === '1numberOfCards' ? 'desc' : 'asc'}>
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        Last update
+                                        <TableSortLabel
+                                            onClick={sortHandler}
+                                            active={true}
+                                            direction={sort === '1updated' ? 'desc' : 'asc'}>
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        User name
+                                        <TableSortLabel
+                                            onClick={sortUserNameHandler}
+                                            active={true}
+                                            direction={sort === '1userName' ? 'desc' : 'asc'}>
+                                        </TableSortLabel>
+                                    </TableCell>
                                     <TableCell align="right">Actions</TableCell>
                                 </TableRow>
                                 {packs.map((pack) => {

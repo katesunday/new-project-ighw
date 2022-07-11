@@ -23,7 +23,19 @@ export type PutPackPayloadType = {
     newName: string
 }
 
-export type SortType = '0updated' | '1updated'
+export type SortType =
+    | '0updated'
+    | '1updated'
+    | '0answer'
+    | '1answer'
+    | '0question'
+    | '1question'
+    | '0packName'
+    | '1packName'
+    | '0numberOfCards'
+    | '1numberOfCards'
+    | '0userName'
+    | '1userName'
 
 export type Params = {
     packName?: string
