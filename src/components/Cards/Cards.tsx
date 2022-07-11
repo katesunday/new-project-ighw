@@ -16,6 +16,7 @@ import {AppPagination} from '../../common/Pagination/Pagination';
 import {SortType} from '../../api/packsAPI';
 import Preloader from '../../common/Preloader/Preloader';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
+import TableSortLabel from "@mui/material/TableSortLabel";
 
 
 export const Cards = React.memo(() => {
@@ -31,7 +32,7 @@ export const Cards = React.memo(() => {
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
-    const [sort, setSort] = useState<SortType>('0updated')
+    const [sort, setSort] = useState<SortType>('0updated' || '0answer' || '0question')
     const [searchTerm, setSearchTerm] = useState('');
 
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
@@ -78,6 +79,16 @@ export const Cards = React.memo(() => {
         else setSort('1updated')
     }, [dispatch, sort])
 
+    const sortAnswerHandler = useCallback(() => {
+        if (sort === '1answer') setSort('0answer')
+        else setSort('1answer')
+    }, [dispatch, sort])
+
+    const sortQuestionHandler = useCallback(() => {
+        if (sort === '1question') setSort('0question')
+        else setSort('1question')
+    }, [dispatch, sort])
+
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
@@ -105,75 +116,97 @@ export const Cards = React.memo(() => {
                             className={s.btnsAdd}
                             size={'small'}
                             sx={{mt: 3, mb: 2}}
-                            onClick={() => createNewCardHandler(currentPack, 'Xander Card', 'Xander answer')}
+                            onClick={() => createNewCardHandler(currentPack, 'Some Card', 'Some answer')}
                             variant={'contained'}>
                             Add Cards
                         </Button>}
                     </div>
-                    {cards.length === 0 ? <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no questions</div> : <TableContainer component={Paper} className={s.container}>
-                        <Table aria-label="custom pagination table">
-                            <TableBody>
-                                <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
-                                    <TableCell align="left">Question</TableCell>
-                                    <TableCell align="center">Answer</TableCell>
-                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last
-                                        Updated</TableCell>
-                                    <TableCell align="right">Grade</TableCell>
-                                    {editPackId ? <TableCell align="right">Action</TableCell> : null}
-                                </TableRow>
-                                {cards.map((card) => {
-                                    return <TableRow key={card._id}>
-                                        <TableCell component="th" scope="row">
-                                            {card.question}
+                    {cards.length === 0 ?
+                        <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no
+                            questions</div> : <TableContainer component={Paper} className={s.container}>
+                            <Table aria-label="custom pagination table">
+                                <TableBody>
+                                    <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
+                                        <TableCell align="left">
+                                            <TableSortLabel
+                                                onClick={sortQuestionHandler}
+                                                active={true}
+                                                direction={sort === '1question' ? 'asc' : 'desc'}>
+                                            </TableSortLabel>
+                                            Question
                                         </TableCell>
-                                        <TableCell style={{width: 150}} align="right">
-                                            {card.answer}
+                                        <TableCell align="center">
+                                            <TableSortLabel
+                                                onClick={sortAnswerHandler}
+                                                active={true}
+                                                direction={sort === '1answer' ? 'asc' : 'desc'}>
+                                            </TableSortLabel>
+                                            Answer
                                         </TableCell>
-                                        <TableCell style={{width: 150}} align="right">
-                                            {card.updated.split('T')[0].replace(/-/gi, '.')}
+                                        <TableCell align="right">
+                                            <TableSortLabel
+                                                onClick={sortHandler}
+                                                active={true}
+                                                direction={sort === '1updated' ? 'desc' : 'asc'}>
+                                            </TableSortLabel>
+                                            Last Updated
                                         </TableCell>
-                                        <TableCell style={{width: 150}} align="right">
-                                            <Rating
-                                                name="simple-controlled"
-                                                value={3}
-                                                readOnly
-                                                precision={0.5}
-                                                emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
-                                            />
-                                        </TableCell>
-                                        {editPackId && <TableCell style={{width: 150}} align="right">
-                                            <Button
-                                                style={{margin: '5px'}}
-                                                className={s.btnsDelete}
-                                                size={'small'}
-                                                variant={'contained'}
-                                                color={'error'}
-                                                sx={{mt: 3, mb: 2}}
-                                                onClick={() => deleteCardsHandler(card._id)}>
-                                                Delete
-                                            </Button>
-                                            <Button
-                                                style={{margin: '5px'}}
-                                                className={s.btnsEdit}
-                                                color={'secondary'}
-                                                size={'small'}
-                                                sx={{mt: 3, mb: 2}}
-                                                onClick={() => updateCardsHandler(card._id, 'Update question')}
-                                                variant={'contained'}>
-                                                Edit
-                                            </Button>
-                                        </TableCell>}
+                                        <TableCell align="right">Grade</TableCell>
+                                        {editPackId ? <TableCell align="right">Action</TableCell> : null}
                                     </TableRow>
-                                })}
-                            </TableBody>
-                        </Table>
-                        <AppPagination
-                            setPage={setPage}
-                            page={page}
-                            totalAmountOfItems={cardsTotalCount}
-                            setRowsPerPage={setRowsPerPage}
-                            rowsPerPage={rowsPerPage}/>
-                    </TableContainer>}
+                                    {cards.map((card) => {
+                                        return <TableRow key={card._id}>
+                                            <TableCell component="th" scope="row">
+                                                {card.question}
+                                            </TableCell>
+                                            <TableCell style={{width: 150}} align="right">
+                                                {card.answer}
+                                            </TableCell>
+                                            <TableCell style={{width: 150}} align="right">
+                                                {card.updated.split('T')[0].replace(/-/gi, '.')}
+                                            </TableCell>
+                                            <TableCell style={{width: 150}} align="right">
+                                                <Rating
+                                                    name="simple-controlled"
+                                                    value={card.grade}
+                                                    readOnly
+                                                    precision={0.5}
+                                                    emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
+                                                />
+                                            </TableCell>
+                                            {editPackId && <TableCell style={{width: 150}} align="right">
+                                                <Button
+                                                    style={{margin: '5px'}}
+                                                    className={s.btnsDelete}
+                                                    size={'small'}
+                                                    variant={'contained'}
+                                                    color={'error'}
+                                                    sx={{mt: 3, mb: 2}}
+                                                    onClick={() => deleteCardsHandler(card._id)}>
+                                                    Delete
+                                                </Button>
+                                                <Button
+                                                    style={{margin: '5px'}}
+                                                    className={s.btnsEdit}
+                                                    color={'secondary'}
+                                                    size={'small'}
+                                                    sx={{mt: 3, mb: 2}}
+                                                    onClick={() => updateCardsHandler(card._id, 'Update question')}
+                                                    variant={'contained'}>
+                                                    Edit
+                                                </Button>
+                                            </TableCell>}
+                                        </TableRow>
+                                    })}
+                                </TableBody>
+                            </Table>
+                            <AppPagination
+                                setPage={setPage}
+                                page={page}
+                                totalAmountOfItems={cardsTotalCount}
+                                setRowsPerPage={setRowsPerPage}
+                                rowsPerPage={rowsPerPage}/>
+                        </TableContainer>}
                 </Paper>
                 : <Preloader/>}
         </div>

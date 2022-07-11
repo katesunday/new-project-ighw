@@ -1,18 +1,15 @@
 import Button from '@mui/material/Button/Button';
-import InputAdornment from '@mui/material/InputAdornment/InputAdornment';
-import TextField from '@mui/material/TextField';
-import React , {ChangeEvent , useCallback , useEffect , useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
-import SearchIcon from '@mui/icons-material/Search';
-import {Pack , searchMinMax} from '../../reducers/packListsReducer';
-import {useAppDispatch , useAppSelector, useDebounce} from '../../utils/hooks';
+import {Pack, searchMinMax} from '../../reducers/packListsReducer';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
 import s from './ProfilePacks.module.css';
 import {PacksList} from '../PacksList/PacksList';
-import {Navigate, useNavigate } from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import Paper from "@mui/material/Paper";
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 
-export const ProfilePacks = React.memo( () => {
+export const ProfilePacks = React.memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
@@ -32,27 +29,27 @@ export const ProfilePacks = React.memo( () => {
         } else return {} as Pack
     })
 
-    const onMouseUp = useCallback((values: [number , number]) => {
+    const onMouseUp = useCallback((values: [number, number]) => {
         dispatch(searchMinMax(values))
-    } , [dispatch , searchMinMax])
+    }, [dispatch, searchMinMax])
 
-    const [searchTerm , setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebounce(searchTerm , 1000);
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     const toMainPage = useCallback(() => {
         let path = `/mainPage`;
-        navigate(path,{ replace: true });
+        navigate(path, {replace: true});
     }, [navigate])
 
     const toEdit = useCallback(() => {
         let path = `/profile`;
-        navigate(path,{ replace: true });
+        navigate(path, {replace: true});
     }, [navigate])
 
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
-    
+
     return (
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>
@@ -62,26 +59,27 @@ export const ProfilePacks = React.memo( () => {
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
                 </div>
                 <div className={s.profileDiv}>
-                   <div className={s.nameContainer}>{(currentPack && currentPack.user_name) || name}</div>
+                    <div className={s.nameContainer}>{(currentPack && currentPack.user_name) || name}</div>
                     {(currentPack && currentPack.user_id === editPackId) || userId ?
                         <Button className={s.editBtn}
                                 variant="contained"
                                 onClick={toEdit}
-                                color="primary">
+                                color="primary"
+                                disabled={currentPack && currentPack.user_id !== userId}>
                             Edit profile
                         </Button> : undefined}
                     <Button className={s.editBtn}
-                        onClick={toMainPage}
-                        type={'submit'}
-                        variant="contained"
-                        sx={{mt: 3 , mb: 2}}>
+                            onClick={toMainPage}
+                            type={'submit'}
+                            variant="contained"
+                            sx={{mt: 3, mb: 2}}>
                         Go back
                     </Button>
                 </div>
                 <hr/>
                 <div className={s.doubleRange}>
                     <span>Sort by number of questions</span>
-                    <SuperDoubleRange value={[min , max]}
+                    <SuperDoubleRange value={[min, max]}
                                       onMouseUp={onMouseUp}
 
                     />
