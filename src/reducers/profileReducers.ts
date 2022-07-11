@@ -5,6 +5,7 @@ import {profileAPI} from '../api/profileAPI';
 import ninja from './../assets/images/ninja.jpg'
 import {ThunkType} from "../store/store";
 import {handlerErrorUtils} from "../utils/errorUtils";
+import {setTypeOfPacks} from './packListsReducer';
 
 export type UserType = {
     _id: string;
@@ -89,6 +90,7 @@ export const logout = (): ThunkType => async dispatch => {
                 email: '',
                 avatar: `${ninja}`
             }))
+            dispatch(setTypeOfPacks('my'))
             dispatch(setAppStatus('empty'))
             dispatch(setIsLoggedIn(false))
         }

@@ -1,5 +1,5 @@
 import {cardsAPI, CardsParams, CardType} from "../api/cardsAPI";
-import {ThunkType} from "../store/store";
+import {AppRootStateType, ThunkType} from '../store/store';
 import {setAppStatus} from "./appReducer";
 import {AxiosError} from "axios";
 import {handlerErrorUtils} from "../utils/errorUtils";

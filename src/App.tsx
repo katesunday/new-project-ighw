@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, NavLink, Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from './components/Login/Login';
 import {Registration} from './components/Registration/Registration';
 import {RestorePassword} from './components/RestorePassword/RestorePassword';

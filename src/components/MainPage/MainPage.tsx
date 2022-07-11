@@ -4,47 +4,40 @@ import Paper from '@mui/material/Paper';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import s from './MainPage.module.css'
 import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
-import {createNewPack, getPacks, searchMinMax} from '../../reducers/packListsReducer';
+import {createNewPack, searchMinMax, setTypeOfPacks} from '../../reducers/packListsReducer';
 import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 import { Navigate } from 'react-router-dom';
+import AppModal from '../AppModal/AppModal';
+import {TextField} from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
 
 
 export const MainPage = React.memo(() => {
     const dispatch = useAppDispatch()
 
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
-    const appStatus = useAppSelector(state => state.app.appStatus)
-    const userId = useAppSelector(state => state.profile._id)
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])
 
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
+    const [newPackName, setNewPackName] = useState('')
+    const [privacyOfNewPack, setPrivacyOfNewPack] = useState(false)
+
     const onMouseUp = useCallback((values: [number, number]) => {
         dispatch(searchMinMax(values))
     }, [dispatch, searchMinMax])
 
     const getMyPacksHandler = useCallback(() => {
-        dispatch(getPacks({
-            user_id: userId,
-            min,
-            max,
-            pageCount: 5,
-            page: 1,
-        }))
-    }, [dispatch, userId, getPacks, min, max])
+        dispatch(setTypeOfPacks('my'))
+    }, [dispatch])
 
     const getAllPacksHandler = useCallback(() => {
-        dispatch(getPacks({
-            min,
-            max,
-            pageCount: 5,
-            page: 1,
-        }))
-    }, [dispatch, getPacks, min, max])
+        dispatch(setTypeOfPacks('all'))
+    }, [dispatch])
 
     const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
@@ -88,20 +81,39 @@ export const MainPage = React.memo(() => {
                 <div className={s.packListHeader}>Pack List</div>
                 <div className={s.searchAndAdd}>
                     <UniversalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-                    <Button
-                        style={{borderRadius:'30px'}}
-                        color={'primary'}
-                        sx={{mt: 3, mb: 2}}
-                        onClick={() => createNewPackHandler({
-                            name: 'Some name',
-                            private: false,
-                            deckCover: ''
-                        })}
-                        variant={'contained'}
-                        disabled={appStatus === 'inProgress'}
-                    >
-                        Add New Pack
-                    </Button>
+                    <AppModal title={'Add pack'} children={[
+                        <Button
+                            onClick={() => createNewPackHandler({
+                                name: newPackName,
+                                private: privacyOfNewPack,
+                                deckCover: ''
+                            })}
+                            key={'1'}
+                            style={{borderRadius:'30px'}}
+                            color={'primary'}
+                            sx={{mt: 3, mb: 2}}
+                            variant={'contained'}>
+                            Save
+                        </Button>,
+                        <TextField
+                            key={'2'}
+                            color={"secondary"}
+                            margin="normal"
+                            id="email"
+                            label="New pack name"
+                            autoFocus
+                            helperText="Enter new pack name"
+                            value={newPackName}
+                            onChange={(e) => setNewPackName(e.currentTarget.value)}
+                        />,
+                        <div key={'3'}>
+                            <Checkbox
+                                checked={privacyOfNewPack}
+                                onChange={(e) => setPrivacyOfNewPack(e.currentTarget.checked)}
+                            />
+                            <span>Privacy</span>
+                        </div>
+                    ]}/>
                 </div>
                 <div className={s.allPacks}>
                     <PacksList debouncedSearchTerm={debouncedSearchTerm}

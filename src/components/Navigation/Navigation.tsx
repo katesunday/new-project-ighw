@@ -6,6 +6,7 @@ import ListIcon from '@mui/icons-material/List';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import { logout } from '../../reducers/profileReducers';
 import { useAppDispatch } from '../../utils/hooks';
+import {setTypeOfPacks} from '../../reducers/packListsReducer';
 
 export const Navigation = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -19,6 +20,14 @@ export const Navigation = React.memo(() => {
         dispatch(logout())
     }, [dispatch])
 
+    const packListHandler = useCallback(() => {
+        dispatch(setTypeOfPacks('all'))
+    }, [dispatch])
+
+    const profileHandler = useCallback(() => {
+        dispatch(setTypeOfPacks('my'))
+    }, [dispatch])
+
     return (
         <nav className={s.headerHolder}>
             <div className={s.navigation}>
@@ -27,8 +36,7 @@ export const Navigation = React.memo(() => {
                     <li
                         className={s.list}
                         onClick={rerender}>
-
-                        <NavLink to={'/profilePacks'}>
+                        <NavLink to={'/profilePacks'} onClick={profileHandler}>
                             <span className={s.icon}>
                                 <FaceIcon fontSize='large'/>
                             </span>
@@ -37,7 +45,7 @@ export const Navigation = React.memo(() => {
                     </li>
                     <li
                         onClick={rerender}>
-                        <NavLink to={'/mainPage'}>
+                        <NavLink to={'/mainPage'} onClick={packListHandler}>
                             <span className={s.icon}>
                                 <ListIcon fontSize='large'/>
                             </span>

@@ -6,13 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {editPack, getPacks, learnPack, removePack, showPack} from '../../reducers/packListsReducer';
+import {editPack, getPacks, learnPack, removePack, setTypeOfPacks, showPack} from '../../reducers/packListsReducer';
 import Button from '@mui/material/Button';
 import {SortType} from '../../api/packsAPI';
 import {useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
 import s from './PacksList.module.css';
+import AppModal from '../AppModal/AppModal';
 
 type PackListPropsType = {
     debouncedSearchTerm: string
@@ -21,7 +22,7 @@ type PackListPropsType = {
     idForProfile?: string
 }
 
-export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSearchTerm, min, max, idForProfile}) => {
+export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min, max, idForProfile}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
 
@@ -29,23 +30,27 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const packs = useAppSelector(state => state.packsList.packs)
     const userId = useAppSelector(state => state.profile._id)
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
+    const typeOfPacks = useAppSelector(state => state.packsList.typeOfPacks)
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const [sort, setSort] = useState<SortType>('0updated')
 
     useEffect(() => {
-        if (idForProfile) {
+        if (userId === '') return
+        if (typeOfPacks === 'my') {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
-                page: page,
+                page: page + 1,
                 pageCount: rowsPerPage,
                 min,
                 max,
-                user_id: idForProfile,
+                user_id: userId,
                 sortPacks: sort as SortType,
             }))
-        } else {
+        }
+
+        if (typeOfPacks === 'all') {
             dispatch(getPacks({
                 packName: debouncedSearchTerm,
                 page: page + 1,
@@ -56,7 +61,18 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
             }))
         }
 
-    }, [dispatch, page, debouncedSearchTerm, min, max, rowsPerPage, sort])
+        if (typeOfPacks === 'some') {
+            dispatch(getPacks({
+                packName: debouncedSearchTerm,
+                page: page + 1,
+                pageCount: rowsPerPage,
+                min,
+                max,
+                user_id: idForProfile,
+                sortPacks: sort as SortType,
+            }))
+        }
+    }, [dispatch, page, debouncedSearchTerm, min, max, rowsPerPage, sort, typeOfPacks, idForProfile, userId])
 
     const deleteHandler = useCallback((id: string) => {
         dispatch(removePack(id))
@@ -85,11 +101,12 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
     const toProfilePacksHandler = useCallback((packUserId: string) => {
         if (userId === packUserId) {
             dispatch(editPack(packUserId))
+            dispatch(setTypeOfPacks('my'))
             navigate('/profilePacks')
         } else {
             dispatch(showPack(packUserId))
+            dispatch(setTypeOfPacks('some'))
             navigate('/profilePacks')
-
         }
     }, [dispatch, navigate, userId])
 
@@ -102,7 +119,8 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                 <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                     <TableCell align="left">Pack Name</TableCell>
                                     <TableCell align="center">Number of cards</TableCell>
-                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last update</TableCell>
+                                    <TableCell align="right" className={s.cursor} onClick={sortHandler}>Last
+                                        update</TableCell>
                                     <TableCell align="right">User name</TableCell>
                                     <TableCell align="right">Actions</TableCell>
                                 </TableRow>
@@ -117,7 +135,7 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                             {pack.cardsCount}
                                         </TableCell>
                                         <TableCell style={{width: 100}} align="right">
-                                            {pack.updated.split('T')[0].replace(/-/gi, '.')}
+                                            {pack.updated.split('T')[0].replace(/-/gi, '.').split('.').reverse().join('.')}
                                         </TableCell>
                                         <TableCell className={s.cursor} style={{width: 100}} align="right"
                                                    onClick={() => toProfilePacksHandler(pack.user_id)}>
@@ -125,15 +143,19 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                                         </TableCell>
                                         <TableCell style={{width: 100}} align="right">
                                             {userId === pack.user_id ?
-                                                <Button
-                                                    style={{margin: '5px'}}
-                                                    sx={{mt: 3, mb: 2}}
-                                                    className={s.btnsDelete}
-                                                    onClick={() => deleteHandler(pack._id)}
-                                                    variant={'contained'}
-                                                    color={'error'}>
-                                                    Delete
-                                                </Button> : undefined}
+                                                <AppModal title={'delete'}
+                                                          description={'Do yo really want to remove this pack?'}
+                                                          children={
+                                                              <Button
+                                                                  key={'1'}
+                                                                  onClick={() => deleteHandler(pack._id)}
+                                                                  style={{margin: '5px'}}
+                                                                  sx={{mt: 3, mb: 2}}
+                                                                  className={s.btnsDelete}
+                                                                  variant={'contained'}
+                                                                  color={'error'}
+                                                              >Delete</Button>
+                                                          }/> : undefined}
                                             {userId === pack.user_id ?
                                                 <Button
                                                     style={{margin: '5px'}}
@@ -171,5 +193,5 @@ export const PacksList: React.FC<PackListPropsType> = React.memo(({debouncedSear
                 <Preloader/>}
         </Paper>
     );
-})
+}
 

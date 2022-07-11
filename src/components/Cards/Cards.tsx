@@ -16,6 +16,9 @@ import {AppPagination} from '../../common/Pagination/Pagination';
 import {SortType} from '../../api/packsAPI';
 import Preloader from '../../common/Preloader/Preloader';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
+import AppModal from '../AppModal/AppModal';
+import {TextField} from '@mui/material';
+import {updatePack} from '../../reducers/packListsReducer';
 
 
 export const Cards = React.memo(() => {
@@ -28,20 +31,27 @@ export const Cards = React.memo(() => {
     const cardsTotalCount = useAppSelector(state => state.cards.cardsTotalCount)
     const appStatus = useAppSelector(state => state.app.appStatus)
     const cards = useAppSelector(state => state.cards.cards)
+    const currentPackName = useAppSelector(state => {
+        if (showPackId || editPackId) {
+            const pack = state.packsList.packs.find((item) => item._id === (showPackId || editPackId))
+            if (pack) return pack.name
+        } else return ''
+    })
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const [sort, setSort] = useState<SortType>('0updated')
     const [searchTerm, setSearchTerm] = useState('');
+    const [newPackName, setNewPackName] = useState('')
 
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
-    const currentPack = showPackId || editPackId
+    const currentPackId = showPackId || editPackId
 
     useEffect(() => {
         if (searchTerm) {
             dispatch(getCards({
-                cardsPack_id: currentPack,
+                cardsPack_id: currentPackId,
                 page: page + 1,
                 pageCount: rowsPerPage,
                 cardQuestion: debouncedSearchTerm,
@@ -49,13 +59,13 @@ export const Cards = React.memo(() => {
             }))
         } else {
             dispatch(getCards({
-                cardsPack_id: currentPack,
+                cardsPack_id: currentPackId,
                 page: page + 1,
                 pageCount: rowsPerPage,
                 sortCards: sort
             }))
         }
-    }, [dispatch, page, currentPack, rowsPerPage, debouncedSearchTerm, sort])
+    }, [dispatch, page, currentPackId, rowsPerPage, debouncedSearchTerm, sort])
 
     const createNewCardHandler = useCallback((cardsPack_id: string, question: string, answer: string) => {
         dispatch(addNewCard(cardsPack_id, question, answer))
@@ -69,9 +79,13 @@ export const Cards = React.memo(() => {
         dispatch(updateCard(id, question))
     }, [dispatch])
 
-    const backHandler = () => {
+    const updatePackNameHandler = useCallback((newPackName: string) => {
+        dispatch(updatePack(editPackId, newPackName))
+    }, [dispatch, newPackName, editPackId])
+
+    const backHandler = useCallback(() => {
         navigate('/mainPage')
-    }
+    }, [navigate])
 
     const sortHandler = useCallback(() => {
         if (sort === '1updated') setSort('0updated')
@@ -96,6 +110,29 @@ export const Cards = React.memo(() => {
                         sx={{mt: 3, mb: 2}}>
                         Back
                     </Button>
+                    <AppModal title={'EditPack'} children={[
+                        <Button
+                            key={'1'}
+                            onClick={() => updatePackNameHandler(newPackName)}
+                            style={{margin: '5px'}}
+                            sx={{mt: 3, mb: 2}}
+                            className={s.btnsEdit}
+                            variant={'contained'}>
+                            Save
+                        </Button>,
+                        <TextField
+                            key={'2'}
+                            color={"secondary"}
+                            margin="normal"
+                            id="email"
+                            label="New pack name"
+                            autoFocus
+                            helperText="Enter new pack name"
+                            value={newPackName}
+                            onChange={(e) => setNewPackName(e.currentTarget.value)}
+                        />
+                    ]}/>
+                    <div>{currentPackName}</div>
                     <div className={s.search}>
                         <UniversalSearch setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
                     </div>
@@ -105,7 +142,7 @@ export const Cards = React.memo(() => {
                             className={s.btnsAdd}
                             size={'small'}
                             sx={{mt: 3, mb: 2}}
-                            onClick={() => createNewCardHandler(currentPack, 'Xander Card', 'Xander answer')}
+                            onClick={() => createNewCardHandler(currentPackId, 'Xander Card', 'Xander answer')}
                             variant={'contained'}>
                             Add Cards
                         </Button>}

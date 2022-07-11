@@ -20,7 +20,6 @@ export const ProfilePacks = React.memo( () => {
     const avatar = useAppSelector(state => state.profile.avatar)
     const userId = useAppSelector(state => state.profile._id)
     const name = useAppSelector(state => state.profile.name)
-    const email = useAppSelector(state => state.profile.email)
     const editPackId = useAppSelector(state => state.packsList.editPackId)
     const min = useAppSelector(state => state.packsList.minMax[0])
     const max = useAppSelector(state => state.packsList.minMax[1])

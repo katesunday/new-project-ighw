@@ -28,6 +28,8 @@ export const AppPagination: React.FC<PaginationType> = React.memo(({page, setPag
             onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handlerChangeRowsPerPage}
+            showFirstButton
+            showLastButton
         />
     );
 })
