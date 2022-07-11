@@ -45,18 +45,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                 pageCount: rowsPerPage,
                 min,
                 max,
-                user_id: userId,
-                sortPacks: sort as SortType,
-            }))
-        }
-
-        if (typeOfPacks === 'all') {
-            dispatch(getPacks({
-                packName: debouncedSearchTerm,
-                page: page + 1,
-                pageCount: rowsPerPage,
-                min,
-                max,
+                user_id: idForProfile,
                 sortPacks: sort as SortType,
             }))
         }

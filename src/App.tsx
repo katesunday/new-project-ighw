@@ -13,12 +13,12 @@ import {Navigation} from './components/Navigation/Navigation';
 import s from './styles/app.module.css'
 import {Cards} from "./components/Cards/Cards";
 import {MainPage} from './components/MainPage/MainPage';
-import {TrainCard} from './components/TrainCard/TrainCard';
 import {ThemeProvider} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import LinearProgress from "@mui/material/LinearProgress";
 import Switch from "@mui/material/Switch";
 import {ProfilePacks} from './components/ProfilePacks/ProfilePacks';
+import {TrainCard} from "./components/TrainCard/TrainCard";
 
 type AppPropsType = {
     themes: object[]
