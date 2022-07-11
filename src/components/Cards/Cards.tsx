@@ -1,6 +1,6 @@
-import React , {useCallback , useEffect , useState} from 'react';
-import {useAppDispatch , useAppSelector , useDebounce} from '../../utils/hooks';
-import {addNewCard , getCards , removeCard , updateCard} from '../../reducers/cardsReducer';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
+import {addNewCard, getCards, removeCard, updateCard} from '../../reducers/cardsReducer';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -10,18 +10,19 @@ import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import {Navigate , useNavigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import s from './Cards.module.css'
 import {AppPagination} from '../../common/Pagination/Pagination';
 import {SortType} from '../../api/packsAPI';
 import Preloader from '../../common/Preloader/Preloader';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
-import TableSortLabel from "@mui/material/TableSortLabel";
+import TableSortLabel from '@mui/material/TableSortLabel';
 import AppModal from '../AppModal/AppModal';
 import TextField from '@mui/material/TextField';
 
 
 export const Cards = React.memo(() => {
+    console.log('render')
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -31,53 +32,68 @@ export const Cards = React.memo(() => {
     const cardsTotalCount = useAppSelector(state => state.cards.cardsTotalCount)
     const appStatus = useAppSelector(state => state.app.appStatus)
     const cards = useAppSelector(state => state.cards.cards)
-    //const {answer,question} = useAppSelector(state => state.)
 
-    const [page , setPage] = useState(0)
-    const [rowsPerPage , setRowsPerPage] = useState(5)
-    const [sort , setSort] = useState<SortType>('0updated')
-    const [searchTerm , setSearchTerm] = useState('');
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [sort, setSort] = useState<SortType>('0updated')
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const [newQuestion , setNewQuestion] = useState('');
-    const [newAnswer , setNewAnswer] = useState('');
+    const [newQuestion, setNewQuestion] = useState('');
+    const [newAnswer, setNewAnswer] = useState('');
 
-    const [question , setQuestion] = useState('');
-    const [answer , setAnswer] = useState('');
+    const [questions, setQuestions] = useState<string[]>([]);
+    const [answers, setAnswers] = useState<string[]>([]);
 
-    const debouncedSearchTerm = useDebounce(searchTerm , 1000);
+    useEffect(() => {
+        if (questions.length === 0) {
+            const q: string[] = []
+            const cardsCopy = [...cards]
+            cardsCopy.forEach(card => q.push(card.question))
+            console.log(q)
+            setQuestions(q)
+        }
+        if (answers.length === 0) {
+            const a: string[] = []
+            const cardsCopy = [...cards]
+            cardsCopy.forEach(card => a.push(card.answer))
+            setAnswers(a)
+        }
+    }, [cards])
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     const currentPackId = showPackId || editPackId
 
     useEffect(() => {
         if (searchTerm) {
             dispatch(getCards({
-                cardsPack_id: currentPackId ,
-                page: page + 1 ,
-                pageCount: rowsPerPage ,
-                cardQuestion: debouncedSearchTerm ,
+                cardsPack_id: currentPackId,
+                page: page + 1,
+                pageCount: rowsPerPage,
+                cardQuestion: debouncedSearchTerm,
                 sortCards: sort
             }))
         } else {
             dispatch(getCards({
-                cardsPack_id: currentPackId ,
-                page: page + 1 ,
-                pageCount: rowsPerPage ,
+                cardsPack_id: currentPackId,
+                page: page + 1,
+                pageCount: rowsPerPage,
                 sortCards: sort
             }))
         }
-    } , [dispatch , page , currentPackId , rowsPerPage , debouncedSearchTerm , sort])
+    }, [dispatch, page, currentPackId, rowsPerPage, debouncedSearchTerm, sort])
 
-    const createNewCardHandler = useCallback((cardsPack_id: string , question: string , answer: string) => {
-        dispatch(addNewCard(cardsPack_id , question , answer))
-    } , [dispatch])
+    const createNewCardHandler = useCallback((cardsPack_id: string, question: string, answer: string) => {
+        dispatch(addNewCard(cardsPack_id, question, answer))
+    }, [dispatch])
 
     const deleteCardsHandler = useCallback((id: string) => {
         dispatch(removeCard(id))
-    } , [dispatch])
+    }, [dispatch])
 
-    const updateCardsHandler = useCallback((id: string , question: string , answer: string) => {
-        dispatch(updateCard(id , question , answer))
-    } , [dispatch])
+    const updateCardsHandler = useCallback((id: string, question: string, answer: string) => {
+        dispatch(updateCard(id, question, answer))
+    }, [dispatch])
 
     const backHandler = () => {
         navigate('/mainPage')
@@ -86,17 +102,17 @@ export const Cards = React.memo(() => {
     const sortHandler = useCallback(() => {
         if (sort === '1updated') setSort('0updated')
         else setSort('1updated')
-    } , [dispatch , sort])
+    }, [dispatch, sort])
 
     const sortAnswerHandler = useCallback(() => {
         if (sort === '1answer') setSort('0answer')
         else setSort('1answer')
-    } , [dispatch , sort])
+    }, [dispatch, sort])
 
     const sortQuestionHandler = useCallback(() => {
         if (sort === '1question') setSort('0question')
         else setSort('1question')
-    } , [dispatch , sort])
+    }, [dispatch, sort])
 
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
@@ -108,12 +124,12 @@ export const Cards = React.memo(() => {
                 <Paper className={s.container} style={{padding: '15px'}}>
                     <Button
                         className={s.btnsBack}
-                        style={{borderRadius: '15px' , marginLeft: '10px'}}
+                        style={{borderRadius: '15px', marginLeft: '10px'}}
                         onClick={backHandler}
                         size={'small'}
                         variant={'contained'}
                         color={'primary'}
-                        sx={{mt: 3 , mb: 2}}>
+                        sx={{mt: 3, mb: 2}}>
                         Back
                     </Button>
                     <div className={s.search}>
@@ -121,47 +137,47 @@ export const Cards = React.memo(() => {
                     </div>
                     <div>
                         {editPackId &&
-                            <AppModal title={'Add new card'} children={[
-                                <Button
-                                    style={{borderRadius: '15px' , marginLeft: '10px'}}
-                                    className={s.btnsAdd}
-                                    size={'small'}
-                                    sx={{mt: 3 , mb: 2}}
-                                    onClick={() => createNewCardHandler(currentPackId , newQuestion , newAnswer)}
-                                    variant={'contained'}>
-                                    Add Cards
-                                </Button> ,
-                                <TextField
-                                    key={'2'}
-                                    color={"secondary"}
-                                    margin="normal"
-                                    id="question"
-                                    label="New question name"
-                                    autoFocus
-                                    helperText="Enter new question name"
-                                    value={newQuestion}
-                                    onChange={(e) => setNewQuestion(e.currentTarget.value)}
-                                /> ,
-                                <TextField
-                                    key={'2'}
-                                    color={"secondary"}
-                                    margin="normal"
-                                    id="answer"
-                                    label="New answer value"
-                                    autoFocus
-                                    helperText="Enter new answer name"
-                                    value={newAnswer}
-                                    onChange={(e) => setNewAnswer(e.currentTarget.value)}
-                                />
-                            ]}/>
+                        <AppModal title={'Add new card'} children={[
+                            <Button
+                                style={{borderRadius: '15px', marginLeft: '10px'}}
+                                className={s.btnsAdd}
+                                size={'small'}
+                                sx={{mt: 3, mb: 2}}
+                                onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
+                                variant={'contained'}>
+                                Add Cards
+                            </Button>,
+                            <TextField
+                                key={'2'}
+                                color={'secondary'}
+                                margin="normal"
+                                id="question"
+                                label="New question name"
+                                autoFocus
+                                helperText="Enter new question name"
+                                value={newQuestion}
+                                onChange={(e) => setNewQuestion(e.currentTarget.value)}
+                            />,
+                            <TextField
+                                key={'2'}
+                                color={'secondary'}
+                                margin="normal"
+                                id="answer"
+                                label="New answer value"
+                                autoFocus
+                                helperText="Enter new answer name"
+                                value={newAnswer}
+                                onChange={(e) => setNewAnswer(e.currentTarget.value)}
+                            />
+                        ]}/>
                         }
                     </div>
                     {cards.length === 0 ?
-                        <div style={{textAlign: 'center' , fontSize: '32px' , fontWeight: 'bolder'}}>There are no
+                        <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no
                             questions</div> : <TableContainer component={Paper} className={s.container}>
                             <Table aria-label="custom pagination table">
                                 <TableBody>
-                                    <TableRow style={{textAlign: 'left' , backgroundColor: 'rgb(184 245 213 / 54%)'}}>
+                                    <TableRow style={{textAlign: 'left', backgroundColor: 'rgb(184 245 213 / 54%)'}}>
                                         <TableCell align="left">
                                             <TableSortLabel
                                                 onClick={sortQuestionHandler}
@@ -189,7 +205,7 @@ export const Cards = React.memo(() => {
                                         <TableCell align="right">Grade</TableCell>
                                         {editPackId ? <TableCell align="right">Action</TableCell> : null}
                                     </TableRow>
-                                    {cards.map((card) => {
+                                    {cards.map((card, index) => {
                                         return <TableRow key={card._id}>
                                             <TableCell component="th" scope="row">
                                                 {card.question}
@@ -198,7 +214,7 @@ export const Cards = React.memo(() => {
                                                 {card.answer}
                                             </TableCell>
                                             <TableCell style={{width: 150}} align="right">
-                                                {card.updated.split('T')[0].replace(/-/gi , '.')}
+                                                {card.updated.split('T')[0].replace(/-/gi, '.')}
                                             </TableCell>
                                             <TableCell style={{width: 150}} align="right">
                                                 <Rating
@@ -211,47 +227,56 @@ export const Cards = React.memo(() => {
                                             </TableCell>
                                             {editPackId && <TableCell style={{width: 150}} align="right">
                                                 <Button
+                                                    key={'1'}
                                                     style={{margin: '5px'}}
                                                     className={s.btnsDelete}
                                                     size={'small'}
                                                     variant={'contained'}
                                                     color={'error'}
-                                                    sx={{mt: 3 , mb: 2}}
+                                                    sx={{mt: 3, mb: 2}}
                                                     onClick={() => deleteCardsHandler(card._id)}>
                                                     Delete
                                                 </Button>
-                                                <AppModal title={'Edit'} children={[
+                                                <AppModal title={'Edit'} key={'10'} children={[
                                                     <Button
-                                                        style={{borderRadius: '15px' , marginLeft: '10px'}}
+                                                        key={'2'}
+                                                        style={{borderRadius: '15px', marginLeft: '10px'}}
                                                         className={s.btnsAdd}
                                                         size={'small'}
-                                                        sx={{mt: 3 , mb: 2}}
-                                                        onClick={() => updateCardsHandler(card._id , question , answer)}
+                                                        sx={{mt: 3, mb: 2}}
+                                                        onClick={() => updateCardsHandler(card._id, questions[index], answers[index])}
                                                         variant={'contained'}>
                                                         Add Cards
-                                                    </Button> ,
+                                                    </Button>,
                                                     <TextField
-                                                        key={'2'}
-                                                        color={"secondary"}
+                                                        key={'3'}
+                                                        color={'secondary'}
                                                         margin="normal"
                                                         id="question"
                                                         label="New question name"
                                                         autoFocus
                                                         helperText="Enter question name"
-                                                        value={card.question}
-                                                        onChange={(e) => setQuestion(e.currentTarget.value)}
-                                                    /> ,
+                                                        value={questions[index]}
+                                                        onChange={(e) => {
+                                                            const copyQuestions = [...questions]
+                                                            copyQuestions[index] = e.currentTarget.value
+                                                            setQuestions(copyQuestions)
+                                                        }}
+                                                    />,
                                                     <TextField
-                                                        key={'2'}
-                                                        color={"secondary"}
+                                                        key={'4'}
+                                                        color={'secondary'}
                                                         margin="normal"
                                                         id="answer"
                                                         label="New answer value"
                                                         autoFocus
                                                         helperText="Enter answer name"
-                                                        value={card.answer}
-                                                        onChange={(e) => setAnswer(e.currentTarget.value)}
-                                                    />
+                                                        value={answers[index]}
+                                                        onChange={(e) => {
+                                                            const copyAnswers = [...answers]
+                                                            copyAnswers[index] = e.currentTarget.value
+                                                            setAnswers(copyAnswers)
+                                                        }}/>
                                                 ]}/>
                                             </TableCell>}
                                         </TableRow>

@@ -115,10 +115,10 @@ export const removeCard = (id: string): ThunkType => async dispatch => {
     }
 }
 
-export const updateCard = (id: string, question: string,answer: string): ThunkType => async dispatch => {
+export const updateCard = (id: string, question: string, answer: string): ThunkType => async dispatch => {
     try {
         dispatch(setAppStatus('inProgress'))
-        await cardsAPI.updateCard(id, question,answer)
+        await cardsAPI.updateCard(id, question, answer)
         dispatch(setUpdateCard(id, question,answer))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
