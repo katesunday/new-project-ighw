@@ -48,6 +48,7 @@ export const ProfilePacks = React.memo(() => {
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
+    console.log(currentPack?.user_id, userId)
 
     return (
         <Paper className={s.MainPage}>
@@ -58,13 +59,13 @@ export const ProfilePacks = React.memo(() => {
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
                 </div>
                 <div className={s.profileDiv}>
-                    <div className={s.nameContainer}>{(currentPack && currentPack.user_name) || name}</div>
-                    {(currentPack && currentPack.user_id === editPackId) || userId ?
+                    <div className={s.nameContainer}>{(currentPack?.user_name) || name}</div>
+                    {(currentPack?.user_id === editPackId) || userId ?
                         <Button className={s.editBtn}
                                 variant="contained"
                                 onClick={toEdit}
                                 color="primary"
-                                disabled={currentPack && currentPack.user_id !== userId}>
+                                disabled={!!showPackId}>
                             Edit profile
                         </Button> : undefined}
                     <Button className={s.editBtn}
