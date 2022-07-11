@@ -122,7 +122,17 @@ export const updateCard = (id: string, question: string): ThunkType => async dis
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
-        handlerErrorUtils(err, dispatch)
+        handlerErrorUtils(err , dispatch)
     }
 }
+
+export const gradeCard = (grade: number , card_id: string): ThunkType => async dispatch => {
+    try {
+        await cardsAPI.gradeCard(grade , card_id)
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err , dispatch)
+    }
+}
+
 
