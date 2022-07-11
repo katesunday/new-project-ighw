@@ -10,7 +10,7 @@ import {PacksList} from '../PacksList/PacksList';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 import { Navigate } from 'react-router-dom';
 import AppModal from '../AppModal/AppModal';
-import {TextField} from '@mui/material';
+import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 
 

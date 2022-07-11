@@ -53,7 +53,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
         case "CARDS/UPDATE-CARD":
             return {
                 ...state,
-                cards: state.cards.map(card => card._id === action.id ? {...card, question: action.question} : card)
+                cards: state.cards.map(card => card._id === action.id ?
+                    {...card, question: action.question,answer:action.answer} : card)
             }
 
         default:
@@ -72,7 +73,7 @@ export type SetCardsType = ReturnType<typeof setCards>
 export const setDeleteCard = (id: string) => ({type: 'CARDS/DELETE-CARD', id} as const)
 export type SetDeleteCardType = ReturnType<typeof setDeleteCard>
 
-export const setUpdateCard = (id: string, question: string) => ({type: 'CARDS/UPDATE-CARD', id, question} as const)
+export const setUpdateCard = (id: string, question: string,answer: string) => ({type: 'CARDS/UPDATE-CARD', id, question,answer} as const)
 export type SetUpdateCardType = ReturnType<typeof setUpdateCard>
 
 // thunk
@@ -114,11 +115,11 @@ export const removeCard = (id: string): ThunkType => async dispatch => {
     }
 }
 
-export const updateCard = (id: string, question: string): ThunkType => async dispatch => {
+export const updateCard = (id: string, question: string,answer: string): ThunkType => async dispatch => {
     try {
         dispatch(setAppStatus('inProgress'))
-        await cardsAPI.updateCard(id, question)
-        dispatch(setUpdateCard(id, question))
+        await cardsAPI.updateCard(id, question,answer)
+        dispatch(setUpdateCard(id, question,answer))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
