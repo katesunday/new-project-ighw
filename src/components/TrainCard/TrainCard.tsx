@@ -10,11 +10,11 @@ import s from './TrainCard.module.css'
 import {useAppDispatch , useAppSelector} from '../../utils/hooks';
 import {editPack , Pack , showPack} from '../../reducers/packListsReducer';
 import {Navigate , useNavigate} from 'react-router-dom';
-import {getCards, gradeCard} from '../../reducers/cardsReducer';
+import {getCards , gradeCard} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
 import {CardType} from '../../api/cardsAPI';
 import {getRandomCard} from '../../utils/mathRandom';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 
 export const TrainCard = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -32,7 +32,7 @@ export const TrainCard = React.memo(() => {
     const [answer , showAnswer] = useState(false)
     const [currentArray , setCurrentArray] = useState<CardType[] | null>(null)
     const [randomCard , setRandomCard] = useState<CardType | null>(null)
-    const [grade,setGrade] = useState(0)
+    const [grade , setGrade] = useState(-1)
 
 
     useEffect(() => {
@@ -48,15 +48,16 @@ export const TrainCard = React.memo(() => {
 
 
     const nextQuestionHandler = useCallback(() => {
-        randomCard && dispatch(gradeCard(grade,randomCard._id))
+        randomCard && dispatch(gradeCard(grade , randomCard._id))
         setQuestionNo(questionNo + 1)
         currentArray && setRandomCard(getRandomCard(currentArray))
         showAnswer(false)
+        setGrade(-1)
 
-    } , [questionNo,grade])
+    } , [questionNo , grade])
 
     const doneHandler = useCallback(() => {
-        if (currentPack && userId === cardsArray[questionNo].user_id) {
+        if (currentPack && userId === randomCard?.user_id) {
             dispatch(editPack(currentPack._id))
             navigate('/mainPage/cards')
         } else {
@@ -66,10 +67,6 @@ export const TrainCard = React.memo(() => {
             }
         }
     } , [dispatch , navigate , currentPack , cardsArray , questionNo , userId])
-
-    const cancelHandler = useCallback(() => {
-        navigate('/mainPage')
-    } , [navigate])
 
 
     if (cardsArray.length === 0 || randomCard === null) {
@@ -89,44 +86,40 @@ export const TrainCard = React.memo(() => {
             {answer &&
                 <div>
 
-                <FormControl>
-                    <FormLabel id="demo-radio-buttons-group-label">Rate yourself</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="1"
-                        name="radio-buttons-group"
-                    >
-                        <FormControlLabel value="1" control={<Radio/>} label="Did not know"
-                        onChange = {()=>setGrade(1)}/>
-                        <FormControlLabel value="2" name="grade" control={<Radio/>} label="Forgot"
-                                          onChange = {()=>setGrade(2)}/>
-                        <FormControlLabel value="3" name="grade" control={<Radio/>} label="A lot of thought"
-                                          onChange = {()=>setGrade(3)}/>
-                        <FormControlLabel value="4" name="grade" control={<Radio/>} label="Partly answered"
-                                          onChange = {()=>setGrade(4)}/>
-                        <FormControlLabel value="5" control={<Radio/>} label="Knew the answer"
-                                          onChange = {()=>setGrade(5)}/>
-                    </RadioGroup>
-                </FormControl>
-            </div>}
+                    <FormControl>
+                        <FormLabel id="demo-radio-buttons-group-label">Rate yourself</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue=""
+                            name="radio-buttons-group"
+                        >
+                            <FormControlLabel value="1" control={<Radio/>} label="Did not know"
+                                              onChange={() => setGrade(1)}/>
+                            <FormControlLabel value="2" name="grade" control={<Radio/>} label="Forgot"
+                                              onChange={() => setGrade(2)}/>
+                            <FormControlLabel value="3" name="grade" control={<Radio/>} label="A lot of thought"
+                                              onChange={() => setGrade(3)}/>
+                            <FormControlLabel value="4" name="grade" control={<Radio/>} label="Partly answered"
+                                              onChange={() => setGrade(4)}/>
+                            <FormControlLabel value="5" control={<Radio/>} label="Knew the answer"
+                                              onChange={() => setGrade(5)}/>
+                        </RadioGroup>
+                    </FormControl>
+                </div>}
 
             <div className={s.navBtns}>
-                <Button onClick={cancelHandler}
+                <Button onClick={doneHandler}
                         variant="contained"
                         sx={{mt: 3 , mb: 2}}
                 >
-                    Cancel
+                    Done
                 </Button>
 
-                {answer && questionNo === cardsArray.length - 1 ? 
-                    <Button onClick={doneHandler} 
-                            variant="contained"
-                            sx={{mt: 3 , mb: 2}}>
-                    Done
-                </Button> : answer ? <Button
+                {answer ? <Button
                         variant="contained"
                         sx={{mt: 3 , mb: 2}}
                         onClick={nextQuestionHandler}
+                        disabled={grade === -1}
                     >
                         Next
                     </Button> :
