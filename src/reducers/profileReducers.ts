@@ -37,7 +37,7 @@ export type LogoutResponse = {
     error: string
 }
 
-export type ProfileActionTypes = SetProfileDataAT | ChangeProfileDataAT
+export type ProfileActionTypes = SetProfileDataAT | ChangeProfileDataAT | ResetProfileDataAT
 
 const initialState: UserType = {
     _id: '',
@@ -66,6 +66,10 @@ export const profileReducers = (state: UserType = initialState, action: ProfileA
 
         case 'PROFILE/CHANGE-PROFILE-DATA':
             return {...state, ...action.data}
+
+        case 'PROFILE/RESET_PROFILE_DATA' :
+            return {...initialState}
+
         default:
             return state
     }
@@ -78,18 +82,16 @@ type SetProfileDataAT = ReturnType<typeof setProfileData>
 export const changeProfileData = (data: UserType) => ({type: 'PROFILE/CHANGE-PROFILE-DATA', data} as const)
 type ChangeProfileDataAT = ReturnType<typeof changeProfileData>
 
+export const resetProfileData = () => ({type: 'PROFILE/RESET_PROFILE_DATA'} as const)
+type ResetProfileDataAT = ReturnType<typeof resetProfileData>
+
 // thunks
 export const logout = (): ThunkType => async dispatch => {
     try {
         dispatch(setAppStatus('inProgress'))
         const res = await authAPI.logout()
         if (res.data.info) {
-            dispatch(setProfileData({
-                name: '',
-                id: '',
-                email: '',
-                avatar: `${ninja}`
-            }))
+            dispatch(resetProfileData())
             dispatch(setTypeOfPacks('my'))
             dispatch(setAppStatus('empty'))
             dispatch(setIsLoggedIn(false))
