@@ -6,7 +6,7 @@ import {Navigate, useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
-import LinearProgress from '@mui/material/LinearProgress';
+import ReplyIcon from '@mui/icons-material/Reply';
 import Paper from '@mui/material/Paper';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -63,16 +63,13 @@ export const Profile = React.memo(() => {
     return <div className={styles.container}>
         {appStatus === 'succeeded' ?
             <Paper className={styles.block}>
-            <Button
+            <IconButton
                 className={styles.button}
-                style={{borderRadius: '15px', marginLeft: '10px'}}
                 onClick={backHandler}
-                size={'small'}
-                variant={'contained'}
                 color={'primary'}
                 sx={{mt: 3, mb: 2}}>
-                Back
-            </Button>
+                <ReplyIcon fontSize={'large'}/>
+            </IconButton>
             <div className={styles.box}>
                 <h2 className={styles.textH2}>Personal Information</h2>
                 <div className={styles.image}>

@@ -1,21 +1,23 @@
-import React, {useCallback, useState} from 'react';
+import React , {useCallback , useState} from 'react';
 import TableCell from '@mui/material/TableCell';
 import s from '../PacksList/PacksList.module.css';
 import AppModal from '../AppModal/AppModal';
 import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
 import {
-    editPack,
-    learnPack,
-    Pack,
-    removePack,
-    setTypeOfPacks,
-    showPack,
+    editPack ,
+    learnPack ,
+    Pack ,
+    removePack ,
+    setTypeOfPacks ,
+    showPack ,
     updatePack
 } from '../../reducers/packListsReducer';
-import {useAppDispatch, useAppSelector} from '../../utils/hooks';
+import {useAppDispatch , useAppSelector} from '../../utils/hooks';
 import {useNavigate} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import SchoolIcon from '@mui/icons-material/School';
+import IconButton from "@mui/material/IconButton";
 
 type PackItemPropsType = {
     pack: Pack
@@ -27,30 +29,30 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
 
     const userId = useAppSelector(state => state.profile._id)
 
-    const [packName, setPackName] = useState(pack.name)
+    const [packName , setPackName] = useState(pack.name)
 
     const deleteHandler = useCallback((id: string) => {
         dispatch(removePack(id))
-    }, [dispatch])
+    } , [dispatch])
 
     const editHandler = useCallback((id: string) => {
         navigate('/mainPage/cards')
         dispatch(editPack(id))
-    }, [dispatch, navigate])
+    } , [dispatch , navigate])
 
     const learnHandler = useCallback((id: string) => {
         dispatch(learnPack(id))
-        navigate(`/train`, {replace: true});
-    }, [dispatch, navigate])
+        navigate(`/train` , {replace: true});
+    } , [dispatch , navigate])
 
     const showHandler = useCallback((id: string) => {
         navigate('/mainPage/cards')
         dispatch(showPack(id))
-    }, [dispatch, navigate])
+    } , [dispatch , navigate])
 
     const updatePackHandler = useCallback(() => {
-        dispatch(updatePack(pack._id, packName))
-    }, [dispatch, packName])
+        dispatch(updatePack(pack._id , packName))
+    } , [dispatch , packName])
 
     const toProfilePacksHandler = useCallback((packUserId: string) => {
         if (userId === packUserId) {
@@ -62,7 +64,7 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
             dispatch(setTypeOfPacks('some'))
             navigate('/profilePacks')
         }
-    }, [dispatch, navigate, userId])
+    } , [dispatch , navigate , userId])
 
     return (
         <TableRow key={pack._id}>
@@ -75,13 +77,13 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                 {pack.cardsCount}
             </TableCell>
             <TableCell style={{width: 100}} align="right">
-                {pack.updated.split('T')[0].replace(/-/gi, '.').split('.').reverse().join('.')}
+                {pack.updated.split('T')[0].replace(/-/gi , '.').split('.').reverse().join('.')}
             </TableCell>
             <TableCell className={s.cursor} style={{width: 100}} align="right"
                        onClick={() => toProfilePacksHandler(pack.user_id)}>
                 {pack.user_name}
             </TableCell>
-            <TableCell style={{width: 100}} align="right">
+            <TableCell align="left"  sx = {{display:'flex',justifyContent:'end', marginRight:1.5}}>
                 {userId === pack.user_id ?
                     <AppModal title={'delete'}
                               description={'Do yo really want to remove this pack?'}
@@ -90,7 +92,7 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                                       key={'1'}
                                       onClick={() => deleteHandler(pack._id)}
                                       style={{borderRadius: '30px'}}
-                                      sx={{mt: 3, mb: 2}}
+                                      sx={{mt: 3 , mb: 2}}
                                       variant={'contained'}
                                       color={'error'}
                                       size={"small"}
@@ -110,7 +112,7 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                                       helperText="Enter question name"
                                       value={packName}
                                       onChange={(e) => setPackName(e.currentTarget.value)}
-                                  />,
+                                  /> ,
                                   <Button
                                       key={'1'}
                                       onClick={updatePackHandler}
@@ -118,19 +120,23 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                                       color={'secondary'}
                                       style={{borderRadius: '30px'}}
                                       size={'small'}
-                                      sx={{mt: 3, mb: 2}}
+                                      sx={{mt: 3 , mb: 2}}
                                   >Rename Pack</Button>
                               ]}/> : undefined}
-                <Button
-                    style={{borderRadius: '30px',margin: '3px 0'}}
-                    color={'secondary'}
-                    sx={{mt: 3, mb: 2}}
-                    className={s.btnsLern}
-                    disabled={pack.cardsCount === 0}
-                    onClick={() => learnHandler(pack._id)}
-                    variant={'contained'}>
-                    Learn
-                </Button>
+                <IconButton disabled={pack.cardsCount === 0}
+                            className={s.btnsLern}
+                            sx={{mt: 0.7, mb: 0.3,display:'block', width:0,
+                                "&:hover:after":
+                                    { content:`"LEARN"`,
+                                        fontSize:'11px',
+                                        position:'absolute',
+                                        bottom:'25px'}
+                            }}
+                            onClick={() => learnHandler(pack._id)}>
+                    <SchoolIcon
+                        color={pack.cardsCount === 0 ? 'disabled' : 'secondary'}/>
+                </IconButton>
+
             </TableCell>
         </TableRow>
     );

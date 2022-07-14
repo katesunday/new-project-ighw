@@ -51,7 +51,7 @@
 
 .selectorBtns button {
     height: 40px;
-    width: 120px;
+    width: 110px;
 }
 
 .container {
@@ -75,6 +75,8 @@
 }
 
 .image {
-    width: 400px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: 190px;
 }

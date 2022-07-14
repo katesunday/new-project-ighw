@@ -18,10 +18,12 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import AppModal from '../AppModal/AppModal';
 import TextField from '@mui/material/TextField';
 import {CardItem} from '../CardItem/CardItem';
+import ReplyIcon from '@mui/icons-material/Reply';
+import IconButton from "@mui/material/IconButton";
+
 
 
 export const Cards = React.memo(() => {
-    console.log('render')
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -94,56 +96,54 @@ export const Cards = React.memo(() => {
         <div className={s.mainContainer}>
             {appStatus === 'succeeded' ?
                 <Paper className={s.container} style={{padding: '15px'}}>
-                    <Button
+                    <IconButton
                         className={s.btnsBack}
-                        style={{borderRadius: '15px', marginLeft: '10px'}}
                         onClick={backHandler}
-                        size={'small'}
-                        variant={'contained'}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}>
-                        Back
-                    </Button>
+                        <ReplyIcon fontSize={'large'}/>
+                    </IconButton>
                     <div className={s.search}>
                         <UniversalSearch setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
+                        <div>
+                            {editPackId &&
+                                <div>
+                                    <AppModal description={'Add new card'} title={'Add new card'} children={[
+                                        <TextField
+                                            key={'2'}
+                                            color={'secondary'}
+                                            margin="normal"
+                                            id="question"
+                                            label="New question name"
+                                            autoFocus
+                                            helperText="Enter new question name"
+                                            value={newQuestion}
+                                            onChange={(e) => setNewQuestion(e.currentTarget.value)}
+                                        />,
+                                        <TextField
+                                            key={'2'}
+                                            color={'secondary'}
+                                            margin="normal"
+                                            id="answer"
+                                            label="New answer value"
+                                            autoFocus
+                                            helperText="Enter new answer name"
+                                            value={newAnswer}
+                                            onChange={(e) => setNewAnswer(e.currentTarget.value)}
+                                        />,
+                                        <Button
+                                            style={{borderRadius: '30px'}}
+                                            size={'small'}
+                                            sx={{mt: 3, mb: 2}}
+                                            onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
+                                            variant={'contained'}>
+                                            Add Cards
+                                        </Button>
+                                    ]}/>
+                                </div>}
+                        </div>
                     </div>
-                    <div>
-                        {editPackId &&
-                            <div>
-                                <AppModal description={'Add new card'} title={'Add new card'} children={[
-                                    <TextField
-                                        key={'2'}
-                                        color={'secondary'}
-                                        margin="normal"
-                                        id="question"
-                                        label="New question name"
-                                        autoFocus
-                                        helperText="Enter new question name"
-                                        value={newQuestion}
-                                        onChange={(e) => setNewQuestion(e.currentTarget.value)}
-                                    />,
-                                    <TextField
-                                        key={'2'}
-                                        color={'secondary'}
-                                        margin="normal"
-                                        id="answer"
-                                        label="New answer value"
-                                        autoFocus
-                                        helperText="Enter new answer name"
-                                        value={newAnswer}
-                                        onChange={(e) => setNewAnswer(e.currentTarget.value)}
-                                    />,
-                                    <Button
-                                        style={{borderRadius: '30px'}}
-                                        size={'small'}
-                                        sx={{mt: 3, mb: 2}}
-                                        onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
-                                        variant={'contained'}>
-                                        Add Cards
-                                    </Button>
-                                ]}/>
-                            </div>}
-                    </div>
+
                     {cards.length === 0 ?
                         <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no
                             questions</div> : <TableContainer component={Paper} className={s.container}>
@@ -170,7 +170,7 @@ export const Cards = React.memo(() => {
                                             <TableSortLabel
                                                 onClick={sortHandler}
                                                 active={true}
-                                                direction={sort === '1updated' ? 'desc' : 'asc'}>
+                                                direction={sort === '1updated' ? 'asc'  : 'desc'}>
                                             </TableSortLabel>
                                             Last Updated
                                         </TableCell>

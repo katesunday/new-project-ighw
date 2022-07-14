@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
+import React , {useState} from 'react';
 import Modal from '@mui/material/Modal';
 import {Box} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import s from './AppModal.module.css';
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 type ModalProps = {
     title: string
@@ -13,33 +17,43 @@ type ModalProps = {
 }
 
 const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+    position: 'absolute' as 'absolute' ,
+    top: '50%' ,
+    left: '50%' ,
+    transform: 'translate(-50%, -50%)' ,
+    width: 400 ,
+    bgcolor: 'background.paper' ,
+    border: '2px solid #000' ,
+    boxShadow: 24 ,
+    p: 4 ,
 };
 
-const AppModal: React.FC<ModalProps> = React.memo(({title, description, children}) => {
-    const [open, setOpen] = useState(false);
+const AppModal: React.FC<ModalProps> = React.memo(({title , description , children}) => {
+    const [open , setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
-            <Button
+            <IconButton
                 onClick={handleOpen}
-                style={{borderRadius: '30px', margin: '3px 0'}}
                 className={s.btnsDelete}
-                sx={{mt: 3, mb: 2}}
-                variant={'contained'}
-                color={title === 'delete' ? 'error' : 'secondary'}>
-                {title}
-            </Button>
+                sx={{
+                    display:'block', width:0, marginRight:3,
+                    mt: 0.7 , mb: 0.3 ,
+                    "&:hover:after":
+                        {
+                            content: title === 'delete' ? `"DELETE"` :
+                                     title === 'Edit' ? `"EDIT"` : `"ADD NEW ITEM"` ,
+                            fontSize: '11px' ,
+                            position: 'absolute' ,
+                            bottom: '25px'
+                        }
+                }}
+                color={title === 'delete' ? 'error' : 'secondary'}
+            >
+                {title === 'delete' ? <DeleteIcon/> : title === 'Edit' ? <EditIcon/> : <LibraryAddIcon/>}
+            </IconButton>
             <Modal open={open}
                    onClose={handleClose}
                    aria-labelledby="parent-modal-title"
@@ -61,7 +75,7 @@ const AppModal: React.FC<ModalProps> = React.memo(({title, description, children
                             <Button
                                 style={{borderRadius: '30px'}}
                                 onClick={handleClose}
-                                sx={{mt: 3, mb: 2}}
+                                sx={{mt: 3 , mb: 2}}
                                 variant={'contained'}
                                 color={'error'}
                                 size={"small"}>

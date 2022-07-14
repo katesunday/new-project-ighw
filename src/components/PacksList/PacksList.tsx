@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React , {useCallback , useEffect , useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch, useAppSelector} from '../../utils/hooks';
+import {useAppDispatch , useAppSelector} from '../../utils/hooks';
 import {getPacks} from '../../reducers/packListsReducer';
 import {SortType} from '../../api/packsAPI';
 import {AppPagination} from '../../common/Pagination/Pagination';
@@ -20,7 +20,7 @@ type PackListPropsType = {
     idForProfile?: string
 }
 
-export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min, max, idForProfile}) => {
+export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm , min , max , idForProfile}) => {
     const dispatch = useAppDispatch()
 
     const appStatus = useAppSelector(state => state.app.appStatus)
@@ -29,67 +29,67 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
     const totalAmountOfPacks = useAppSelector(state => state.packsList.totalAmountOfPacks)
     const typeOfPacks = useAppSelector(state => state.packsList.typeOfPacks)
 
-    const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(5)
-    const [sort, setSort] = useState<SortType>('0updated')
+    const [page , setPage] = useState(0)
+    const [rowsPerPage , setRowsPerPage] = useState(5)
+    const [sort , setSort] = useState<SortType>('0updated')
 
     useEffect(() => {
         if (userId === '') return
         if (typeOfPacks === 'my') {
             dispatch(getPacks({
-                packName: debouncedSearchTerm,
-                page: page + 1,
-                pageCount: rowsPerPage,
-                min,
-                max,
-                user_id: userId,
-                sortPacks: sort as SortType,
+                packName: debouncedSearchTerm ,
+                page: page + 1 ,
+                pageCount: rowsPerPage ,
+                min ,
+                max ,
+                user_id: userId ,
+                sortPacks: sort as SortType ,
             }))
         }
 
         if (typeOfPacks === 'all') {
             dispatch(getPacks({
-                packName: debouncedSearchTerm,
-                page: page + 1,
-                pageCount: rowsPerPage,
-                min,
-                max,
-                sortPacks: sort as SortType,
+                packName: debouncedSearchTerm ,
+                page: page + 1 ,
+                pageCount: rowsPerPage ,
+                min ,
+                max ,
+                sortPacks: sort as SortType ,
             }))
         }
 
         if (typeOfPacks === 'some') {
             dispatch(getPacks({
-                packName: debouncedSearchTerm,
-                page: page + 1,
-                pageCount: rowsPerPage,
-                min,
-                max,
-                user_id: idForProfile,
-                sortPacks: sort as SortType,
+                packName: debouncedSearchTerm ,
+                page: page + 1 ,
+                pageCount: rowsPerPage ,
+                min ,
+                max ,
+                user_id: idForProfile ,
+                sortPacks: sort as SortType ,
             }))
         }
-    }, [dispatch, page, debouncedSearchTerm, min, max, rowsPerPage, sort, typeOfPacks, idForProfile, userId])
+    } , [dispatch , page , debouncedSearchTerm , min , max , rowsPerPage , sort , typeOfPacks , idForProfile , userId])
 
     const sortHandler = useCallback(() => {
         if (sort === '1updated') setSort('0updated')
         else setSort('1updated')
-    }, [dispatch, sort])
+    } , [dispatch , sort])
 
     const sortPackHandler = useCallback(() => {
         if (sort === '1name') setSort('0name')
         else setSort('1name')
-    }, [dispatch, sort])
+    } , [dispatch , sort])
 
     const sortNumberOfCardsHandler = useCallback(() => {
         if (sort === '1cardsCount') setSort('0cardsCount')
         else setSort('1cardsCount')
-    }, [dispatch, sort])
+    } , [dispatch , sort])
 
     const sortUserNameHandler = useCallback(() => {
         if (sort === '1user_name') setSort('0user_name')
         else setSort('1user_name')
-    }, [dispatch, sort])
+    } , [dispatch , sort])
 
     return (
         <Paper>
@@ -127,13 +127,13 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortUserNameHandler}
                                             active={true}
-                                            direction={sort === '1user_name' ? 'asc' : 'desc'}>
+                                            direction={sort === '1user_name' ? 'desc' : 'asc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">Actions</TableCell>
                                 </TableRow>
                                 {packs.map((pack) => {
-                                    return <PackItem pack={pack}/>
+                                    return <PackItem pack={pack} key={pack._id}/>
                                 })}
                             </TableBody>
                         </Table>

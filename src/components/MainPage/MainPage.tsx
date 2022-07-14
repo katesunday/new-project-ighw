@@ -8,7 +8,7 @@ import {searchMinMax, setTypeOfPacks} from '../../reducers/packListsReducer';
 import {PacksList} from '../PacksList/PacksList';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 import {Navigate} from 'react-router-dom';
-import rocketImg from './../../assets/images/rocket.png';
+import ninjabg from './../../assets/images/ninjabg.png';
 
 
 export const MainPage = React.memo(() => {
@@ -65,7 +65,10 @@ export const MainPage = React.memo(() => {
                     />
                     <span>{min} - </span> <span>{max}</span>
                 </div>
-                <img src={rocketImg} alt={'rocketImg'} className={s.image}/>
+                <div style = {{position:'relative'}}>
+                    <img src={ninjabg} alt={'rocketImg'} className={s.image}/>
+                </div>
+
             </div>
 
             <div className={s.packList}>

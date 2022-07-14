@@ -52,7 +52,7 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                     emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
                 />
             </TableCell>
-            {editPackId && <TableCell style={{width: 150}} align="right">
+            {editPackId && <TableCell align="left" sx = {{display:'flex',justifyContent:'end', marginRight:1.5,marginBottom:'-1px'}}>
                 <AppModal title={'delete'} description={'Are you really want to delete this card?'} children={
                     <Button
                         key={'1'}

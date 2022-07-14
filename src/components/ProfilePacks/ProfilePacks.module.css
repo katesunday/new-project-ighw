@@ -83,8 +83,8 @@
 }
 
 .image {
-    width: 300px;
-    height: 300px;
-    display: flex;
-    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 30px;
 }

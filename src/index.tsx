@@ -21,7 +21,7 @@ const darkTheme = createTheme({
             dark: 'white',
         },
         secondary: {
-            main: '#54e183',
+            main: '#5aa573',
             contrastText: '#000',
             dark: 'white',
         },

@@ -38,7 +38,7 @@ export const Navigation = React.memo(() => {
                         onClick={rerender}>
                         <NavLink to={'/profilePacks'} onClick={profileHandler}>
                             <span className={s.icon}>
-                                <FaceIcon fontSize='large'/>
+                                <FaceIcon fontSize='large' color = {'action'}/>
                             </span>
                             <span className={s.tip}>Profile</span>
                         </NavLink>
@@ -47,7 +47,7 @@ export const Navigation = React.memo(() => {
                         onClick={rerender}>
                         <NavLink to={'/mainPage'} onClick={packListHandler}>
                             <span className={s.icon}>
-                                <ListIcon fontSize='large'/>
+                                <ListIcon fontSize='large' color = {'action'}/>
                             </span>
                             <span className={s.tip}>Packs list</span>
                         </NavLink>
@@ -56,20 +56,11 @@ export const Navigation = React.memo(() => {
                         onClick={rerender}>
                         <NavLink to={'/'}>
                             <span className={s.icon} onClick={logoutHandler}>
-                                <LogoutSharpIcon fontSize='large'/>
+                                <LogoutSharpIcon fontSize='large' color = {'action'}/>
                             </span>
                             <span className={s.tip}>Log out</span>
                         </NavLink>
                     </li>
-                    {/*<li className={s.list}*/}
-                    {/*    onClick={rerender}>*/}
-                    {/*    <NavLink to={'/'}>*/}
-                    {/*        <span className={s.icon}>*/}
-
-                    {/*        </span>*/}
-                    {/*        <span className={s.tip}>4</span>*/}
-                    {/*    </NavLink>*/}
-                    {/*</li>*/}
                 </ul>
             </div>
         </nav>

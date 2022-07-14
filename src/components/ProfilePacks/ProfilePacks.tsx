@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import AppModal from "../AppModal/AppModal";
 import {PostPackPayloadType} from "../../api/packsAPI";
+import ninjabg from "../../assets/images/ninjabg.png";
 
 export const ProfilePacks = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -60,7 +61,6 @@ export const ProfilePacks = React.memo(() => {
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
-    console.log(currentPack?.user_id, userId)
 
     return (
         <Paper className={s.MainPage}>
@@ -101,7 +101,9 @@ export const ProfilePacks = React.memo(() => {
                     />
                     <span>{min} - </span> <span>{max}</span>
                 </div>
-                <img src={rocketImg} alt={'rocketImg'} className={s.image}/>
+                <div style = {{position:'relative'}}>
+                    <img src={ninjabg} alt={'rocketImg'} className={s.image}/>
+                </div>
             </div>
 
             <div className={s.packList}>
