@@ -170,7 +170,6 @@ export const updatePack = (packId: string, newName: string): ThunkType => async 
         dispatch(setNewName(newName, packId))
         dispatch(setAppStatus('succeeded'))
     } catch(e) {
-
         const err = e as Error | AxiosError<{ error: string }>
         handlerErrorUtils(err, dispatch)
     }
