@@ -1,25 +1,16 @@
 .btnsDelete {
-    height: 25px;
-    width: 51px;
-    left: 6px;
-    top: 5px;
-    margin: 5px;
+    height: 30px;
+    width: 150px;
 }
 
 .btnsEdit {
-    height: 25px;
-    width: 51px;
-    left: 6px;
-    top: 5px;
-    margin: 5px;
+    height: 30px;
+    width: 150px;
 }
 
 .btnsLern {
-    height: 25px;
-    width: 51px;
-    left: 6px;
-    top: 5px;
-    margin: 5px;
+    height: 30px;
+    width: 150px;
 }
 
 .btnsAdd {

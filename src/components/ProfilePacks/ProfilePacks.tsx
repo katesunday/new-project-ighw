@@ -8,6 +8,7 @@ import {PacksList} from '../PacksList/PacksList';
 import {Navigate, useNavigate} from 'react-router-dom';
 import Paper from "@mui/material/Paper";
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
+import rocketImg from "../../assets/images/rocket.png";
 
 export const ProfilePacks = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -61,18 +62,22 @@ export const ProfilePacks = React.memo(() => {
                 <div className={s.profileDiv}>
                     <div className={s.nameContainer}>{(currentPack?.user_name) || name}</div>
                     {(currentPack?.user_id === editPackId) || userId ?
-                        <Button className={s.editBtn}
-                                variant="contained"
-                                onClick={toEdit}
-                                color="primary"
-                                disabled={!!showPackId}>
+                        <Button
+                            style={{borderRadius: '30px'}}
+                            className={s.editBtn}
+                            variant="contained"
+                            onClick={toEdit}
+                            color="primary"
+                            disabled={!!showPackId}>
                             Edit profile
                         </Button> : undefined}
-                    <Button className={s.editBtn}
-                            onClick={toMainPage}
-                            type={'submit'}
-                            variant="contained"
-                            sx={{mt: 3, mb: 2}}>
+                    <Button
+                        style={{borderRadius: '30px'}}
+                        className={s.editBtn}
+                        onClick={toMainPage}
+                        type={'submit'}
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}>
                         Go back
                     </Button>
                 </div>
@@ -85,6 +90,7 @@ export const ProfilePacks = React.memo(() => {
                     />
                     <span>{min} - </span> <span>{max}</span>
                 </div>
+                <img src={rocketImg} alt={'rocketImg'} className={s.image}/>
             </div>
 
             <div className={s.packList}>

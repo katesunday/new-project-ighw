@@ -30,12 +30,12 @@ export type SortType =
     | '1answer'
     | '0question'
     | '1question'
-    | '0packName'
-    | '1packName'
-    | '0numberOfCards'
-    | '1numberOfCards'
-    | '0userName'
-    | '1userName'
+    | '0name'
+    | '1name'
+    | '0cardsCount'
+    | '1cardsCount'
+    | '0user_name'
+    | '1user_name'
 
 export type Params = {
     packName?: string

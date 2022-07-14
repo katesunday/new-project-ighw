@@ -35,7 +35,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
 
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
-    const [sort, setSort] = useState<SortType>('0updated'||'0packName'||'0numberOfCards'||'0userName')
+    const [sort, setSort] = useState<SortType>('0updated')
 
     useEffect(() => {
         if (userId === '') return
@@ -100,18 +100,18 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
     }, [dispatch, sort])
 
     const sortPackHandler = useCallback(() => {
-        if (sort === '1packName') setSort('0packName')
-        else setSort('1packName')
+        if (sort === '1name') setSort('0name')
+        else setSort('1name')
     }, [dispatch, sort])
 
     const sortNumberOfCardsHandler = useCallback(() => {
-        if (sort === '1numberOfCards') setSort('0numberOfCards')
-        else setSort('1numberOfCards')
+        if (sort === '1cardsCount') setSort('0cardsCount')
+        else setSort('1cardsCount')
     }, [dispatch, sort])
 
     const sortUserNameHandler = useCallback(() => {
-        if (sort === '1userName') setSort('0userName')
-        else setSort('1userName')
+        if (sort === '1user_name') setSort('0user_name')
+        else setSort('1user_name')
     }, [dispatch, sort])
 
     const toProfilePacksHandler = useCallback((packUserId: string) => {
@@ -138,7 +138,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortPackHandler}
                                             active={true}
-                                            direction={sort === '1packName' ? 'desc' : 'asc'}>
+                                            direction={sort === '1name' ? 'asc' : 'desc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="center">
@@ -146,7 +146,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortNumberOfCardsHandler}
                                             active={true}
-                                            direction={sort === '1numberOfCards' ? 'desc' : 'asc'}>
+                                            direction={sort === '0cardsCount' ? 'asc' : 'desc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">
@@ -154,7 +154,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortHandler}
                                             active={true}
-                                            direction={sort === '1updated' ? 'desc' : 'asc'}>
+                                            direction={sort === '1updated' ? 'asc' : 'desc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">
@@ -162,7 +162,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortUserNameHandler}
                                             active={true}
-                                            direction={sort === '1userName' ? 'desc' : 'asc'}>
+                                            direction={sort === '1user_name' ? 'asc' : 'desc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">Actions</TableCell>
@@ -174,7 +174,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         }} component="th" scope="row">
                                             {pack.name}
                                         </TableCell>
-                                        <TableCell style={{width: 100}} align="right">
+                                        <TableCell style={{width: 100}} align="center">
                                             {pack.cardsCount}
                                         </TableCell>
                                         <TableCell style={{width: 100}} align="right">
@@ -191,20 +191,20 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                                           children={
                                                               <Button
                                                                   key={'1'}
-                                                                  onClick={() => deleteHandler(pack._id)}
-                                                                  style={{margin: '5px'}}
-                                                                  sx={{mt: 3, mb: 2}}
+                                                                  style={{borderRadius: '30px'}}
                                                                   className={s.btnsDelete}
+                                                                  onClick={() => deleteHandler(pack._id)}
+                                                                  sx={{mt: 3, mb: 2}}
                                                                   variant={'contained'}
                                                                   color={'error'}
                                                               >Delete</Button>
                                                           }/> : undefined}
                                             {userId === pack.user_id ?
                                                 <Button
-                                                    style={{margin: '5px'}}
+                                                    style={{borderRadius: '30px', marginTop: '10px'}}
+                                                    className={s.btnsEdit}
                                                     color={'secondary'}
                                                     sx={{mt: 3, mb: 2}}
-                                                    className={s.btnsEdit}
                                                     onClick={() => {
                                                         editHandler(pack._id)
                                                     }}
@@ -212,10 +212,10 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                                     Edit
                                                 </Button> : undefined}
                                             <Button
-                                                style={{margin: '5px'}}
+                                                style={{borderRadius: '30px', marginTop: '10px'}}
+                                                className={s.btnsLern}
                                                 color={'secondary'}
                                                 sx={{mt: 3, mb: 2}}
-                                                className={s.btnsLern}
                                                 disabled={pack.cardsCount === 0}
                                                 onClick={() => learnHandler(pack._id)}
                                                 variant={'contained'}>

@@ -8,10 +8,11 @@ import {createNewPack, searchMinMax, setTypeOfPacks} from '../../reducers/packLi
 import {PostPackPayloadType} from '../../api/packsAPI';
 import {PacksList} from '../PacksList/PacksList';
 import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
-import { Navigate } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import AppModal from '../AppModal/AppModal';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
+import rocketImg from './../../assets/images/rocket.png';
 
 
 export const MainPage = React.memo(() => {
@@ -52,7 +53,7 @@ export const MainPage = React.memo(() => {
                 <div>Show packs of cards</div>
                 <div className={s.selectorBtns}>
                     <Button
-                        style={{borderRadius:'30px'}}
+                        style={{borderRadius: '30px'}}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}
                         onClick={getMyPacksHandler}
@@ -60,7 +61,7 @@ export const MainPage = React.memo(() => {
                         My Packs
                     </Button>
                     <Button
-                        style={{borderRadius:'30px'}}
+                        style={{borderRadius: '30px'}}
                         color={'primary'}
                         sx={{mt: 3, mb: 2}}
                         onClick={getAllPacksHandler}
@@ -75,27 +76,16 @@ export const MainPage = React.memo(() => {
                     />
                     <span>{min} - </span> <span>{max}</span>
                 </div>
+                <img src={rocketImg} alt={'rocketImg'} className={s.image}/>
             </div>
 
             <div className={s.packList}>
                 <div className={s.packListHeader}>Pack List</div>
                 <div className={s.searchAndAdd}>
                     <UniversalSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-                    <AppModal title={'Add pack'} children={[
-                        <Button
-                            onClick={() => createNewPackHandler({
-                                name: newPackName,
-                                private: privacyOfNewPack,
-                                deckCover: ''
-                            })}
-                            key={'1'}
-                            style={{borderRadius:'30px'}}
-                            color={'primary'}
-                            sx={{mt: 3, mb: 2}}
-                            variant={'contained'}>
-                            Save
-                        </Button>,
+                    <AppModal description={'Add New Pack'} title={'Add pack'} children={[
                         <TextField
+                            className={s.input}
                             key={'2'}
                             color={"secondary"}
                             margin="normal"
@@ -112,7 +102,21 @@ export const MainPage = React.memo(() => {
                                 onChange={(e) => setPrivacyOfNewPack(e.currentTarget.checked)}
                             />
                             <span>Privacy</span>
-                        </div>
+                        </div>,
+                        <Button
+                            onClick={() => createNewPackHandler({
+                                name: newPackName,
+                                private: privacyOfNewPack,
+                                deckCover: ''
+                            })}
+                            key={'1'}
+                            style={{borderRadius: '30px'}}
+                            className={s.btnsSave}
+                            color={'primary'}
+                            sx={{mt: 3, mb: 2}}
+                            variant={'contained'}>
+                            Save
+                        </Button>
                     ]}/>
                 </div>
                 <div className={s.allPacks}>

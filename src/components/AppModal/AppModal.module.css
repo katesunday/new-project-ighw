@@ -1,20 +1,18 @@
 .btnsDelete {
-    height: 25px;
-    width: 51px;
-    left: 6px;
-    top: 5px;
-    margin: 5px;
+    height: 30px;
+    width: 150px;
 }
 
 .btnsClose {
-    height: 25px;
-    width: 51px;
-    left: 6px;
-    top: 5px;
-    margin: 5px;
+    height: 30px;
+    width: 150px;
 }
 
 .box {
     display: flex;
     flex-flow: column nowrap;
+}
+
+.modal {
+    display: block;
 }

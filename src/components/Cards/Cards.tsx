@@ -137,39 +137,40 @@ export const Cards = React.memo(() => {
                     </div>
                     <div>
                         {editPackId &&
-                        <AppModal title={'Add new card'} children={[
-                            <Button
-                                style={{borderRadius: '15px', marginLeft: '10px'}}
-                                className={s.btnsAdd}
-                                size={'small'}
-                                sx={{mt: 3, mb: 2}}
-                                onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
-                                variant={'contained'}>
-                                Add Cards
-                            </Button>,
-                            <TextField
-                                key={'2'}
-                                color={'secondary'}
-                                margin="normal"
-                                id="question"
-                                label="New question name"
-                                autoFocus
-                                helperText="Enter new question name"
-                                value={newQuestion}
-                                onChange={(e) => setNewQuestion(e.currentTarget.value)}
-                            />,
-                            <TextField
-                                key={'2'}
-                                color={'secondary'}
-                                margin="normal"
-                                id="answer"
-                                label="New answer value"
-                                autoFocus
-                                helperText="Enter new answer name"
-                                value={newAnswer}
-                                onChange={(e) => setNewAnswer(e.currentTarget.value)}
-                            />
-                        ]}/>
+                            <AppModal description={'Add New Card'} title={'Add new card'} children={[
+                                <TextField
+                                    className={s.input}
+                                    key={'2'}
+                                    color={'secondary'}
+                                    margin="normal"
+                                    id="question"
+                                    label="New question name"
+                                    autoFocus
+                                    helperText="Enter new question name"
+                                    value={newQuestion}
+                                    onChange={(e) => setNewQuestion(e.currentTarget.value)}
+                                />,
+                                <TextField
+                                    className={s.input}
+                                    key={'2'}
+                                    color={'secondary'}
+                                    margin="normal"
+                                    id="answer"
+                                    label="New answer value"
+                                    helperText="Enter new answer name"
+                                    value={newAnswer}
+                                    onChange={(e) => setNewAnswer(e.currentTarget.value)}
+                                />,
+                                <Button
+                                    key={'5'}
+                                    style={{borderRadius: '30px'}}
+                                    className={s.btnsAdd}
+                                    sx={{mt: 3, mb: 2}}
+                                    onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
+                                    variant={'contained'}>
+                                    Add New Card
+                                </Button>
+                            ]}/>
                         }
                     </div>
                     {cards.length === 0 ?
@@ -203,14 +204,14 @@ export const Cards = React.memo(() => {
                                             Last Updated
                                         </TableCell>
                                         <TableCell align="right">Grade</TableCell>
-                                        {editPackId ? <TableCell align="right">Action</TableCell> : null}
+                                        {editPackId && <TableCell align="right">Action</TableCell>}
                                     </TableRow>
                                     {cards.map((card, index) => {
                                         return <TableRow key={card._id}>
                                             <TableCell component="th" scope="row">
                                                 {card.question}
                                             </TableCell>
-                                            <TableCell style={{width: 150}} align="right">
+                                            <TableCell style={{width: 150}} align="center">
                                                 {card.answer}
                                             </TableCell>
                                             <TableCell style={{width: 150}} align="right">
@@ -226,29 +227,22 @@ export const Cards = React.memo(() => {
                                                 />
                                             </TableCell>
                                             {editPackId && <TableCell style={{width: 150}} align="right">
-                                                <Button
-                                                    key={'1'}
-                                                    style={{margin: '5px'}}
-                                                    className={s.btnsDelete}
-                                                    size={'small'}
-                                                    variant={'contained'}
-                                                    color={'error'}
-                                                    sx={{mt: 3, mb: 2}}
-                                                    onClick={() => deleteCardsHandler(card._id)}>
-                                                    Delete
-                                                </Button>
-                                                <AppModal title={'Edit'} key={'10'} children={[
-                                                    <Button
-                                                        key={'2'}
-                                                        style={{borderRadius: '15px', marginLeft: '10px'}}
-                                                        className={s.btnsAdd}
-                                                        size={'small'}
-                                                        sx={{mt: 3, mb: 2}}
-                                                        onClick={() => updateCardsHandler(card._id, questions[index], answers[index])}
-                                                        variant={'contained'}>
-                                                        Add Cards
-                                                    </Button>,
+                                                <AppModal title={'delete'}
+                                                          description={'Do yo really want to remove this pack?'}
+                                                          children={
+                                                              <Button
+                                                                  key={'1'}
+                                                                  style={{borderRadius: '30px'}}
+                                                                  className={s.btnsDelete}
+                                                                  onClick={() => deleteCardsHandler(card._id)}
+                                                                  sx={{mt: 3, mb: 2}}
+                                                                  variant={'contained'}
+                                                                  color={'error'}
+                                                              >Delete</Button>
+                                                          }/>
+                                                <AppModal description={'Update card'} title={'Edit'} key={'10'} children={[
                                                     <TextField
+                                                        className={s.input}
                                                         key={'3'}
                                                         color={'secondary'}
                                                         margin="normal"
@@ -264,19 +258,29 @@ export const Cards = React.memo(() => {
                                                         }}
                                                     />,
                                                     <TextField
+                                                        className={s.input}
                                                         key={'4'}
                                                         color={'secondary'}
                                                         margin="normal"
                                                         id="answer"
                                                         label="New answer value"
-                                                        autoFocus
                                                         helperText="Enter answer name"
                                                         value={answers[index]}
                                                         onChange={(e) => {
                                                             const copyAnswers = [...answers]
                                                             copyAnswers[index] = e.currentTarget.value
                                                             setAnswers(copyAnswers)
-                                                        }}/>
+                                                        }}/>,
+                                                    <Button
+                                                        key={'2'}
+                                                        style={{borderRadius: '30px'}}
+                                                        className={s.btnsEdit}
+                                                        size={'small'}
+                                                        sx={{mt: 3, mb: 2}}
+                                                        onClick={() => updateCardsHandler(card._id, questions[index], answers[index])}
+                                                        variant={'contained'}>
+                                                        Edit Card
+                                                    </Button>,
                                                 ]}/>
                                             </TableCell>}
                                         </TableRow>

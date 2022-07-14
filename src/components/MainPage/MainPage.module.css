@@ -1,6 +1,5 @@
 .MainPage {
     background-color: aliceblue;
-    /*height: 55vh;*/
     display: flex;
     margin-top: 100px;
     margin-bottom: 100px;
@@ -21,7 +20,7 @@
     border: 1px solid #fff;
 }
 
-.allPacks{
+.allPacks {
     min-height: 500px;
     max-height: 500px;
     margin: 10px;
@@ -50,16 +49,32 @@
 
 }
 
-.selectorBtns button{
+.selectorBtns button {
     height: 40px;
     width: 120px;
 }
+
 .container {
     border: 1px solid #fff;
     border-radius: 5px;
 }
+
 .dubleRange {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.btnsSave {
+    height: 30px;
+    width: 150px;
+}
+
+.input {
+    width: 100%;
+}
+
+.image {
+    width: 400px;
+    height: 400px;
 }

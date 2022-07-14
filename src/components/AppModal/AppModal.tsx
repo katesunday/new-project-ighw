@@ -4,7 +4,7 @@ import {Box} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import s from './AppModal.module.css';
-import Grid from '@mui/material/Grid';
+import Paper from "@mui/material/Paper";
 
 type ModalProps = {
     title: string
@@ -33,9 +33,9 @@ const AppModal: React.FC<ModalProps> = React.memo(({title, description, children
         <div>
             <Button
                 onClick={handleOpen}
-                style={{margin: '5px'}}
-                sx={{mt: 3, mb: 2}}
+                style={{borderRadius: '30px'}}
                 className={s.btnsDelete}
+                sx={{mt: 3, mb: 2}}
                 variant={'contained'}
                 color={title === 'delete' ? 'error' : 'secondary'}>
                 {title}
@@ -44,24 +44,27 @@ const AppModal: React.FC<ModalProps> = React.memo(({title, description, children
                    onClose={handleClose}
                    aria-labelledby="parent-modal-title"
                    aria-describedby="parent-modal-description">
-                <Box sx={style}
-                     className={s.box}>
-                    {description && <Typography id="modal-modal-title" variant="h6" component="h2">
-                        {description}
-                    </Typography>}
-                    <div>
-                        <Button
-                            onClick={handleClose}
-                            style={{margin: '5px'}}
-                            sx={{mt: 3, mb: 2}}
-                            className={s.btnsEdit}
-                            variant={'contained'}
-                            color={'error'}>
-                            Close
-                        </Button>
-                        {children}
-                    </div>
-                </Box>
+                <Paper>
+                    <Box
+                        sx={style}
+                        className={s.box}>
+                        {description && <Typography id="modal-modal-title" variant="h6" component="h2">
+                            {description}
+                        </Typography>}
+                        <div className={s.modal}>
+                            {children}
+                            <Button
+                                style={{borderRadius: '30px', marginLeft: '100px'}}
+                                className={s.btnsClose}
+                                onClick={handleClose}
+                                sx={{mt: 3, mb: 2}}
+                                variant={'contained'}
+                                color={'error'}>
+                                Close
+                            </Button>
+                        </div>
+                    </Box>
+                </Paper>
             </Modal>
         </div>
     );
