@@ -52,17 +52,19 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                 />
             </TableCell>
             {editPackId && <TableCell style={{width: 150}} align="right">
-                <Button
-                    key={'1'}
-                    style={{margin: '5px'}}
-                    className={s.btnsDelete}
-                    size={'small'}
-                    variant={'contained'}
-                    color={'error'}
-                    sx={{mt: 3, mb: 2}}
-                    onClick={() => deleteCardsHandler(card._id)}>
-                    Delete
-                </Button>
+                <AppModal title={'Delete'} description={'Are you really want to delete this card?'} children={
+                    <Button
+                        key={'1'}
+                        style={{margin: '5px'}}
+                        className={s.btnsDelete}
+                        size={'small'}
+                        variant={'contained'}
+                        color={'error'}
+                        sx={{mt: 3, mb: 2}}
+                        onClick={() => deleteCardsHandler(card._id)}>
+                        Delete
+                    </Button>
+                }/>
                 <AppModal title={'Edit'} key={'10'} children={[
                     <Button
                         key={'2'}

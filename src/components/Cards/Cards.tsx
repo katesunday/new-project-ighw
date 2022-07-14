@@ -86,10 +86,6 @@ export const Cards = React.memo(() => {
         else setSort('1question')
     }, [dispatch, sort])
 
-    const updatePackHandler = useCallback(() => {
-
-    }, [])
-
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
     }
@@ -147,7 +143,6 @@ export const Cards = React.memo(() => {
                                         onChange={(e) => setNewAnswer(e.currentTarget.value)}
                                     />
                                 ]}/>
-
                             </div>}
                     </div>
                     {cards.length === 0 ?

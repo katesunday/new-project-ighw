@@ -75,7 +75,6 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
         }
     }, [dispatch, page, debouncedSearchTerm, min, max, rowsPerPage, sort, typeOfPacks, idForProfile, userId])
 
-
     const sortHandler = useCallback(() => {
         if (sort === '1updated') setSort('0updated')
         else setSort('1updated')
@@ -108,7 +107,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortPackHandler}
                                             active={true}
-                                            direction={sort === '1packName' ? 'desc' : 'asc'}>
+                                            direction={sort === '1name' ? 'desc' : 'asc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="center">
@@ -116,7 +115,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min
                                         <TableSortLabel
                                             onClick={sortNumberOfCardsHandler}
                                             active={true}
-                                            direction={sort === '1numberOfCards' ? 'desc' : 'asc'}>
+                                            direction={sort === '1cardsCount' ? 'desc' : 'asc'}>
                                         </TableSortLabel>
                                     </TableCell>
                                     <TableCell align="right">
