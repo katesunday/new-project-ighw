@@ -33,7 +33,7 @@ const AppModal: React.FC<ModalProps> = React.memo(({title, description, children
         <div>
             <Button
                 onClick={handleOpen}
-                style={{borderRadius: '30px'}}
+                style={{borderRadius: '30px', margin: '3px 0'}}
                 className={s.btnsDelete}
                 sx={{mt: 3, mb: 2}}
                 variant={'contained'}
@@ -48,18 +48,23 @@ const AppModal: React.FC<ModalProps> = React.memo(({title, description, children
                     <Box
                         sx={style}
                         className={s.box}>
-                        {description && <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {description}
-                        </Typography>}
+                        {description &&
+                            <Typography textAlign={"center"}
+                                        fontWeight={"bold"}
+                                        id="modal-modal-title"
+                                        variant="h6"
+                                        component="h2">
+                                {description}
+                            </Typography>}
                         <div className={s.modal}>
                             {children}
                             <Button
-                                style={{borderRadius: '30px', marginLeft: '100px'}}
-                                className={s.btnsClose}
+                                style={{borderRadius: '30px'}}
                                 onClick={handleClose}
                                 sx={{mt: 3, mb: 2}}
                                 variant={'contained'}
-                                color={'error'}>
+                                color={'error'}
+                                size={"small"}>
                                 Close
                             </Button>
                         </div>

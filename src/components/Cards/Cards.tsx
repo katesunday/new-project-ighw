@@ -110,16 +110,7 @@ export const Cards = React.memo(() => {
                     <div>
                         {editPackId &&
                             <div>
-                                <AppModal title={'Add new card'} children={[
-                                    <Button
-                                        style={{borderRadius: '15px', marginLeft: '10px'}}
-                                        className={s.btnsAdd}
-                                        size={'small'}
-                                        sx={{mt: 3, mb: 2}}
-                                        onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
-                                        variant={'contained'}>
-                                        Add Cards
-                                    </Button>,
+                                <AppModal description={'Add new card'} title={'Add new card'} children={[
                                     <TextField
                                         key={'2'}
                                         color={'secondary'}
@@ -141,7 +132,15 @@ export const Cards = React.memo(() => {
                                         helperText="Enter new answer name"
                                         value={newAnswer}
                                         onChange={(e) => setNewAnswer(e.currentTarget.value)}
-                                    />
+                                    />,
+                                    <Button
+                                        style={{borderRadius: '30px'}}
+                                        size={'small'}
+                                        sx={{mt: 3, mb: 2}}
+                                        onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
+                                        variant={'contained'}>
+                                        Add Cards
+                                    </Button>
                                 ]}/>
                             </div>}
                     </div>

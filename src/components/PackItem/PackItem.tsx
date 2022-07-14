@@ -71,7 +71,7 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
             }} component="th" scope="row">
                 {pack.name}
             </TableCell>
-            <TableCell style={{width: 100}} align="right">
+            <TableCell style={{width: 100}} align="center">
                 {pack.cardsCount}
             </TableCell>
             <TableCell style={{width: 100}} align="right">
@@ -89,27 +89,17 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                                   <Button
                                       key={'1'}
                                       onClick={() => deleteHandler(pack._id)}
-                                      style={{margin: '5px'}}
+                                      style={{borderRadius: '30px'}}
                                       sx={{mt: 3, mb: 2}}
-                                      className={s.btnsDelete}
                                       variant={'contained'}
                                       color={'error'}
+                                      size={"small"}
                                   >Delete</Button>
                               }/> : undefined}
                 {userId === pack.user_id ?
                     <AppModal title={'Edit'}
                               description={'Rename this pack'}
                               children={[
-                                  <Button
-                                      key={'1'}
-                                      onClick={updatePackHandler}
-                                      className={s.btnsDelete}
-                                      variant={'contained'}
-                                      color={'secondary'}
-                                      style={{borderRadius: '15px', marginLeft: '10px'}}
-                                      size={'small'}
-                                      sx={{mt: 3, mb: 2}}
-                                  >Rename Pack</Button>,
                                   <TextField
                                       key={'2'}
                                       color={'secondary'}
@@ -120,10 +110,19 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                                       helperText="Enter question name"
                                       value={packName}
                                       onChange={(e) => setPackName(e.currentTarget.value)}
-                                  />
+                                  />,
+                                  <Button
+                                      key={'1'}
+                                      onClick={updatePackHandler}
+                                      variant={'contained'}
+                                      color={'secondary'}
+                                      style={{borderRadius: '30px'}}
+                                      size={'small'}
+                                      sx={{mt: 3, mb: 2}}
+                                  >Rename Pack</Button>
                               ]}/> : undefined}
                 <Button
-                    style={{margin: '5px'}}
+                    style={{borderRadius: '30px',margin: '3px 0'}}
                     color={'secondary'}
                     sx={{mt: 3, mb: 2}}
                     className={s.btnsLern}

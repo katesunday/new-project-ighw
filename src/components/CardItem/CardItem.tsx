@@ -3,13 +3,13 @@ import TableCell from '@mui/material/TableCell';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
-import s from '../Cards/Cards.module.css';
 import AppModal from '../AppModal/AppModal';
 import TextField from '@mui/material/TextField';
 import TableRow from '@mui/material/TableRow';
 import {CardType} from '../../api/cardsAPI';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {removeCard, updateCard} from '../../reducers/cardsReducer';
+import s from './CardItem.module.css'
 
 type CardItemPropsType = {
     card: CardType
@@ -32,6 +32,7 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
     }, [dispatch])
 
     return (
+
         <TableRow key={card._id}>
             <TableCell component="th" scope="row">
                 {card.question}
@@ -52,11 +53,10 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                 />
             </TableCell>
             {editPackId && <TableCell style={{width: 150}} align="right">
-                <AppModal title={'Delete'} description={'Are you really want to delete this card?'} children={
+                <AppModal title={'delete'} description={'Are you really want to delete this card?'} children={
                     <Button
                         key={'1'}
-                        style={{margin: '5px'}}
-                        className={s.btnsDelete}
+                        style={{borderRadius: '30px'}}
                         size={'small'}
                         variant={'contained'}
                         color={'error'}
@@ -65,18 +65,9 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                         Delete
                     </Button>
                 }/>
-                <AppModal title={'Edit'} key={'10'} children={[
-                    <Button
-                        key={'2'}
-                        style={{borderRadius: '15px', marginLeft: '10px'}}
-                        className={s.btnsAdd}
-                        size={'small'}
-                        sx={{mt: 3, mb: 2}}
-                        onClick={() => updateCardsHandler(card._id, question, answer)}
-                        variant={'contained'}>
-                        Edit Card
-                    </Button>,
+                <AppModal description={'Edit card menu'} title={'Edit'} key={'10'} children={[
                     <TextField
+                        className={s.input}
                         key={'3'}
                         color={'secondary'}
                         margin="normal"
@@ -88,6 +79,7 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                         onChange={(e) => setQuestion(e.currentTarget.value)}
                     />,
                     <TextField
+                        className={s.input}
                         key={'4'}
                         color={'secondary'}
                         margin="normal"
@@ -96,7 +88,16 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
                         autoFocus
                         helperText="Enter answer name"
                         value={answer}
-                        onChange={(e) => setAnswer(e.currentTarget.value)}/>
+                        onChange={(e) => setAnswer(e.currentTarget.value)}/>,
+                    <Button
+                        key={'2'}
+                        style={{borderRadius: '30px'}}
+                        size={'small'}
+                        sx={{mt: 3, mb: 2}}
+                        onClick={() => updateCardsHandler(card._id, question, answer)}
+                        variant={'contained'}>
+                        Edit Card
+                    </Button>
                 ]}/>
             </TableCell>}
         </TableRow>

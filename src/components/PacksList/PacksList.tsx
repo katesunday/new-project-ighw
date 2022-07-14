@@ -8,11 +8,8 @@ import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {getPacks} from '../../reducers/packListsReducer';
 import {SortType} from '../../api/packsAPI';
-import {useNavigate} from 'react-router-dom';
 import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
-import s from './PacksList.module.css';
-import AppModal from '../AppModal/AppModal';
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {PackItem} from '../PackItem/PackItem';
 
@@ -25,7 +22,6 @@ type PackListPropsType = {
 
 export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm, min, max, idForProfile}) => {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate();
 
     const appStatus = useAppSelector(state => state.app.appStatus)
     const packs = useAppSelector(state => state.packsList.packs)
