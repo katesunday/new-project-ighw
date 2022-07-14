@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
-import {addNewCard, getCards, removeCard, updateCard} from '../../reducers/cardsReducer';
+import {addNewCard, getCards} from '../../reducers/cardsReducer';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -8,8 +8,6 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
 import {Navigate, useNavigate} from 'react-router-dom';
 import s from './Cards.module.css'
 import {AppPagination} from '../../common/Pagination/Pagination';
@@ -19,6 +17,7 @@ import {UniversalSearch} from '../../common/UniversalSearch/UniversalSearch';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import AppModal from '../AppModal/AppModal';
 import TextField from '@mui/material/TextField';
+import {CardItem} from '../CardItem/CardItem';
 
 
 export const Cards = React.memo(() => {
@@ -40,25 +39,6 @@ export const Cards = React.memo(() => {
 
     const [newQuestion, setNewQuestion] = useState('');
     const [newAnswer, setNewAnswer] = useState('');
-
-    const [questions, setQuestions] = useState<string[]>([]);
-    const [answers, setAnswers] = useState<string[]>([]);
-
-    useEffect(() => {
-        if (questions.length === 0) {
-            const q: string[] = []
-            const cardsCopy = [...cards]
-            cardsCopy.forEach(card => q.push(card.question))
-            console.log(q)
-            setQuestions(q)
-        }
-        if (answers.length === 0) {
-            const a: string[] = []
-            const cardsCopy = [...cards]
-            cardsCopy.forEach(card => a.push(card.answer))
-            setAnswers(a)
-        }
-    }, [cards])
 
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
@@ -87,17 +67,9 @@ export const Cards = React.memo(() => {
         dispatch(addNewCard(cardsPack_id, question, answer))
     }, [dispatch])
 
-    const deleteCardsHandler = useCallback((id: string) => {
-        dispatch(removeCard(id))
-    }, [dispatch])
-
-    const updateCardsHandler = useCallback((id: string, question: string, answer: string) => {
-        dispatch(updateCard(id, question, answer))
-    }, [dispatch])
-
-    const backHandler = () => {
+    const backHandler = useCallback(() => {
         navigate('/mainPage')
-    }
+    }, [navigate])
 
     const sortHandler = useCallback(() => {
         if (sort === '1updated') setSort('0updated')
@@ -113,6 +85,10 @@ export const Cards = React.memo(() => {
         if (sort === '1question') setSort('0question')
         else setSort('1question')
     }, [dispatch, sort])
+
+    const updatePackHandler = useCallback(() => {
+
+    }, [])
 
     if (!isLoggedIn) {
         return <Navigate to="/login"/>
@@ -137,41 +113,42 @@ export const Cards = React.memo(() => {
                     </div>
                     <div>
                         {editPackId &&
-                            <AppModal description={'Add New Card'} title={'Add new card'} children={[
-                                <TextField
-                                    className={s.input}
-                                    key={'2'}
-                                    color={'secondary'}
-                                    margin="normal"
-                                    id="question"
-                                    label="New question name"
-                                    autoFocus
-                                    helperText="Enter new question name"
-                                    value={newQuestion}
-                                    onChange={(e) => setNewQuestion(e.currentTarget.value)}
-                                />,
-                                <TextField
-                                    className={s.input}
-                                    key={'2'}
-                                    color={'secondary'}
-                                    margin="normal"
-                                    id="answer"
-                                    label="New answer value"
-                                    helperText="Enter new answer name"
-                                    value={newAnswer}
-                                    onChange={(e) => setNewAnswer(e.currentTarget.value)}
-                                />,
-                                <Button
-                                    key={'5'}
-                                    style={{borderRadius: '30px'}}
-                                    className={s.btnsAdd}
-                                    sx={{mt: 3, mb: 2}}
-                                    onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
-                                    variant={'contained'}>
-                                    Add New Card
-                                </Button>
-                            ]}/>
-                        }
+                            <div>
+                                <AppModal title={'Add new card'} children={[
+                                    <Button
+                                        style={{borderRadius: '15px', marginLeft: '10px'}}
+                                        className={s.btnsAdd}
+                                        size={'small'}
+                                        sx={{mt: 3, mb: 2}}
+                                        onClick={() => createNewCardHandler(currentPackId, newQuestion, newAnswer)}
+                                        variant={'contained'}>
+                                        Add Cards
+                                    </Button>,
+                                    <TextField
+                                        key={'2'}
+                                        color={'secondary'}
+                                        margin="normal"
+                                        id="question"
+                                        label="New question name"
+                                        autoFocus
+                                        helperText="Enter new question name"
+                                        value={newQuestion}
+                                        onChange={(e) => setNewQuestion(e.currentTarget.value)}
+                                    />,
+                                    <TextField
+                                        key={'2'}
+                                        color={'secondary'}
+                                        margin="normal"
+                                        id="answer"
+                                        label="New answer value"
+                                        autoFocus
+                                        helperText="Enter new answer name"
+                                        value={newAnswer}
+                                        onChange={(e) => setNewAnswer(e.currentTarget.value)}
+                                    />
+                                ]}/>
+
+                            </div>}
                     </div>
                     {cards.length === 0 ?
                         <div style={{textAlign: 'center', fontSize: '32px', fontWeight: 'bolder'}}>There are no
@@ -204,86 +181,10 @@ export const Cards = React.memo(() => {
                                             Last Updated
                                         </TableCell>
                                         <TableCell align="right">Grade</TableCell>
-                                        {editPackId && <TableCell align="right">Action</TableCell>}
+                                        {editPackId ? <TableCell align="right">Action</TableCell> : null}
                                     </TableRow>
-                                    {cards.map((card, index) => {
-                                        return <TableRow key={card._id}>
-                                            <TableCell component="th" scope="row">
-                                                {card.question}
-                                            </TableCell>
-                                            <TableCell style={{width: 150}} align="center">
-                                                {card.answer}
-                                            </TableCell>
-                                            <TableCell style={{width: 150}} align="right">
-                                                {card.updated.split('T')[0].replace(/-/gi, '.')}
-                                            </TableCell>
-                                            <TableCell style={{width: 150}} align="right">
-                                                <Rating
-                                                    name="simple-controlled"
-                                                    value={card.grade}
-                                                    readOnly
-                                                    precision={0.5}
-                                                    emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
-                                                />
-                                            </TableCell>
-                                            {editPackId && <TableCell style={{width: 150}} align="right">
-                                                <AppModal title={'delete'}
-                                                          description={'Do yo really want to remove this pack?'}
-                                                          children={
-                                                              <Button
-                                                                  key={'1'}
-                                                                  style={{borderRadius: '30px'}}
-                                                                  className={s.btnsDelete}
-                                                                  onClick={() => deleteCardsHandler(card._id)}
-                                                                  sx={{mt: 3, mb: 2}}
-                                                                  variant={'contained'}
-                                                                  color={'error'}
-                                                              >Delete</Button>
-                                                          }/>
-                                                <AppModal description={'Update card'} title={'Edit'} key={'10'} children={[
-                                                    <TextField
-                                                        className={s.input}
-                                                        key={'3'}
-                                                        color={'secondary'}
-                                                        margin="normal"
-                                                        id="question"
-                                                        label="New question name"
-                                                        autoFocus
-                                                        helperText="Enter question name"
-                                                        value={questions[index]}
-                                                        onChange={(e) => {
-                                                            const copyQuestions = [...questions]
-                                                            copyQuestions[index] = e.currentTarget.value
-                                                            setQuestions(copyQuestions)
-                                                        }}
-                                                    />,
-                                                    <TextField
-                                                        className={s.input}
-                                                        key={'4'}
-                                                        color={'secondary'}
-                                                        margin="normal"
-                                                        id="answer"
-                                                        label="New answer value"
-                                                        helperText="Enter answer name"
-                                                        value={answers[index]}
-                                                        onChange={(e) => {
-                                                            const copyAnswers = [...answers]
-                                                            copyAnswers[index] = e.currentTarget.value
-                                                            setAnswers(copyAnswers)
-                                                        }}/>,
-                                                    <Button
-                                                        key={'2'}
-                                                        style={{borderRadius: '30px'}}
-                                                        className={s.btnsEdit}
-                                                        size={'small'}
-                                                        sx={{mt: 3, mb: 2}}
-                                                        onClick={() => updateCardsHandler(card._id, questions[index], answers[index])}
-                                                        variant={'contained'}>
-                                                        Edit Card
-                                                    </Button>,
-                                                ]}/>
-                                            </TableCell>}
-                                        </TableRow>
+                                    {cards.map((card) => {
+                                        return <CardItem card={card}/>
                                     })}
                                 </TableBody>
                             </Table>
