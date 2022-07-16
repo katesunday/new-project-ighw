@@ -22,7 +22,7 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
     const [isCoverBroken , setIsCoverBroken] = useState(false)
 
     const editPackId = useAppSelector(state => state.packsList.editPackId)
-    console.log(card)
+
     const [question, setQuestion] = useState(card.question)
     const [answer, setAnswer] = useState(card.answer)
 

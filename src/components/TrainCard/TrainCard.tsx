@@ -14,11 +14,13 @@ import {getCards , gradeCard} from '../../reducers/cardsReducer';
 import Preloader from '../../common/Preloader/Preloader';
 import {CardType} from '../../api/cardsAPI';
 import {getRandomCard} from '../../utils/mathRandom';
-import {useFormik} from 'formik';
+import noCover from "../../assets/images/nocover.jpeg";
 
 export const TrainCard = React.memo(() => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    const [isCoverBroken , setIsCoverBroken] = useState(false)
 
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
     const cardsArray = useAppSelector(state => state.cards.cards)
@@ -68,6 +70,10 @@ export const TrainCard = React.memo(() => {
         }
     } , [dispatch , navigate , currentPack , cardsArray , questionNo , userId])
 
+    const errorHandler = () => {
+        setIsCoverBroken(true)
+    }
+
 
     if (cardsArray.length === 0 || randomCard === null) {
         return <Preloader/>
@@ -80,7 +86,12 @@ export const TrainCard = React.memo(() => {
         <Paper className={s.trainDiv}>
             <div>Learn {currentPack ? `'${currentPack.name}'` : ''}</div>
 
-            <div>Question №{questionNo + 1}: {randomCard.question} </div>
+            <div>Question №{questionNo + 1}: {!!randomCard.questionImg?
+               <div><img src={!isCoverBroken && !!randomCard.questionImg ? randomCard.questionImg : noCover} alt=""
+                         style={{width: 'inherit' , height: '270px'}}
+                         onError={errorHandler}
+               /></div>
+                :randomCard.question} </div>
             {answer && <div>Answer: {randomCard.answer} </div>}
 
             {answer &&
