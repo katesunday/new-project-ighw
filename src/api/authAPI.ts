@@ -1,11 +1,11 @@
-import {LogoutResponse, UserType} from '../reducers/profileReducers';
+import {LogoutResponse , UserType} from '../reducers/profileReducers';
 import {instance} from './instance';
 
 const messageForRestorePW = `<div style="background-color: lime; padding: 15px">
-Our team created for you password recovery link: 
-<a href='http://localhost:3000/#/set-new-password/$token$'>
-link</a>
-</div>`
+       Our team created for you password recovery link: 
+       <a href='http://localhost:3000/#/set-new-password/$token$'>
+           link</a>
+         </div>`
 
 export type LoginParamsType = {
     email: string,
@@ -48,22 +48,22 @@ export type RegistrationSuccessResponseType = {
 
 export const authAPI = {
     login(body: LoginParamsType) {
-        return instance.post<LoginResponseType>(`auth/login`, body)
-    },
+        return instance.post<LoginResponseType>(`auth/login` , body)
+    } ,
 
     logout() {
         return instance.delete <LogoutResponse>('auth/me')
-    },
+    } ,
 
     me() {
         return instance.post<UserType>('auth/me')
-    },
+    } ,
 
-    restorePW(email: string, from = 'Cards project dev group', message = messageForRestorePW) {
-        return instance.post('auth/forgot', {email, from, message})
-    },
+    restorePW(email: string , from = 'Cards project dev group' , message = messageForRestorePW) {
+        return instance.post('auth/forgot' , {email , from , message})
+    } ,
 
-    setNewPW(password: string, resetPasswordToken: string) {
-        return instance.post('auth/set-new-password', {password, resetPasswordToken})
+    setNewPW(password: string , resetPasswordToken: string) {
+        return instance.post('auth/set-new-password' , {password , resetPasswordToken})
     }
 }

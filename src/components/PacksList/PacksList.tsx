@@ -12,6 +12,7 @@ import {AppPagination} from '../../common/Pagination/Pagination';
 import Preloader from '../../common/Preloader/Preloader';
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {PackItem} from '../PackItem/PackItem';
+import {meRequest} from "../../reducers/appReducer";
 
 type PackListPropsType = {
     debouncedSearchTerm: string
@@ -32,6 +33,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm , mi
     const [page , setPage] = useState(0)
     const [rowsPerPage , setRowsPerPage] = useState(5)
     const [sort , setSort] = useState<SortType>('0updated')
+
 
     useEffect(() => {
         if (userId === '') return
@@ -98,6 +100,11 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm , mi
                         <Table sx={{minWidth: 300}} aria-label="custom pagination table" style={{tableLayout: 'fixed'}}>
                             <TableBody>
                                 <TableRow style={{backgroundColor: 'rgb(184 245 213 / 54%)'}}>
+                                    <TableCell align="left">
+                                        Cover
+                                        <TableSortLabel>
+                                        </TableSortLabel>
+                                    </TableCell>
                                     <TableCell align="left">
                                         Pack Name
                                         <TableSortLabel

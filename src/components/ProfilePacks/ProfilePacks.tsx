@@ -66,6 +66,9 @@ export const ProfilePacks = React.memo(() => {
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>
                 <div className={s.avatar}>
+
+                    {/*у карент пака не бывает аватара */}
+
                     {currentPack && currentPack.avatar ?
                         <img className={s.avatarImg} src={currentPack.avatar} alt={'avatar'}/> :
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
@@ -79,7 +82,7 @@ export const ProfilePacks = React.memo(() => {
                             variant="contained"
                             onClick={toEdit}
                             color="primary"
-                            disabled={!!showPackId}>
+                            disabled={!editPackId}>
                             Edit profile
                         </Button> : undefined}
                     <Button

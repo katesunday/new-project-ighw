@@ -18,6 +18,7 @@ import {useNavigate} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import SchoolIcon from '@mui/icons-material/School';
 import IconButton from "@mui/material/IconButton";
+import noCover from '../../assets/images/nocover.jpeg'
 
 type PackItemPropsType = {
     pack: Pack
@@ -26,6 +27,8 @@ type PackItemPropsType = {
 export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    const [isAvaBroken , setIsAvaBroken] = useState(false)
 
     const userId = useAppSelector(state => state.profile._id)
 
@@ -66,8 +69,18 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
         }
     } , [dispatch , navigate , userId])
 
+    const errorHandler = () => {
+        setIsAvaBroken(true)
+    }
+
     return (
         <TableRow key={pack._id}>
+            <TableCell style={{width: 100}} align="center">
+                <img src={!isAvaBroken && !!pack.deckCover ? pack.deckCover : noCover} alt=""
+                     style={{width: '100px' , height: '60px'}}
+                     onError={errorHandler}
+                />
+            </TableCell>
             <TableCell className={s.cursor} onClick={() => {
                 userId === pack.user_id ? editHandler(pack._id) : showHandler(pack._id)
             }} component="th" scope="row">
@@ -83,7 +96,7 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                        onClick={() => toProfilePacksHandler(pack.user_id)}>
                 {pack.user_name}
             </TableCell>
-            <TableCell align="left"  sx = {{display:'flex',justifyContent:'end', marginRight:1.5}}>
+            <TableCell align="left" sx={{display: 'flex' , justifyContent: 'center' , height:'65px',marginBottom:'-1px'}}>
                 {userId === pack.user_id ?
                     <AppModal title={'delete'}
                               description={'Do yo really want to remove this pack?'}
@@ -125,12 +138,16 @@ export const PackItem: React.FC<PackItemPropsType> = React.memo(({pack}) => {
                               ]}/> : undefined}
                 <IconButton disabled={pack.cardsCount === 0}
                             className={s.btnsLern}
-                            sx={{mt: 0.7, mb: 0.3,display:'block', width:0,
+                            sx={{
+                                mt: 0.7 , mb: 0.2 , display: 'block' , width: 0 ,
                                 "&:hover:after":
-                                    { content:`"LEARN"`,
-                                        fontSize:'11px',
-                                        position:'absolute',
-                                        bottom:'25px'}
+                                    {
+                                        content: `"LEARN"` ,
+                                        fontSize: '11px' ,
+                                        position: 'absolute' ,
+                                        bottom: '25px',
+                                        left:'-2px'
+                                    }
                             }}
                             onClick={() => learnHandler(pack._id)}>
                     <SchoolIcon

@@ -13,6 +13,7 @@ export type CardsParams = {
 
 export type CardType = {
     question: string
+    questionImg?:string
     answer: string
     cardsPack_id: string
     grade: number

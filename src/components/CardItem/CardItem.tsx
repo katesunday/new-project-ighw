@@ -10,6 +10,7 @@ import {CardType} from '../../api/cardsAPI';
 import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {removeCard, updateCard} from '../../reducers/cardsReducer';
 import s from './CardItem.module.css'
+import noCover from "../../assets/images/nocover.jpeg";
 
 type CardItemPropsType = {
     card: CardType
@@ -18,8 +19,10 @@ type CardItemPropsType = {
 export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
     const dispatch = useAppDispatch()
 
-    const editPackId = useAppSelector(state => state.packsList.editPackId)
+    const [isCoverBroken , setIsCoverBroken] = useState(false)
 
+    const editPackId = useAppSelector(state => state.packsList.editPackId)
+    console.log(card)
     const [question, setQuestion] = useState(card.question)
     const [answer, setAnswer] = useState(card.answer)
 
@@ -31,11 +34,20 @@ export const CardItem: React.FC<CardItemPropsType> = React.memo(({card}) => {
         dispatch(updateCard(id, question, answer))
     }, [dispatch])
 
+    const errorHandler = () => {
+        setIsCoverBroken(true)
+    }
+
     return (
 
         <TableRow key={card._id}>
-            <TableCell component="th" scope="row">
-                {card.question}
+            <TableCell component="th" scope="row" >
+                {!!card.questionImg ?
+                    <img src={!isCoverBroken && !!card.questionImg ? card.questionImg : noCover} alt=""
+                         style={{width: '100px' , height: '60px'}}
+                         onError={errorHandler}
+                    />
+                    :card.question}
             </TableCell>
             <TableCell style={{width: 150}} align="right">
                 {card.answer}

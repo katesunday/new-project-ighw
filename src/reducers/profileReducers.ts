@@ -11,7 +11,7 @@ export type UserType = {
     _id: string;
     email: string;
     name: string;
-    avatar?: string;
+    avatar: string;
     publicCardPacksCount: number;
     created?: string;
     updated?: string;
@@ -116,6 +116,25 @@ export const changeName = (newName: string): ThunkType => async dispatch => {
         }))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        handlerErrorUtils(err, dispatch)
+    }
+}
+export const uploadPhoto = (avatar:string):ThunkType=>async dispatch=>{
+    try {
+        dispatch(setAppStatus('inProgress'))
+        const res = await profileAPI.updateUserPhoto(avatar)
+        const updatedUser = res.data.updatedUser
+        dispatch(setProfileData({
+            name: updatedUser.name,
+            email: updatedUser.email,
+            avatar: updatedUser.avatar,
+            id: updatedUser._id
+        }))
+        dispatch(setAppStatus('succeeded'))
+
+    }
+    catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
         handlerErrorUtils(err, dispatch)
     }
