@@ -4,6 +4,7 @@ import {setProfileData} from './profileReducers';
 import {ThunkType} from "../store/store";
 import {AxiosError} from "axios";
 import {handlerErrorUtils} from "../utils/errorUtils";
+import {editPack} from "./packListsReducer";
 
 export type AppStatusType = 'succeeded' | 'inProgress' | 'failed' | 'empty'
 
@@ -81,6 +82,7 @@ export const meRequest = (): ThunkType => async dispatch => {
             id: currentUser._id,
         }))
         dispatch(setIsLoggedIn(true))
+        dispatch(editPack(currentUser._id))
         dispatch(setAppStatus('succeeded'))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>

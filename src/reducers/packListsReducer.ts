@@ -130,7 +130,6 @@ export const getPacks = (params: Params): ThunkType => async dispatch => {
         dispatch(setAppStatus('inProgress'))
         dispatch(setPacks([], 0))
         const res = await packsAPI.getPacks(params)
-        console.log(res)
         if (params.min && params.max) {
             dispatch(searchMinMax([params.min, params.max]))
         }

@@ -105,7 +105,7 @@ export const PacksList: React.FC<PackListPropsType> = ({debouncedSearchTerm , mi
                                         <TableSortLabel>
                                         </TableSortLabel>
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left" style = {{padding:'5px'}}>
                                         Pack Name
                                         <TableSortLabel
                                             onClick={sortPackHandler}
