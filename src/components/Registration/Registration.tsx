@@ -17,6 +17,7 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import styles from './Registration.module.css';
+import {LinearProgress} from "@mui/material";
 
 type FormikErrorsType = {
     email?: string
@@ -134,9 +135,10 @@ export const Registration = React.memo(() => {
                                     fullWidth
                                     type={'submit'}
                                     variant={'contained'}
-                                    disabled={!!(formik.errors.email || formik.errors.pass || formik.errors.repeatPass)}>
+                                    disabled={!!(formik.errors.email || formik.errors.pass || formik.errors.repeatPass) || appStatus ==='inProgress'}>
                                 Register
                             </Button>
+                            {appStatus==='inProgress' && <LinearProgress style = {{width:'400px'}}/> }
                             <Grid item>
                                 <NavLink to='/login'>
                                     <span>Back to login</span>

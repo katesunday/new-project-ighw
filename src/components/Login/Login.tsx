@@ -20,6 +20,7 @@ import {useAppDispatch, useAppSelector} from '../../utils/hooks';
 import {login} from '../../reducers/appReducer';
 import Paper from '@mui/material/Paper';
 import styles from './Login.module.css';
+import {LinearProgress} from "@mui/material";
 
 type FormikErrorType = {
     email?: string
@@ -31,6 +32,7 @@ export const Login = React.memo(() => {
     const dispatch = useAppDispatch()
 
     const isLoggedIn = useAppSelector(state => state.app.isLoggedIn)
+    const appStatus = useAppSelector(state=>state.app.appStatus)
 
     const [passVisibility, setPassVisibility] = useState(false)
 
@@ -126,10 +128,12 @@ export const Login = React.memo(() => {
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
-                            disabled={!!(formik.errors.email || formik.errors.password)}
+                            disabled={!!(formik.errors.email || formik.errors.password) || appStatus==='inProgress'}
                         >
                             Sign In
+
                         </Button>
+                        {appStatus==='inProgress' && <LinearProgress style = {{width:'400px'}}/> }
                         <Grid container>
                             <Grid item xs>
                                 <NavLink to='/restorePassword'>

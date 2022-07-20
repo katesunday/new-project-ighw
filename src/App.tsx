@@ -19,6 +19,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Switch from "@mui/material/Switch";
 import {ProfilePacks} from './components/ProfilePacks/ProfilePacks';
 import {TrainCard} from "./components/TrainCard/TrainCard";
+import Preloader from "./common/Preloader/Preloader";
 
 type AppPropsType = {
     themes: object[]
@@ -35,6 +36,8 @@ export const App = React.memo((props: AppPropsType) => {
     useEffect(() => {
             dispatch(meRequest());
     }, [dispatch, isLoggedIn])
+
+
 
     return (
         <ThemeProvider theme={darkMode ? props.themes[1] : props.themes[0]}>

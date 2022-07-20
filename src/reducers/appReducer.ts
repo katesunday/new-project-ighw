@@ -71,7 +71,7 @@ export const login = (data: LoginParamsType): ThunkType => async dispatch => {
 
 export const meRequest = (): ThunkType => async dispatch => {
     try {
-        dispatch(setAppStatus('inProgress'))
+       // dispatch(setAppStatus('inProgress'))
         const res = await authAPI.me()
         const currentUser = res.data
         if (!currentUser.avatar) currentUser.avatar = `${ninja}`
