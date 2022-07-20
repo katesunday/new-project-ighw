@@ -5,12 +5,13 @@ import FaceIcon from '@mui/icons-material/Face';
 import ListIcon from '@mui/icons-material/List';
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import { logout } from '../../reducers/profileReducers';
-import { useAppDispatch } from '../../utils/hooks';
-import {setTypeOfPacks} from '../../reducers/packListsReducer';
+import {useAppDispatch , useAppSelector} from '../../utils/hooks';
+import {editPack , setTypeOfPacks} from '../../reducers/packListsReducer';
 
 export const Navigation = React.memo(() => {
     const dispatch = useAppDispatch()
     const [state , setState] = useState(false)
+    const myId = useAppSelector(state=>state.profile._id)
 
     const rerender = useCallback(() => {
         setState(!state)
@@ -26,6 +27,7 @@ export const Navigation = React.memo(() => {
 
     const profileHandler = useCallback(() => {
         dispatch(setTypeOfPacks('my'))
+        dispatch(editPack(myId))
     }, [dispatch])
 
     return (

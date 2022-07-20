@@ -88,7 +88,7 @@ export const TrainCard = React.memo(() => {
 
             <div>Question №{questionNo + 1}: {!!randomCard.questionImg?
                <div><img src={!isCoverBroken && !!randomCard.questionImg ? randomCard.questionImg : noCover} alt=""
-                         style={{width: 'inherit' , height: '270px'}}
+                         style={{width: 'inherit' , height: '250px'}}
                          onError={errorHandler}
                /></div>
                 :randomCard.question} </div>

@@ -89,8 +89,8 @@ export const ProfilePacks = React.memo(() => {
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>
                 <div className={s.avatar}>
-                    {currentPack && currentPack.avatar ?
-                        <img className={s.avatarImg} src={currentPack.avatar} alt={'avatar'}/> :
+                    {showPackId?
+                        <img className={s.avatarImg} src={ninjabg} alt={'avatar'}/> :
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
                 </div>
                 <div className={s.profileDiv}>
