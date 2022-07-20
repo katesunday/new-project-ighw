@@ -3,6 +3,8 @@ import {packsAPI, Params, PostPackPayloadType} from '../api/packsAPI';
 import {ThunkType} from '../store/store';
 import {AxiosError} from 'axios';
 import {handlerErrorUtils} from '../utils/errorUtils';
+import {profileAPI} from '../api/profileAPI';
+import {setProfileData} from './profileReducers';
 
 export type Pack = {
     _id: string
@@ -83,7 +85,7 @@ export const packsListReducer = (state: PackStateType = initialState, action: Pa
             return {...state, typeOfPacks: action.value}
 
         case 'PACKS/SET_NEW_PACK_NAME' :
-            return {...state, packs: state.packs.map(item => item._id === action.packId ? {...item, name: action.newName} : item)}
+            return {...state, packs: state.packs.map(item => item._id === action.packId ? {...item, name: action.newName, deckCover: action.deckCover} : item)}
 
         default:
             return state
@@ -119,7 +121,7 @@ export type SetNewPackAT = ReturnType<typeof setNewPack>
 export const setTypeOfPacks = (value: TypeOfPacks) => ({type: 'PACKS/SET_TYPE_OF_PACKS', value} as const)
 export type SetTypeOfPacksAT = ReturnType<typeof setTypeOfPacks>
 
-export const setNewName = (newName: string, packId: string) => ({type: 'PACKS/SET_NEW_PACK_NAME', newName, packId} as const)
+export const setNewName = (newName: string, packId: string, deckCover: string) => ({type: 'PACKS/SET_NEW_PACK_NAME', newName, packId, deckCover} as const)
 export type SetNewNameAT = ReturnType<typeof setNewName>
 
 //thunk
@@ -128,6 +130,7 @@ export const getPacks = (params: Params): ThunkType => async dispatch => {
         dispatch(setAppStatus('inProgress'))
         dispatch(setPacks([], 0))
         const res = await packsAPI.getPacks(params)
+        console.log(res)
         if (params.min && params.max) {
             dispatch(searchMinMax([params.min, params.max]))
         }
@@ -163,14 +166,17 @@ export const createNewPack = (payload: PostPackPayloadType): ThunkType => async 
     }
 }
 
-export const updatePack = (packId: string, newName: string): ThunkType => async dispatch => {
+export const updatePack = (packId: string, newName: string, deckCover: string): ThunkType => async dispatch => {
     try {
         dispatch(setAppStatus('inProgress'))
         await packsAPI.updatePack({packId, newName})
-        dispatch(setNewName(newName, packId))
+        dispatch(setNewName(newName, packId, deckCover))
         dispatch(setAppStatus('succeeded'))
     } catch(e) {
         const err = e as Error | AxiosError<{ error: string }>
         handlerErrorUtils(err, dispatch)
     }
 }
+
+
+

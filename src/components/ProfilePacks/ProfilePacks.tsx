@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button/Button';
-import React, {useCallback, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import SuperDoubleRange from '../../common/c8-SuperDoubleRange/SuperDoubleRange';
 import {createNewPack, Pack, searchMinMax} from '../../reducers/packListsReducer';
 import {useAppDispatch, useAppSelector, useDebounce} from '../../utils/hooks';
@@ -14,6 +14,14 @@ import Checkbox from "@mui/material/Checkbox";
 import AppModal from "../AppModal/AppModal";
 import {PostPackPayloadType} from "../../api/packsAPI";
 import ninjabg from "../../assets/images/ninjabg.png";
+import styles from '../Profile/Profile.module.css';
+import nocover from "../../assets/images/nocover.jpeg";
+import IconButton from '@mui/material/IconButton';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import {convertFileToBase64} from '../../utils/convertFileToBase64';
+import {uploadPhoto} from '../../reducers/profileReducers';
+import {setAppError} from '../../reducers/appReducer';
+
 
 export const ProfilePacks = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -37,8 +45,23 @@ export const ProfilePacks = React.memo(() => {
     const [newPackName, setNewPackName] = useState('')
     const [privacyOfNewPack, setPrivacyOfNewPack] = useState(false)
     const [searchTerm, setSearchTerm] = useState('');
+    const [deckCover, setDeckCover] = useState(nocover)
 
     const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
+    const uploadDeckCoverHandler = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files && e.target.files.length){
+            const file = e.target.files[0]
+            if(file.size < 1000000){
+                convertFileToBase64(file,(file64:string)=>{
+                    setDeckCover(file64)
+                })
+            }
+            else {
+                dispatch(setAppError('Photo should be less than 1MB'))
+            }
+        }
+    }, [dispatch, convertFileToBase64, uploadPhoto])
 
     const onMouseUp = useCallback((values: [number, number]) => {
         dispatch(searchMinMax(values))
@@ -46,7 +69,7 @@ export const ProfilePacks = React.memo(() => {
 
     const createNewPackHandler = useCallback((payload: PostPackPayloadType) => {
         dispatch(createNewPack(payload))
-    }, [dispatch, createNewPack])
+    }, [dispatch, deckCover, createNewPack])
 
     const toMainPage = useCallback(() => {
         let path = `/mainPage`;
@@ -66,9 +89,6 @@ export const ProfilePacks = React.memo(() => {
         <Paper className={s.MainPage}>
             <div className={s.sideBar}>
                 <div className={s.avatar}>
-
-                    {/*у карент пака не бывает аватара */}
-
                     {currentPack && currentPack.avatar ?
                         <img className={s.avatarImg} src={currentPack.avatar} alt={'avatar'}/> :
                         <img className={s.avatarImg} src={avatar} alt={'avatar'}/>}
@@ -99,9 +119,7 @@ export const ProfilePacks = React.memo(() => {
                 <div className={s.doubleRange}>
                     <span>Sort by number of questions</span>
                     <SuperDoubleRange value={[min, max]}
-                                      onMouseUp={onMouseUp}
-
-                    />
+                                      onMouseUp={onMouseUp}/>
                     <span>{min} - </span> <span>{max}</span>
                 </div>
                 <div style = {{position:'relative'}}>
@@ -126,6 +144,19 @@ export const ProfilePacks = React.memo(() => {
                             value={newPackName}
                             onChange={(e) => setNewPackName(e.currentTarget.value)}
                         />,
+                        <div className={styles.image}>
+                            <img className={styles.imageBlock} src={deckCover} alt={'avatar'}/>
+                            <label className={styles.uploadPhoto}>
+                                <input type="file"
+                                       accept={'image'}
+                                       onChange={uploadDeckCoverHandler}
+                                       style={{display: 'none'}}
+                                />
+                                <IconButton component="span">
+                                    <AddAPhotoIcon/>
+                                </IconButton>
+                            </label>
+                        </div>,
                         <div key={'3'}>
                             <Checkbox
                                 checked={privacyOfNewPack}
@@ -137,7 +168,7 @@ export const ProfilePacks = React.memo(() => {
                             onClick={() => createNewPackHandler({
                                 name: newPackName,
                                 private: privacyOfNewPack,
-                                deckCover: ''
+                                deckCover: deckCover
                             })}
                             key={'1'}
                             style={{borderRadius: '30px'}}

@@ -12,6 +12,7 @@ export const profileAPI = {
     updateCurrentUser(name: string) {
         return instance.put<ChangeProfileType>('auth/me', {name, avatar: ''})
     },
+
     updateUserPhoto(avatar:string){
         return instance.put<ChangeProfileType>('auth/me', {avatar: avatar})
     }
