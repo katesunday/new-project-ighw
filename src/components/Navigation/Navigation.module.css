@@ -45,8 +45,9 @@
 
 .tip {
     position: relative;
-    left: -85px;
-    top: -17px;
+    left: -10px;
+    top: 45px;
+    min-width: 60px;
     opacity: 0;
     text-align: center;
     font-size: 14px;
@@ -55,17 +56,15 @@
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
-    border-bottom-right-radius: 0;
-    transition:  all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .tip::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    right: -19px;
+    top: -20px;
+    right: 15px;
     border: 10px solid transparent;
-    border-left-color: #7b7b7b;
     border-bottom-color: #7b7b7b;
 }
 
@@ -77,6 +76,7 @@
     a {
         padding: 3px
     }
+
     .headerHolder {
         position: fixed;
         right: 0;
